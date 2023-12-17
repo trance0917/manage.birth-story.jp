@@ -1,0 +1,33 @@
+
+@layer components {
+    input[type="text"],input[type="password"],input[type="email"],input[type="date"],input[type="number"],select,textarea{
+        @apply border border-slate-350 rounded-sm text-sm disabled:text-slate-100 disabled:bg-slate-100 disabled:border-slate-300;
+    }
+    select{
+        @apply py-0.75 pl-0.75 pr-5;
+        background-position: right 0.1rem center;
+    }
+    input[type="text"],input[type="password"],input[type="email"],input[type="date"],input[type="number"],textarea{
+        @apply p-0.75;
+    }
+    input[type="text"]:focus,input[type="password"]:focus,input[type="email"]:focus,input[type="date"]:focus,input[type="number"]:focus,select:focus,textarea:focus{
+        @apply bg-sky-50;
+    }
+    select[disabled]{
+        @apply border-slate-300 text-slate-300;
+    }
+    textarea{
+        @apply block;
+    }
+    label{
+        @apply whitespace-nowrap bg-white;
+    }
+
+    li,ol{
+        list-style:none;
+    }
+
+    .em-input{
+
+    }
+}

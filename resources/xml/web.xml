@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<data>
+	<conf-list>
+
+        <error-404>
+            <robots>no</robots>
+            <title>ページが存在しません - %_SITE_NAME_% </title>
+            <keywords></keywords>
+            <description></description>
+        </error-404>
+
+        <status-419>
+            <robots>no</robots>
+            <title>有効期限が切れました - %_SITE_NAME_% </title>
+            <keywords></keywords>
+            <description></description>
+        </status-419>
+
+        <status-400>
+            <robots>no</robots>
+            <title>情報の送信に失敗 - %_SITE_NAME_% </title>
+            <keywords></keywords>
+            <description></description>
+        </status-400>
+
+        <default>
+            <robots>no</robots>
+            <title>title</title>
+            <keywords>keywords</keywords>
+            <description>description</description>
+        </default>
+
+        <general-index>
+            <robots>no</robots>
+            <title>ダッシュボード</title>
+            <keywords></keywords>
+            <description></description>
+        </general-index>
+
+        <products-index>
+            <robots>no</robots>
+            <title>商品一覧</title>
+            <keywords></keywords>
+            <description></description>
+        </products-index>
+
+        <products-create>
+            <robots>no</robots>
+            <title>商品の新規登録</title>
+            <keywords></keywords>
+            <description></description>
+        </products-create>
+
+        <stocks-index>
+            <robots>no</robots>
+            <title>商品在庫一覧</title>
+            <keywords></keywords>
+            <description></description>
+        </stocks-index>
+
+        <suppliers-index>
+            <robots>no</robots>
+            <title>サプライヤ一覧</title>
+            <keywords></keywords>
+            <description></description>
+        </suppliers-index>
+
+        <staffs-index>
+            <robots>no</robots>
+            <title>スタッフ一覧</title>
+            <keywords></keywords>
+            <description></description>
+        </staffs-index>
+        <staffs-create>
+            <robots>no</robots>
+            <title>スタッフ新規</title>
+            <keywords></keywords>
+            <description></description>
+        </staffs-create>
+        <staffs-edit>
+            <robots>no</robots>
+            <title>スタッフ詳細</title>
+            <keywords></keywords>
+            <description></description>
+        </staffs-edit>
+
+        <buyers-index>
+            <robots>no</robots>
+            <title>顧客一覧</title>
+            <keywords></keywords>
+            <description></description>
+        </buyers-index>
+
+
+	</conf-list>
+</data>

@@ -195,6 +195,12 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * オリジナル
+         */
+//        App\Providers\TelescopeServiceProvider::class,
+        App\Providers\FacadeServiceProvider::class,
+
     ],
 
     /*
@@ -210,6 +216,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'PageHelper' => App\Facades\PageHelper::class,
     ])->toArray(),
 
 ];
