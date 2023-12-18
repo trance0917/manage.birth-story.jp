@@ -38,31 +38,16 @@
 <link rel="next" href="{{url(\PageHelper::get('next'))}}">
 @endif
 
-<script src="/js/common.js?"></script>
-
-@env(['local'])
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-@endenv
-
-@production
-    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-@endproduction
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 <link href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" rel="stylesheet">
 
 <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon">
 <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon">
 
-
 <script type="text/javascript">
-    let api_token = '{{auth()->user()->api_token??''}}';
-    let front_url = '{{config('emetals.front_app_url')}}';
-    let s3_url = '{{config('emetals.s3_url')}}';
-    let main_currency_unit_id = '{{config('emetals.main_currency_unit_id')}}';
-    let main_language_id = '{{config('emetals.main_language_id')}}';
-    let profit_rate = '{{config('emetals.profit_rate')}}';
-    let supplier_url = '{{config('emetals.supplier_app_url')}}';
+    let global = {
+        api_token:'{{auth()->user()->api_token??''}}',
+        front_url:'{{config('birthstory.front_app_url')}}',
+    };
 </script>
 
 

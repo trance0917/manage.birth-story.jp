@@ -12,7 +12,7 @@
 
         <form method="POST" action="{{ route('login') }}" class="w-100 mr-26">
             @csrf
-            <h1 class="text-center text-2xl font-bold text-white bg-main-dark py-2.5">Admin Login</h1>
+            <h1 class="text-center text-lg font-bold text-white bg-main-dark py-2.5">Admin Login</h1>
             <div class="bg-white px-10 shadow-md py-7.5">
                 <dl>
                     <div class="mb-5 flex">
@@ -46,7 +46,7 @@
                 <button type="submit" class="w-full rounded-sm text-base font-bold text-white h-12.5 bg-orange hover:bg-opacity-80">ログイン</button>
             </div>
         </form>
-        <div class="mb-[30px]"><img class="w-[300px]" src="/images/logo.svg" alt="バースストーリー" /></div>
+        <div class="mb-[30px]"><img class="w-[350px]" src="/images/logo.svg" alt="バースストーリー" /></div>
     </div>
 </main>
 

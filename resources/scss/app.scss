@@ -63,61 +63,25 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 
 
     #navi{
-        .logo{
-            @apply m-auto border-b border-slate-200 w-40 mb-3.75 py-2.5;
-        }
-
-
         >.menu-list{
-            @apply overflow-y-auto;
+            @apply overflow-y-auto space-y-[10px];
             height:calc(100% - 116px);
 
             .box{
-                @apply border-b border-slate-200 bg-main bg-slate-200;
                 h3{
-                    @apply block;
-                    a{
-                        @apply relative block flex items-center bg-white py-2.5 pl-2.5;
-                        span{
-                            @apply inline-block w-6 text-center text-main mr-0.5;
-                        }
+                    span{
+                        @apply relative block flex items-center bg-white py-1 pl-2.5 text-slate-500;
                         i{
-                            &.fa-angle-right{
-                                @apply absolute right-2 text-slate-350 ;
+                            &.fa-caret-right{
+                                @apply text-main mr-1.25;
                             }
                         }
-                        &:hover{
-                            @apply bg-slate-100;
-                        }
-                    }
-                    &.active{
-                        a{
-                            @apply font-bold bg-slate-200;
-                            .fa-angle-right::before {
-                                content: "\f107";
-                            }
-                        }
-                        &+ul{
-                            @apply block h-auto;
-
-                        }
-                    }
-                    &+ul{
-                        @apply hidden h-0;
-
                     }
                 }
                 ul{
-                    @apply ml-2 bg-white;
-
                     li{
-                        &.child-active{
-                            a{
-                                @apply font-bold bg-orange/10;
-                            }
-                        }
                         a{
-                            @apply block pl-2 py-1.5;
+                            @apply block pl-2.5 py-1.5 font-bold;
                             i.fa-caret-right{
                                 @apply text-main mr-1.25;
                             }
