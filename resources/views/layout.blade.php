@@ -10,7 +10,7 @@
 <nav id="navi" class="fixed bg-white w-45 text-sm shadow-md h-screen">
     <p class="m-auto border-b border-slate-200 w-40 mb-3.75 py-2.5"><img class="inline-block" src="/images/logo.svg" width="200" /></p>
 
-    <div class="mb-[5px]"><a class="block py-2.5 pl-2.5 hover:bg-slate-100 font-bold" href="/"><i class="text-main mr-[5px] fa-solid fa-caret-right"></i>ダッシュボード</a></div>
+    <div class="mb-[10px]"><a class="block py-2.5 pl-2.5 hover:bg-slate-100 font-bold" href="/"><i class="text-main mr-[5px] fa-solid fa-caret-right"></i>ダッシュボード</a></div>
 
     <section class="menu-list">
 

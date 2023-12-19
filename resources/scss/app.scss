@@ -64,13 +64,14 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 
     #navi{
         >.menu-list{
-            @apply overflow-y-auto space-y-[10px];
+            @apply overflow-y-auto space-y-[15px];
             height:calc(100% - 116px);
 
             .box{
                 h3{
+                    @apply  border-t border-slate-200;
                     span{
-                        @apply relative block flex items-center bg-white py-1 pl-2.5 text-slate-500;
+                        @apply relative block flex items-center bg-white py-2.5 pl-2.5 text-slate-500 border-b border-dashed border-slate-250 font-bold;
                         i{
                             &.fa-caret-right{
                                 @apply text-main mr-1.25;
@@ -79,9 +80,11 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
                     }
                 }
                 ul{
+                    @apply pl-[7px] bg-slate-100;
                     li{
+                        @apply bg-white;
                         a{
-                            @apply block pl-2.5 py-1.5 font-bold;
+                            @apply block pl-1.5 py-1.5 font-bold;
                             i.fa-caret-right{
                                 @apply text-main mr-1.25;
                             }
