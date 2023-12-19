@@ -198,7 +198,7 @@ return [
         /*
          * オリジナル
          */
-//        App\Providers\TelescopeServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
         App\Providers\FacadeServiceProvider::class,
 
     ],
