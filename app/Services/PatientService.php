@@ -3,10 +3,11 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Validator;
 use App\Models\TblPatient;
+use App\Traits\SearchTableId;
 
 class PatientService{
 
-
+    use SearchTableId;
     /*
      * 検索条件から件数商品件数を返す
      * limit・offsetを考慮して該当する商品IDも返す
@@ -22,9 +23,115 @@ class PatientService{
      */
     public function getPatientIds(int $limit, int $offset, array $search_params)
     {
+        //バリデーション
+        $validator = Validator:: make([
+            'limit' => $limit,
+            'offset' => $offset,
+            'search_params' => $search_params,
+        ], [
+            'limit' => 'required|integer',
+            'offset' => 'required|integer',
+
+            'search_params.tbl_patients.name.like' => 'nullable|string',
+            'search_params.tbl_patients.mst_maternity_id.in.*' => 'nullable|integer',
+            //mst_material_idを取得する
+//            'search_params.mst_product_categories.mst_product_category_id.in.*' => 'nullable|integer',
+//            'search_params.mst_material_groups.mst_material_group_id.in.*' => 'nullable|integer',
+//            'search_params.mst_materials.mst_material_id.in.*' => 'nullable|integer',
+
+//            //mst_dimensions_format_idを取得する
+//            'search_params.mst_shapes.mst_shape_id.in.*' => 'nullable|integer',
+//            'search_params.mst_dimensions_formats.mst_dimensions_format_id.in.*' => 'nullable|integer',
+//
+//            //tbl_product_composition_registration_idを取得する
+//            'search_params.tbl_product_composition_registrations.tbl_product_composition_registration_id.in.*' => 'nullable|integer',
+//            'search_params.tbl_product_composition_registrations.created_at.from' => 'nullable|date',
+//            'search_params.tbl_product_composition_registrations.created_at.to' => 'nullable|date',
+//            'search_params.tbl_product_composition_registrations.tbl_product_composition_id.in.*' => 'nullable|integer',
+//            'search_params.tbl_product_composition_registrations.published_at.isnull' => 'nullable|boolean',
+//            'search_params.tbl_product_composition_registration_details.name.like' => 'nullable|string',
+//            'search_params.tbl_product_composition_registration_details.search_words.like' => 'nullable|string',
+//            'search_params.tbl_product_registrations.mst_product_type_id.in.*' => 'nullable|integer',
+//            'search_params.tbl_supplier_product_versions.is_volume_discount_settings_enabled.in.*' => 'nullable|boolean',
+//            'search_params.tbl_supplier_product_versions.is_pre_order_discount_settings_enabled.in.*' => 'nullable|boolean',
+//            'search_params.tbl_supplier_product_versions.tbl_supplier_id.in.*' => 'nullable|integer',
+//            'search_params.tbl_supplier_product_versions.is_admin_edit.in.*' => 'nullable|boolean',
+//            'search_params.tbl_supplier_product_versions.approval_at.isnull' => 'nullable|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'count' => 0,
+                'product_composition_registration_ids' => [],
+                'errors' => $validator->errors(),
+            ];
+        }
+        $validated = $validator->validated();
+        $search_params = [];
+        if (!empty($validated['search_params'])) {
+            $search_params = $validated['search_params'];
+        }
+
+        $sub_search_tables = [//検索するid => [search_paramsのkey => 検索対象のパス]
+            'tbl_patient_id' => [
+                'tbl_patients' => '*',
+            ],
+        ];
+
+        $sub_search_result = [];
+        foreach ($sub_search_tables as $search_id => $enable_params) {
+            $table = null;
+            switch ($search_id) {
+                case 'tbl_patient_id':
+                    $table = TblPatient::select([
+                        $search_id,
+                    ]);
+                    break;
+            }
+            $search_table_id_result = $this->searchTableIds($table, $search_id, $enable_params, $search_params);
+            if (is_array($search_table_id_result)) {
+                if (empty($search_table_id_result)) {
+                    return [
+                        'count' => 0,
+                        'tbl_patient_ids' => [],
+                    ];
+                }
+                $sub_search_result[$search_id] = $search_table_id_result;
+            }
+        }
+
+        $tbl_patients = new TblPatient;
+
+        //他テーブルIDで絞り込み
+        foreach ($sub_search_result as $sub_search_id => $sub_search_result_ids) {
+            if (!empty($sub_search_result)) {
+                $search_path = '';
+                switch ($sub_search_id) {
+                    case 'tbl_patient_id':
+                        $search_path = '';
+                        break;
+                }
+                if ($sub_search_id == 'tbl_patient_id') {
+                    $tbl_patients = $tbl_patients->whereIn($sub_search_id, $sub_search_result_ids);
+                } else {
+                    $tbl_patients = $tbl_patients->whereHas($search_path, function ($query) use ($sub_search_id, $sub_search_result_ids) {
+                        $query->whereIn($sub_search_id, $sub_search_result_ids);
+                    });
+                }
+            }
+        }
+
+        $tbl_patient_count = $tbl_patients->count();
+
+        $tbl_patient_id_array = [];
+        $tbl_patient_id_ids = $tbl_patients->offset($validated['offset'])->limit($validated['limit'])->get();
+        if (!empty($tbl_patient_id_ids->count())) {
+            $tbl_patient_id_array = $tbl_patient_id_ids->pluck('tbl_patient_id')->toArray();
+        }
+
         return [
-            'count' => 100,
-            'tbl_patient_ids' => [51,52,53,54,55,57],
+            'count' => $tbl_patient_count,
+            'tbl_patient_ids' => $tbl_patient_id_array,
         ];
 
     }
@@ -73,7 +180,9 @@ class PatientService{
             'undertook_by',
             'completed_at',
             'presented_at',
-            'memo'
+            'memo',
+            'created_at',
+            'updated_at',
         )->whereIn('tbl_patient_id', $tbl_patient_ids)->get();
 
         return $tbl_patients;

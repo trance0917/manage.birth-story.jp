@@ -27,25 +27,25 @@ class PatientsController extends Controller
             ,$search_params
         );
 
+//        dump(\App\Models\MstMaternity::get());
+
         $count = $data['count'];
         $tbl_patient_ids = $data['tbl_patient_ids'];
 
         $products = $patient_service->getPatients($tbl_patient_ids);
-        dump($products);
         $list = new LengthAwarePaginator(
-            []//$products
+            $products
             ,$count
             ,$search_params['per']
             ,$search_params['page']
             ,['path' => $request->url()]
         );
         $list->onEachSide(5);
-        $list=null;
-        return view('orders.index' ,compact('search_params','list'));
+        return view('patiens.index' ,compact('search_params','list'));
     }
     public function json(Request $request, PatientService $patient_service)
     {
         $d = $patient_service->getPatients([30,51,52,53,54,55,57]);
-        return response()->json($d);
+        return response()->json(\App\Models\MstMaternity::get());
     }
 }
