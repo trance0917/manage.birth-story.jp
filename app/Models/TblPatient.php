@@ -62,8 +62,12 @@ class TblPatient extends Model
 		'what_number' => 'int',
 		'health_check_date' => 'datetime:Y-m-d',
 		'is_use_instagram' => 'int',
+        'review_point' => 'int',
+
+        'submitted_at' => 'datetime',
 		'completed_at' => 'datetime',
 		'undertook_at' => 'datetime',
+        'presented_at' => 'datetime',
 		'undertook_by' => 'int'
 	];
 
@@ -88,9 +92,12 @@ class TblPatient extends Model
 		'is_use_instagram',
 		'review',
 		'amazon_id',
+
+        'submitted_at',
 		'completed_at',
 		'undertook_at',
 		'undertook_by',
+        'presented_at',
 		'memo'
 	];
 
@@ -102,6 +109,10 @@ class TblPatient extends Model
     public function mst_maternity()
     {
         return $this->hasOne(MstMaternity::class, 'mst_maternity_id', 'mst_maternity_id');
+    }
+    public function user_undertook_by()
+    {
+        return $this->hasOne(User::class, 'id', 'undertook_by');
     }
     public function tbl_patient_reviews()
     {

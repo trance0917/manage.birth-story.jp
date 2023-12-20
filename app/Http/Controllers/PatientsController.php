@@ -45,7 +45,9 @@ class PatientsController extends Controller
     }
     public function json(Request $request, PatientService $patient_service)
     {
-        $d = $patient_service->getPatients([30,51,52,53,54,55,57]);
-        return response()->json(\App\Models\MstMaternity::get());
+
+
+        $d = $patient_service->getPatients([16,25,26,27,28,30,37,51,52,53,54,55,57]);
+        return response()->json($d);
     }
 }

@@ -7,13 +7,13 @@
                 <dd><input class="em-input-small w-34" type="text" name="tbl_patients[name][like]" v-model="params.search_params.tbl_patients.name.like" /></dd>
             </div>
 
-<!--            <div class="em-filter-box-item">-->
-<!--                <dt class="w-19">掲載状態:</dt>-->
-<!--                <dd><select class="w-24 em-input-small" v-model="params.search_params.tbl_product_composition_registrations.published_at.isnull">-->
-<!--                    <option :value="null">&#45;&#45;</option>-->
-<!--                    <option v-for="(published_at_type,published_at_type_key) in published_at_types" :value="published_at_type_key">{{published_at_type}}</option>-->
-<!--                </select></dd>-->
-<!--            </div>-->
+            <div class="em-filter-box-item">
+                <dt class="w-19">インスタ:</dt>
+                <dd><select class="w-24 em-input-small" name="tbl_patients[is_use_instagram][like]" v-model="params.search_params.tbl_patients.is_use_instagram.like">
+                    <option value="">--</option>
+                    <option v-for="(is_use_instagram,is_use_instagram_key) in global.is_use_instagrams" :value="is_use_instagram_key">{{is_use_instagram}}</option>
+                </select></dd>
+            </div>
 
         </dl><!--end em-filter-box-->
         <dl class="em-filter-box">
@@ -22,6 +22,13 @@
                 <dd><select class="em-input-small w-40" name="tbl_patients[mst_maternity_id][in][]" v-model="params.search_params.tbl_patients.mst_maternity_id.in[0]">
                     <option value="">--</option>
                     <option v-for="(maternity,maternity_key) in params.mst_maternities" :value="maternity.mst_maternity_id">{{maternity.name}}</option>
+                </select></dd>
+            </div>
+            <div class="em-filter-box-item">
+                <dt class="w-[50px]">作業者:</dt>
+                <dd><select class="em-input-small w-40" name="tbl_patients[undertook_by][in][]" v-model="params.search_params.tbl_patients.undertook_by.in[0]">
+                    <option value="">--</option>
+                    <option v-for="(user,user_key) in params.users" :value="user.id">{{user.name}}</option>
                 </select></dd>
             </div>
 <!--            <div class="em-filter-box-item">-->
@@ -42,9 +49,9 @@
         <dl class="em-filter-box">
             <div class="em-filter-box-item">
                 <dt class="w-22">登録日:</dt>
-                <dd><input class="em-input-small w-28" type="date" :max="params.search_params.tbl_product_composition_registrations.created_at.to" v-model="params.search_params.tbl_product_composition_registrations.created_at.from" />
+                <dd><input class="em-input-small w-28" type="date" name="tbl_patients[created_at][from]" :max="params.search_params.tbl_patients.created_at.to" v-model="params.search_params.tbl_patients.created_at.from" />
                     ～
-                    <input class="em-input-small w-28" type="date" :min="params.search_params.tbl_product_composition_registrations.created_at.from" v-model="params.search_params.tbl_product_composition_registrations.created_at.to" /></dd>
+                    <input class="em-input-small w-28" type="date" name="tbl_patients[created_at][to]" :min="params.search_params.tbl_patients.created_at.from" v-model="params.search_params.tbl_patients.created_at.to" /></dd>
             </div>
         </dl><!--end em-filter-box-->
         <dl class="em-filter-box flex items-end">
@@ -75,20 +82,20 @@
             <tbody>
             <tr>
                 <th class="w-[55px]">#</th>
-                <th class="w-[34px]">DL</th>
+                <th class="w-[90px]">作業</th>
                 <th class="w-[90px]">コード</th>
                 <th class="w-[180px]">産院</th>
                 <th class="w-[110px]">ママの名前</th>
-                <th class="w-[100px]">インスタ</th>
-                <th class="w-[100px]">DL済</th>
-                <th class="w-[100px]">出産日</th>
-                <th class="w-[100px]">健診予定日</th>
+                <th class="w-[64px]">インスタ</th>
+                <th class="w-[80px]">出産日</th>
+                <th class="w-[80px]">健診予定日</th>
                 <th class="w-[114px]">申込完了日時</th>
-                <th class="w-[100px]">ポイント</th>
-                <th class="w-[100px]">支払状態</th>
-                <th class="w-[114px]">対応開始日時</th>
-                <th class="w-[100px]">対応者</th>
-                <th class="w-[114px]">プレゼント日</th>
+                <th class="w-[64px]">ポイント</th>
+                <th class="w-[50px]">支払</th>
+                <th class="w-[114px]">作業開始日時</th>
+                <th class="w-[100px]">作業者</th>
+                <th class="w-[114px]">作業完了日時</th>
+                <th class="w-[114px]">プレゼント日時</th>
                 <th class="w-[114px]">登録日</th>
                 <th class="w-[114px]">更新日</th>
                 <th class="w-[140px]">リッチメニュー</th>
@@ -97,14 +104,76 @@
             <template v-if="params.list.length">
                 <tr v-for="(tbl_patient ,tbl_patient_key) in params.list">
                     <td class="w-[55px]"><a class="text-main hover:underline" :href="'/patiens/'+tbl_patient.tbl_patient_id">{{ ('0000'+tbl_patient.tbl_patient_id).slice(-5) }}</a></td>
-                    <td class="w-[34px]"><a class="text-main hover:underline" :href="'/patiens/'+tbl_patient.tbl_patient_id+'/dl'">DL</a></td>
+                    <td class="w-[90px] justify-center">
+                        <ul class="space-x-[5px] flex">
+                            <template v-if="tbl_patient.completed_at">
+                                <li><span class="bg-green-400 text-white p-[1px_4px]">完了</span></li>
+                            </template>
+                            <template v-else-if="!tbl_patient.submitted_at">
+                                <li><span class="bg-slate-300 text-white p-[1px_4px]">申込待ち</span></li>
+                            </template>
+
+                            <template v-else-if="tbl_patient.submitted_at">
+                                <template v-if="!tbl_patient.undertook_by">
+                                    <li><a class="text-main hover:underline font-bold" href="#">作業開始</a></li>
+                                </template>
+                                <template v-else-if="tbl_patient.undertook_by==global.user.id">
+                                    <li><span class="bg-red text-white p-[0px_2px] rounded-lg">！</span></li>
+                                    <li><a class="text-main hover:underline font-bold" :href="'/patiens/'+tbl_patient.tbl_patient_id+'/dl'">DL</a></li>
+                                    <li><a class="text-main hover:underline font-bold ml-[5px]" href="#">完了</a></li>
+                                </template>
+                                <template v-else>
+                                    <li>作業中</li>
+                                </template>
+                            </template>
+                        </ul>
+                    </td>
                     <td class="w-[90px]"><a class="text-main hover:underline" :href="global.front_url+'/'+tbl_patient.code" target="_blank">{{ tbl_patient.code }}</a></td>
-                    <td class="w-[180px] "><span class="truncate">{{ tbl_patient.mst_maternity.name }}</span></td>
+
+                    <td class="w-[180px]"><span class="truncate">{{ tbl_patient.mst_maternity.name }}</span></td>
                     <td class="w-[110px]"><span class="truncate"><template v-if="tbl_patient.name">{{ tbl_patient.name }}</template><template v-else>--</template></span></td>
+                    <td class="w-[64px] justify-center" :class="{'font-bold text-green':tbl_patient.is_use_instagram==1,'font-bold text-slate-400':tbl_patient.is_use_instagram==2}">
+                        <template v-if="tbl_patient.is_use_instagram==1">許可</template>
+                        <template v-else>不許可</template>
+                    </td>
+                    <td class="w-[80px]">
+                        <template v-if="tbl_patient.birth_day">{{ tbl_patient.birth_day }}</template>
+                        <template v-else>--</template>
+                    </td>
+
+                    <td class="w-[80px]">
+                        <template v-if="tbl_patient.health_check_date">{{ tbl_patient.health_check_date }}</template>
+                        <template v-else>--</template>
+                    </td>
+
+                    <td class="w-[114px]">
+                        <template v-if="tbl_patient.submitted_at">{{ tbl_patient.submitted_at }}</template>
+                        <template v-else>--</template>
+                    </td>
+                    <td class="w-[64px] justify-end">{{ tbl_patient.review_point }}</td>
+                    <td class="w-[50px] justify-center" :class="{'font-bold text-red':tbl_patient.payment_status==1,'font-bold text-green':tbl_patient.payment_status==2,'font-bold text-slate-400':tbl_patient.payment_status==3,}">{{ global.payment_statuses[tbl_patient.payment_status] }}</td>
+                    <td class="w-[114px]">
+                        <template v-if="tbl_patient.undertook_at">{{ tbl_patient.undertook_at }}</template>
+                        <template v-else>--</template>
+                    </td>
+                    <td class="w-[100px]">
+                        <template v-if="tbl_patient.user_undertook_by">{{ tbl_patient.user_undertook_by.name }}</template>
+                        <template v-else>--</template>
+                    </td>
+                    <td class="w-[114px]">
+                        <template v-if="tbl_patient.completed_at">{{ tbl_patient.completed_at }}</template>
+                        <template v-else>--</template>
+                    </td>
+                    <td class="w-[114px]">
+                        <template v-if="tbl_patient.presented_at">{{ tbl_patient.presented_at }}</template>
+                        <template v-else>--</template>
+                    </td>
                     <td class="w-[114px]">{{ tbl_patient.created_at }}</td>
                     <td class="w-[114px]">{{ tbl_patient.updated_at }}</td>
-                    <td class="w-[140px] cursor-pointer hover:bg-main/10" @click="text_copy(tbl_patient.richmenu_id)"><span class="truncate">{{ tbl_patient.richmenu_id }}</span></td>
-                    <td class="w-[114px]">{{ tbl_patient.richmenu_id }}</td>
+                    <td class="w-[140px] cursor-pointer hover:bg-main/10" @click="text_copy(tbl_patient.richmenu_id)">
+                        <span v-if="tbl_patient.richmenu_id" class="truncate">{{ tbl_patient.richmenu_id }}</span>
+                        <template v-else>--</template>
+                    </td>
                 </tr>
             </template>
             <tr v-else>
@@ -148,71 +217,82 @@ export default {
                     name: {
                         like: '',
                     },
+                    is_use_instagram: {
+                        like: '',
+                    },
                     mst_maternity_id: {
-                        in: [null],
-                    },
-                },
-
-
-
-                is_approval: '',
-                mst_shapes: {
-                    mst_shape_id: {
-                        in: [null],
-                    },
-                },
-                mst_material_groups: {
-                    mst_material_group_id: {
-                        in: [null],
-                    },
-                },
-                mst_materials: {
-                    mst_material_id: {
-                        in: [null],
-                    },
-                },
-
-                tbl_supplier_product_versions: {
-                    approval_at: {
-                        isnull: null,
-                    },
-                    is_admin_edit: {
                         in: [],
                     },
-                    tbl_supplier_id: {
-                        in: [null],
-                    },
-                    is_volume_discount_settings_enabled: {
-                        in: [],
-                    },
-                    is_pre_order_discount_settings_enabled: {
+                    undertook_by: {
                         in: [],
                     },
 
-                },
-
-                tbl_product_composition_registrations: {
-                    tbl_product_composition_id: {
-                        in: [],
-                    },
-                    published_at: {
-                        isnull: null,
-                    },
                     created_at: {
                         from: '',
                         to: '',
                     },
                 },
-                tbl_product_composition_registration_details: {
-                    name: {
-                        like: '',
-                    },
-                },
-                tbl_product_registrations: {
-                    mst_product_type_id: {
-                        in: [],
-                    },
-                },
+
+
+
+                // is_approval: '',
+                // mst_shapes: {
+                //     mst_shape_id: {
+                //         in: [null],
+                //     },
+                // },
+                // mst_material_groups: {
+                //     mst_material_group_id: {
+                //         in: [null],
+                //     },
+                // },
+                // mst_materials: {
+                //     mst_material_id: {
+                //         in: [null],
+                //     },
+                // },
+                //
+                // tbl_supplier_product_versions: {
+                //     approval_at: {
+                //         isnull: null,
+                //     },
+                //     is_admin_edit: {
+                //         in: [],
+                //     },
+                //     tbl_supplier_id: {
+                //         in: [null],
+                //     },
+                //     is_volume_discount_settings_enabled: {
+                //         in: [],
+                //     },
+                //     is_pre_order_discount_settings_enabled: {
+                //         in: [],
+                //     },
+                //
+                // },
+                //
+                // tbl_product_composition_registrations: {
+                //     tbl_product_composition_id: {
+                //         in: [],
+                //     },
+                //     published_at: {
+                //         isnull: null,
+                //     },
+                //     created_at: {
+                //         from: '',
+                //         to: '',
+                //     },
+                // },
+                // tbl_product_composition_registration_details: {
+                //     name: {
+                //         like: '',
+                //     },
+                // },
+                // tbl_product_registrations: {
+                //     mst_product_type_id: {
+                //         in: [],
+                //     },
+                // },
 
             },
 

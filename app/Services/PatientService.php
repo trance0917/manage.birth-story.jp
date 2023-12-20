@@ -33,7 +33,12 @@ class PatientService{
             'offset' => 'required|integer',
 
             'search_params.tbl_patients.name.like' => 'nullable|string',
+            'search_params.tbl_patients.is_use_instagram.like' => 'nullable|string',
+
             'search_params.tbl_patients.mst_maternity_id.in.*' => 'nullable|integer',
+            'search_params.tbl_patients.undertook_by.in.*' => 'nullable|integer',
+            'search_params.tbl_patients.created_at.from' => 'nullable|date',
+            'search_params.tbl_patients.created_at.to' => 'nullable|date',
             //mst_material_idを取得する
 //            'search_params.mst_product_categories.mst_product_category_id.in.*' => 'nullable|integer',
 //            'search_params.mst_material_groups.mst_material_group_id.in.*' => 'nullable|integer',
@@ -150,6 +155,8 @@ class PatientService{
             'tbl_patient_mediums:tbl_patient_medium_id,tbl_patient_id,type,file_name,registered_at,extension,order',
             'tbl_patient_reviews:tbl_patient_review_id,tbl_patient_id,mst_maternity_question_id,score',
             'mst_maternity:mst_maternity_id,name',
+            'user_undertook_by:id,name',
+
         ])->select(
     'tbl_patient_id',
             'mst_maternity_id',
