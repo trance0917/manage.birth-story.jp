@@ -115,12 +115,12 @@
 
                             <template v-else-if="tbl_patient.submitted_at">
                                 <template v-if="!tbl_patient.undertook_by">
-                                    <li><a class="text-main hover:underline font-bold" href="#">作業開始</a></li>
+                                    <li><a class="text-main underline font-bold" href="#">作業開始</a></li>
                                 </template>
                                 <template v-else-if="tbl_patient.undertook_by==global.user.id">
                                     <li><span class="bg-red text-white p-[0px_2px] rounded-lg">！</span></li>
-                                    <li><a class="text-main hover:underline font-bold" :href="'/patiens/'+tbl_patient.tbl_patient_id+'/dl'">DL</a></li>
-                                    <li><a class="text-main hover:underline font-bold ml-[5px]" href="#">完了</a></li>
+                                    <li><a class="text-main underline font-bold" :href="'/patiens/'+tbl_patient.tbl_patient_id+'/dl'">DL</a></li>
+                                    <li><a class="text-main underline font-bold ml-[5px]" href="#">完了</a></li>
                                 </template>
                                 <template v-else>
                                     <li>作業中</li>
