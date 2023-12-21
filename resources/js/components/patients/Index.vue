@@ -102,12 +102,12 @@
             </tr>
 
             <template v-if="params.list.length">
-                <tr v-for="(tbl_patient ,tbl_patient_key) in params.list">
+                <tr v-for="(tbl_patient ,tbl_patient_key) in params.list" :class="{'bg-orange-100':tbl_patient.is_highlight}">
                     <td class="w-[55px]"><a class="text-main hover:underline" :href="'/patiens/'+tbl_patient.tbl_patient_id">{{ ('0000'+tbl_patient.tbl_patient_id).slice(-5) }}</a></td>
                     <td class="w-[90px] justify-center">
                         <ul class="space-x-[5px] flex">
                             <template v-if="tbl_patient.completed_at">
-                                <li><span class="bg-green-400 text-white p-[1px_4px]">完了</span></li>
+                                <li><span class="bg-green-400 text-white p-[1px_4px]">完成</span></li>
                             </template>
                             <template v-else-if="!tbl_patient.submitted_at">
                                 <li><span class="bg-slate-300 text-white p-[1px_4px]">申込待ち</span></li>
@@ -115,12 +115,12 @@
 
                             <template v-else-if="tbl_patient.submitted_at">
                                 <template v-if="!tbl_patient.undertook_by">
-                                    <li><a class="text-main underline font-bold" href="#">作業開始</a></li>
+                                    <li><span class="text-main underline font-bold cursor-pointer" @click="work_begin(tbl_patient_key)">作業開始</span></li>
                                 </template>
                                 <template v-else-if="tbl_patient.undertook_by==global.user.id">
                                     <li><span class="bg-red text-white p-[0px_2px] rounded-lg">！</span></li>
                                     <li><a class="text-main underline font-bold" :href="'/patiens/'+tbl_patient.tbl_patient_id+'/dl'">DL</a></li>
-                                    <li><a class="text-main underline font-bold ml-[5px]" href="#">完了</a></li>
+                                    <li><span class="text-main underline font-bold ml-[5px] cursor-pointer" @click="work_complete(tbl_patient_key)">完了</span></li>
                                 </template>
                                 <template v-else>
                                     <li>作業中</li>
@@ -312,6 +312,43 @@ export default {
     },
 
     methods:{
+
+        async work_begin(tbl_patient_key){
+            this.params.list[tbl_patient_key].is_highlight = true;
+            if(window.confirm(this.params.list[tbl_patient_key].name+'さんの担当者として制作を開始します。')) {
+                await axios.post('/api/v1/g/patient/'+this.params.list[tbl_patient_key].tbl_patient_id+'/work_begin'+'?api_token='+global.api_token,
+                    {
+                        tbl_patient_id:this.params.list[tbl_patient_key].tbl_patient_id,
+                    }
+                ).then((response) => {//リクエストの成功
+                    this.params.list[tbl_patient_key] = response.data.result;
+                }).catch((error) => {//リクエストの失敗
+                    alert('エラーが発生しました\n正しく完了していない可能性があります。');
+                }).finally(() => {
+                    this.params.list[tbl_patient_key].is_highlight = false;
+                });
+            }else{
+                this.params.list[tbl_patient_key].is_highlight = false;
+            }
+        },
+        async work_complete(tbl_patient_key){
+            this.params.list[tbl_patient_key].is_highlight = true;
+            if(window.confirm(this.params.list[tbl_patient_key].name+'さんの作業を完了します。\nよろしいですか？')) {
+                await axios.post('/api/v1/g/patient/'+this.params.list[tbl_patient_key].tbl_patient_id+'/work_complete'+'?api_token='+global.api_token,
+                    {
+                        tbl_patient_id:this.params.list[tbl_patient_key].tbl_patient_id,
+                    }
+                ).then((response) => {//リクエストの成功
+                    this.params.list[tbl_patient_key] = response.data.result;
+                }).catch((error) => {//リクエストの失敗
+                    alert('エラーが発生しました\n正しく完了していない可能性があります。');
+                }).finally(() => {
+                    this.params.list[tbl_patient_key].is_highlight = false;
+                });
+            }else{
+                this.params.list[tbl_patient_key].is_highlight = false;
+            }
+        },
         page_link_click:function(page){
             let t = this;
             this.params.search_params.page = page;

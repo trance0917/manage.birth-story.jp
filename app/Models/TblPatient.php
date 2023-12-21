@@ -92,8 +92,6 @@ class TblPatient extends Model
 		'is_use_instagram',
 		'review',
 		'amazon_id',
-
-        'submitted_at',
 		'completed_at',
 		'undertook_at',
 		'undertook_by',

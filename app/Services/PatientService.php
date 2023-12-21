@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Validator;
 use App\Models\TblPatient;
 use App\Traits\SearchTableId;
@@ -139,6 +140,58 @@ class PatientService{
             'tbl_patient_ids' => $tbl_patient_id_array,
         ];
 
+    }
+    public function getPatient(int $tbl_patient_id){
+        $validator = Validator:: make(['tbl_patient_id' => $tbl_patient_id], [
+            'tbl_patient_id' => 'required|integer|exists:tbl_patients,tbl_patient_id,deleted_at,NULL',
+        ]);
+
+        if ($validator->fails()) {
+            return [];
+        }
+
+        $tbl_patient = TblPatient::with([
+            'tbl_patient_mediums:tbl_patient_medium_id,tbl_patient_id,type,file_name,registered_at,extension,order',
+            'tbl_patient_reviews:tbl_patient_review_id,tbl_patient_id,mst_maternity_question_id,score',
+            'mst_maternity:mst_maternity_id,name',
+            'user_undertook_by:id,name',
+
+        ])->select(
+            'tbl_patient_id',
+            'mst_maternity_id',
+            'code',
+            'line_name',
+            'line_user_id',
+            'line_picture_url',
+            'richmenu_id',
+            'name',
+            'roman_alphabet',
+            'baby_name',
+            'baby_roman_alphabet',
+            'birth_day',
+            'birth_time',
+            'weight',
+            'height',
+            'sex',
+            'what_number',
+            'health_check_date',
+            'message',
+            'is_use_instagram',
+            'submitted_at',
+            'review',
+            'review_point',
+            'amazon_id',
+            'payment_status',
+            'undertook_at',
+            'undertook_by',
+            'completed_at',
+            'presented_at',
+            'memo',
+            'created_at',
+            'updated_at',
+        )->find($tbl_patient_id);
+
+        return $tbl_patient;
     }
     public function getPatients(array $tbl_patient_ids)
     {
