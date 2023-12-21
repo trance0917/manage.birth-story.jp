@@ -103,7 +103,7 @@
 
             <template v-if="params.list.length">
                 <tr v-for="(tbl_patient ,tbl_patient_key) in params.list" :class="{'bg-orange-100':tbl_patient.is_highlight}">
-                    <td class="w-[55px]"><a class="text-main hover:underline" :href="'/patiens/'+tbl_patient.tbl_patient_id">{{ ('0000'+tbl_patient.tbl_patient_id).slice(-5) }}</a></td>
+                    <td class="w-[55px]"><a class="text-main hover:underline" :href="'/patients/'+tbl_patient.tbl_patient_id">{{ ('0000'+tbl_patient.tbl_patient_id).slice(-5) }}</a></td>
                     <td class="w-[90px] justify-center">
                         <ul class="space-x-[5px] flex">
                             <template v-if="tbl_patient.completed_at">
@@ -119,7 +119,7 @@
                                 </template>
                                 <template v-else-if="tbl_patient.undertook_by==global.user.id">
                                     <li><span class="bg-red text-white p-[0px_2px] rounded-lg">！</span></li>
-                                    <li><a class="text-main underline font-bold" :href="'/patiens/'+tbl_patient.tbl_patient_id+'/dl'">DL</a></li>
+                                    <li><a class="text-main underline font-bold" :href="'/patients/'+tbl_patient.tbl_patient_id+'/dl'">DL</a></li>
                                     <li><span class="text-main underline font-bold ml-[5px] cursor-pointer" @click="work_complete(tbl_patient_key)">完了</span></li>
                                 </template>
                                 <template v-else>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Services\PatientService;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\TblPatient;
 
 class PatientsController extends Controller
 {
@@ -41,11 +42,18 @@ class PatientsController extends Controller
             ,['path' => $request->url()]
         );
         $list->onEachSide(5);
-        return view('patiens.index' ,compact('search_params','list'));
+        return view('patients.index' ,compact('search_params','list'));
     }
     public function json(Request $request, PatientService $patient_service)
     {
         $d = $patient_service->getPatient(16);
         return response()->json($d);
     }
+
+    public function edit(TblPatient $tbl_patient,Request $request, PatientService $patient_service)
+    {
+        dump($tbl_patient);
+        return view('patients.edit' ,compact('tbl_patient'));
+    }
+
 }

@@ -15,6 +15,7 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.2",
         "league/flysystem-aws-s3-v3": "^3.13",
+        "linecorp/line-bot-sdk": "^3.6",
         "mpdf/mpdf": "dev-development",
         "s-ichikawa/laravel-sendgrid-driver": "^4.0"
     },
