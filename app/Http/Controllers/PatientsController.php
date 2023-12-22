@@ -27,7 +27,7 @@ class PatientsController extends Controller
             ,($search_params['page'] - 1) * $search_params['per']
             ,$search_params
         );
-
+//        dump($data);
 //        dump(\App\Models\MstMaternity::get());
 
         $count = $data['count'];
@@ -52,7 +52,6 @@ class PatientsController extends Controller
 
     public function edit(TblPatient $tbl_patient,Request $request, PatientService $patient_service)
     {
-        dump($tbl_patient);
         return view('patients.edit' ,compact('tbl_patient'));
     }
 

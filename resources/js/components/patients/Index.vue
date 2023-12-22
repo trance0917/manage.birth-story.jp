@@ -118,15 +118,15 @@
                                     <li><span class="text-main underline font-bold cursor-pointer" @click="work_begin(tbl_patient_key)">作業開始</span></li>
                                 </template>
                                 <template v-else-if="tbl_patient.undertook_by==global.user.id">
-                                    
-                                    <li><a class="text-main underline font-bold" :href="'/patients/'+tbl_patient.tbl_patient_id+'/dl'">DL</a></li>
+
+                                    <li><a class="text-main underline font-bold" :href="global.front_app_basic_url+'/dl/'+tbl_patient.code" target="_blank">DL</a></li>
                                     <li><span class="text-main underline font-bold cursor-pointer" @click="work_complete(tbl_patient_key)">完了</span></li>
                                 </template>
                                 <template v-else>
                                     <li>作業中</li>
                                 </template>
                             </template>
-                            
+
                             <template v-if="tbl_patient.payment_status==2">
                                 <li class="text-[10px]"><span class="bg-red text-white p-[1px_2px] rounded-lg mr-[3px] leading-none">！</span><span class="font-bold text-red underline text-bold cursor-pointer" @click="payment_complete(tbl_patient_key)">支払</span></li>
                             </template>

@@ -130,7 +130,7 @@ class PatientService{
         $tbl_patient_count = $tbl_patients->count();
 
         $tbl_patient_id_array = [];
-        $tbl_patient_id_ids = $tbl_patients->offset($validated['offset'])->limit($validated['limit'])->get();
+        $tbl_patient_id_ids = $tbl_patients->orderByDESC('tbl_patient_id')->offset($validated['offset'])->limit($validated['limit'])->get();
         if (!empty($tbl_patient_id_ids->count())) {
             $tbl_patient_id_array = $tbl_patient_id_ids->pluck('tbl_patient_id')->toArray();
         }
@@ -209,7 +209,6 @@ class PatientService{
             'tbl_patient_reviews:tbl_patient_review_id,tbl_patient_id,mst_maternity_question_id,score',
             'mst_maternity:mst_maternity_id,name',
             'user_undertook_by:id,name',
-
         ])->select(
     'tbl_patient_id',
             'mst_maternity_id',
@@ -243,7 +242,7 @@ class PatientService{
             'memo',
             'created_at',
             'updated_at',
-        )->whereIn('tbl_patient_id', $tbl_patient_ids)->get();
+        )->whereIn('tbl_patient_id', $tbl_patient_ids)->orderByDESC('tbl_patient_id')->get();
 
         return $tbl_patients;
     }
