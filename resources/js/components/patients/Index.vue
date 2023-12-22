@@ -82,7 +82,7 @@
             <tbody>
             <tr>
                 <th class="w-[55px]">#</th>
-                <th class="w-[90px]">作業</th>
+                <th class="w-[100px]">作業</th>
                 <th class="w-[90px]">コード</th>
                 <th class="w-[180px]">産院</th>
                 <th class="w-[110px]">ママの名前</th>
@@ -104,7 +104,7 @@
             <template v-if="params.list.length">
                 <tr v-for="(tbl_patient ,tbl_patient_key) in params.list" :class="{'bg-orange-100':tbl_patient.is_highlight}">
                     <td class="w-[55px]"><a class="text-main hover:underline" :href="'/patients/'+tbl_patient.tbl_patient_id">{{ ('0000'+tbl_patient.tbl_patient_id).slice(-5) }}</a></td>
-                    <td class="w-[90px] justify-center">
+                    <td class="w-[100px] justify-center">
                         <ul class="space-x-[5px] flex">
                             <template v-if="tbl_patient.completed_at">
                                 <li><span class="bg-green-400 text-white p-[1px_4px]">完成</span></li>
@@ -118,13 +118,17 @@
                                     <li><span class="text-main underline font-bold cursor-pointer" @click="work_begin(tbl_patient_key)">作業開始</span></li>
                                 </template>
                                 <template v-else-if="tbl_patient.undertook_by==global.user.id">
-                                    <li><span class="bg-red text-white p-[0px_2px] rounded-lg">！</span></li>
+                                    
                                     <li><a class="text-main underline font-bold" :href="'/patients/'+tbl_patient.tbl_patient_id+'/dl'">DL</a></li>
-                                    <li><span class="text-main underline font-bold ml-[5px] cursor-pointer" @click="work_complete(tbl_patient_key)">完了</span></li>
+                                    <li><span class="text-main underline font-bold cursor-pointer" @click="work_complete(tbl_patient_key)">完了</span></li>
                                 </template>
                                 <template v-else>
                                     <li>作業中</li>
                                 </template>
+                            </template>
+                            
+                            <template v-if="tbl_patient.payment_status==2">
+                                <li class="text-[10px]"><span class="bg-red text-white p-[1px_2px] rounded-lg mr-[3px] leading-none">！</span><span class="font-bold text-red underline text-bold cursor-pointer" @click="payment_complete(tbl_patient_key)">支払</span></li>
                             </template>
                         </ul>
                     </td>
@@ -151,7 +155,7 @@
                         <template v-else>--</template>
                     </td>
                     <td class="w-[64px] justify-end">{{ tbl_patient.review_point }}</td>
-                    <td class="w-[50px] justify-center" :class="{'font-bold text-red':tbl_patient.payment_status==1,'font-bold text-green':tbl_patient.payment_status==2,'font-bold text-slate-400':tbl_patient.payment_status==3,}">{{ global.payment_statuses[tbl_patient.payment_status] }}</td>
+                    <td class="w-[50px] justify-center" :class="{'font-bold text-red':tbl_patient.payment_status==2,'font-bold text-green':tbl_patient.payment_status==3,'font-bold text-slate-400':tbl_patient.payment_status==4,}">{{ global.payment_statuses[tbl_patient.payment_status] }}</td>
                     <td class="w-[114px]">
                         <template v-if="tbl_patient.undertook_at">{{ tbl_patient.undertook_at }}</template>
                         <template v-else>--</template>
@@ -335,6 +339,24 @@ export default {
             this.params.list[tbl_patient_key].is_highlight = true;
             if(window.confirm(this.params.list[tbl_patient_key].name+'さんの作業を完了します。\nよろしいですか？')) {
                 await axios.post('/api/v1/g/patient/'+this.params.list[tbl_patient_key].tbl_patient_id+'/work_complete'+'?api_token='+global.api_token,
+                    {
+                        tbl_patient_id:this.params.list[tbl_patient_key].tbl_patient_id,
+                    }
+                ).then((response) => {//リクエストの成功
+                    this.params.list[tbl_patient_key] = response.data.result;
+                }).catch((error) => {//リクエストの失敗
+                    alert('エラーが発生しました\n正しく完了していない可能性があります。');
+                }).finally(() => {
+                    this.params.list[tbl_patient_key].is_highlight = false;
+                });
+            }else{
+                this.params.list[tbl_patient_key].is_highlight = false;
+            }
+        },
+        async payment_complete(tbl_patient_key){
+            this.params.list[tbl_patient_key].is_highlight = true;
+            if(window.confirm(this.params.list[tbl_patient_key].name+'さんの支払いを完了します。\nよろしいですか？')) {
+                await axios.post('/api/v1/g/patient/'+this.params.list[tbl_patient_key].tbl_patient_id+'/payment_complete'+'?api_token='+global.api_token,
                     {
                         tbl_patient_id:this.params.list[tbl_patient_key].tbl_patient_id,
                     }

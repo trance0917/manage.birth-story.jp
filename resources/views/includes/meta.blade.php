@@ -47,7 +47,7 @@
     let global = {
         api_token:'{{auth()->user()->api_token??''}}',
         front_url:'{{config('birthstory.front_app_url')}}',
-        payment_statuses:{1:'未対応',2:'支払済',3:'却下',4:'その他'},
+        payment_statuses:{1:'未回答',2:'回答済',3:'支払済',4:'却下',9:'その他'},
         is_use_instagrams:{1:'許可する',2:'許可しない'},
     };
     @auth

@@ -19,5 +19,6 @@ Route::prefix('v1/g')->group(function () {
     Route::middleware('auth:api')->group(function () { //api_tokenが必要
         Route::post('/patient/{tbl_patient}/work_begin', [PatientsController::class, 'workBegin']);
         Route::post('/patient/{tbl_patient}/work_complete', [PatientsController::class, 'workComplete']);
+        Route::post('/patient/{tbl_patient}/payment_complete', [PatientsController::class, 'paymentComplete']);
     });
 });
