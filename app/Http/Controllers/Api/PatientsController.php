@@ -123,4 +123,29 @@ class PatientsController extends Controller
     }
 
 
+    public function taskRetouchByComplete(TblPatient $tbl_patient,Request $request,PatientService $patient_service){
+        DB::beginTransaction();
+        try {
+            $tbl_patient->task_retouch_by=\Auth::user()->tbl_user_id;
+            $tbl_patient->save();
+            $tbl_patient = $patient_service->getPatient($tbl_patient->tbl_patient_id);
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollback();
+            Log::error($e);
+            return [
+                'result' => false,
+                'messages' => $e->getMessage(),
+                'errors' => [],
+            ];
+        }
+
+        return response()->json([
+            'result' => $tbl_patient,
+            'messages' => '',
+            'errors' => [],
+        ]);
+    }
+
+
 }

@@ -110,9 +110,13 @@ class TblPatient extends Model
     {
         return $this->hasOne(MstMaternity::class, 'mst_maternity_id', 'mst_maternity_id');
     }
-    public function user_working_by()
+    public function tbl_user_working_by()
     {
         return $this->hasOne(TblUser::class, 'tbl_user_id', 'working_by');
+    }
+    public function tbl_user_task_retouch_by()
+    {
+        return $this->hasOne(TblUser::class, 'tbl_user_id', 'task_retouch_by');
     }
     public function tbl_patient_reviews()
     {

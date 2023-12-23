@@ -154,8 +154,8 @@ class PatientService{
             'tbl_patient_mediums:tbl_patient_medium_id,tbl_patient_id,type,file_name,registered_at,extension,order',
             'tbl_patient_reviews:tbl_patient_review_id,tbl_patient_id,mst_maternity_question_id,score',
             'mst_maternity:mst_maternity_id,name',
-            'user_working_by:tbl_user_id,name',
-
+            'tbl_user_working_by:tbl_user_id,name',
+            'tbl_user_task_retouch_by:tbl_user_id,name',
         ])->select(
     'tbl_patient_id',
             'mst_maternity_id',
@@ -184,6 +184,7 @@ class PatientService{
             'payment_status',
             'undertook_at',
             'working_by',
+            'task_retouch_by',
             'completed_at',
             'presented_at',
             'memo',
@@ -210,7 +211,8 @@ class PatientService{
             'tbl_patient_mediums:tbl_patient_medium_id,tbl_patient_id,type,file_name,registered_at,extension,order',
             'tbl_patient_reviews:tbl_patient_review_id,tbl_patient_id,mst_maternity_question_id,score',
             'mst_maternity:mst_maternity_id,name',
-            'user_working_by:tbl_user_id,name',
+            'tbl_user_working_by:tbl_user_id,name',
+            'tbl_user_task_retouch_by:tbl_user_id,name',
         ])->select(
     'tbl_patient_id',
             'mst_maternity_id',
@@ -239,6 +241,7 @@ class PatientService{
             'payment_status',
             'undertook_at',
             'working_by',
+            'task_retouch_by',
             'completed_at',
             'presented_at',
             'memo',

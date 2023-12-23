@@ -83,7 +83,7 @@
             <tr>
                 <th class="w-[55px]">#</th>
                 <th class="w-[100px]">状態</th>
-                <th class="w-[200px]">進捗</th>
+                <th class="w-[230px]">進捗</th>
                 <th class="w-[90px]">コード</th>
                 <th class="w-[180px]">産院</th>
                 <th class="w-[110px]">ママの名前</th>
@@ -131,10 +131,15 @@
                             </template>
                         </ul>
                     </td>
-                    <td class="w-[200px] justify-center">
+                    <td class="w-[230px] justify-center">
                         <ul class="flex space-x-[3px]">
-                            <li><span class="cursor-pointer p-[2px_3px] bg-slate-350 text-white">補正</span></li>
-                            <li><span class="p-[2px_3px] bg-green-400 text-white">補正</span></li>
+                            <li v-if="!tbl_patient.task_retouch_by"><span class="cursor-pointer p-[1px_3px] bg-slate-350 text-white tool-tip" tooltip-data="写真レタッチ" @click="task_retouch_by_complete(tbl_patient_key)">補正</span></li>
+                            <li v-else><span class="p-[1px_3px] bg-green-400 text-white tool-tip" :tooltip-data="'写真レタッチ：'+tbl_patient.tbl_user_task_retouch_by.name">補正</span></li>
+                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-350 text-white tool-tip" tooltip-data="フォト">フォ</span></li>
+                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-350 text-white tool-tip" tooltip-data="ムービーDVD">DVD</span></li>
+                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-350 text-white tool-tip" tooltip-data="MP4データ">MP4</span></li>
+                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-350 text-white tool-tip" tooltip-data="オーサリング">オサ</span></li>
+                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-350 text-white tool-tip" tooltip-data="最終チェック">確認</span></li>
                         </ul>
                     </td>
                     <td class="w-[90px]"><a class="text-main hover:underline" :href="global.front_url+'/'+tbl_patient.code" target="_blank">{{ tbl_patient.code }}</a></td>
@@ -410,6 +415,26 @@ export default {
                 this.params.list[tbl_patient_key].is_highlight = false;
             }
         },
+
+        async task_retouch_by_complete(tbl_patient_key){
+            this.params.list[tbl_patient_key].is_highlight = true;
+            if(window.confirm(this.params.list[tbl_patient_key].name+'さんのレタッチを完了します。\nよろしいですか？')) {
+                await axios.post('/api/v1/g/patient/'+this.params.list[tbl_patient_key].tbl_patient_id+'/task_retouch_by_complete'+'?api_token='+global.api_token,
+                    {
+                        tbl_patient_id:this.params.list[tbl_patient_key].tbl_patient_id,
+                    }
+                ).then((response) => {//リクエストの成功
+                    this.params.list[tbl_patient_key] = response.data.result;
+                }).catch((error) => {//リクエストの失敗
+                    alert('エラーが発生しました\n正しく完了していない可能性があります。');
+                }).finally(() => {
+                    this.params.list[tbl_patient_key].is_highlight = false;
+                });
+            }else{
+                this.params.list[tbl_patient_key].is_highlight = false;
+            }
+        },
+
 
         page_link_click:function(page){
             let t = this;

@@ -21,6 +21,7 @@ Route::prefix('v1/g')->group(function () {
         Route::post('/patient/{tbl_patient}/work_complete', [PatientsController::class, 'workComplete']);
         Route::post('/patient/{tbl_patient}/payment_complete', [PatientsController::class, 'paymentComplete']);
         Route::post('/patient/{tbl_patient}/change_working_by', [PatientsController::class, 'changeWorkingBy']);
+        Route::post('/patient/{tbl_patient}/task_retouch_by_complete', [PatientsController::class, 'taskRetouchByComplete']);
 
     });
 });
