@@ -133,13 +133,13 @@
                     </td>
                     <td class="w-[230px] justify-center">
                         <ul class="flex space-x-[3px]">
-                            <li v-if="!tbl_patient.task_retouch_by"><span class="cursor-pointer p-[1px_3px] bg-slate-350 text-white tool-tip" tooltip-data="写真レタッチ" @click="task_retouch_by_complete(tbl_patient_key)">補正</span></li>
+                            <li v-if="!tbl_patient.task_retouch_by"><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip" tooltip-data="写真レタッチ" @click="task_retouch_by_complete(tbl_patient_key)">補正</span></li>
                             <li v-else><span class="p-[1px_3px] bg-green-400 text-white tool-tip" :tooltip-data="'写真レタッチ：'+tbl_patient.tbl_user_task_retouch_by.name">補正</span></li>
-                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-350 text-white tool-tip" tooltip-data="フォト">フォ</span></li>
-                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-350 text-white tool-tip" tooltip-data="ムービーDVD">DVD</span></li>
-                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-350 text-white tool-tip" tooltip-data="MP4データ">MP4</span></li>
-                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-350 text-white tool-tip" tooltip-data="オーサリング">オサ</span></li>
-                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-350 text-white tool-tip" tooltip-data="最終チェック">確認</span></li>
+                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip" tooltip-data="フォト">フォ</span></li>
+                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip" tooltip-data="ムービーDVD">DVD</span></li>
+                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip" tooltip-data="MP4データ">MP4</span></li>
+                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip" tooltip-data="オーサリング">オサ</span></li>
+                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip" tooltip-data="最終チェック">確認</span></li>
                         </ul>
                     </td>
                     <td class="w-[90px]"><a class="text-main hover:underline" :href="global.front_url+'/'+tbl_patient.code" target="_blank">{{ tbl_patient.code }}</a></td>
