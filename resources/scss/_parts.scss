@@ -134,7 +134,7 @@
                         }
                     }
                     th,td{
-                        @apply relative flex items-center truncate border border-slate-300 -mr-0.25 py-1.25 px-1.75;
+                        @apply relative flex items-center border border-slate-300 -mr-0.25 py-1.25 px-1.75;
                         border-right-style:dashed;
                         border-left-style:dashed;
                         &:first-child{border-left-style:solid;}
@@ -198,6 +198,7 @@
 
     .tool-tip {
         position: relative;
+        cursor:pointer;
     }
 
     .tool-tip:before {
@@ -206,17 +207,14 @@
         visibility: hidden;
         position: absolute;
         white-space: nowrap;
-        background-color: #555;
+        background-color: #999;
         color: #fff;
         text-align: center;
-        padding: 3px 10px;
-        transform: translateX(-50%);
-        border-radius: 5px;
+        padding: 2px 5px;
+        border-radius: 2px;
         z-index: 1;
-        transition: all .6s ease-in-out;
-        top: -30px;
-        left: 50%;
-        font-size: 70%;
+        top: -25px;
+        font-size: 10px;
     }
 
 

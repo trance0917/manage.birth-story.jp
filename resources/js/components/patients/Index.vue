@@ -25,10 +25,10 @@
                 </select></dd>
             </div>
             <div class="em-filter-box-item">
-                <dt class="w-[50px]">作業者:</dt>
-                <dd><select class="em-input-small w-40" name="tbl_patients[undertook_by][in][]" v-model="params.search_params.tbl_patients.undertook_by.in[0]">
+                <dt class="w-[50px]">担当者:</dt>
+                <dd><select class="em-input-small w-40" name="tbl_patients[working_by][in][]" v-model="params.search_params.tbl_patients.working_by.in[0]">
                     <option value="">--</option>
-                    <option v-for="(user,user_key) in params.users" :value="user.id">{{user.name}}</option>
+                    <option v-for="(user,user_key) in params.users" :value="user.tbl_user_id">{{user.name}}</option>
                 </select></dd>
             </div>
 <!--            <div class="em-filter-box-item">-->
@@ -82,22 +82,23 @@
             <tbody>
             <tr>
                 <th class="w-[55px]">#</th>
-                <th class="w-[100px]">作業</th>
+                <th class="w-[100px]">状態</th>
+                <th class="w-[200px]">進捗</th>
                 <th class="w-[90px]">コード</th>
                 <th class="w-[180px]">産院</th>
                 <th class="w-[110px]">ママの名前</th>
                 <th class="w-[64px]">インスタ</th>
                 <th class="w-[80px]">出産日</th>
                 <th class="w-[80px]">健診予定日</th>
-                <th class="w-[114px]">申込完了日時</th>
+                <th class="w-[92px]">申込完了日時</th>
                 <th class="w-[64px]">ポイント</th>
-                <th class="w-[50px]">支払</th>
-                <th class="w-[114px]">作業開始日時</th>
-                <th class="w-[100px]">作業者</th>
-                <th class="w-[114px]">作業完了日時</th>
-                <th class="w-[114px]">プレゼント日時</th>
-                <th class="w-[114px]">登録日</th>
-                <th class="w-[114px]">更新日</th>
+                <th class="w-[56px]">支払</th>
+                <th class="w-[92px]">作業開始日時</th>
+                <th class="w-[90px]">担当者</th>
+                <th class="w-[92px]">作業完了日時</th>
+                <th class="w-[102px]">プレゼント日時</th>
+                <th class="w-[86px]">登録日</th>
+                <th class="w-[86px]">更新日</th>
                 <th class="w-[140px]">リッチメニュー</th>
             </tr>
 
@@ -114,22 +115,26 @@
                             </template>
 
                             <template v-else-if="tbl_patient.submitted_at">
-                                <template v-if="!tbl_patient.undertook_by">
+                                <template v-if="!tbl_patient.working_by">
                                     <li><span class="text-main underline font-bold cursor-pointer" @click="work_begin(tbl_patient_key)">作業開始</span></li>
                                 </template>
-                                <template v-else-if="tbl_patient.undertook_by==global.user.id">
-
-                                    <li><a class="text-main underline font-bold" :href="global.front_app_basic_url+'/dl/'+tbl_patient.code" target="_blank">DL</a></li>
-                                    <li><span class="text-main underline font-bold cursor-pointer" @click="work_complete(tbl_patient_key)">完了</span></li>
-                                </template>
                                 <template v-else>
-                                    <li>作業中</li>
+                                    <template v-if="tbl_patient.working_by==global.user.tbl_user_id">
+                                        <li><a class="text-main underline font-bold" :href="global.front_app_basic_url+'/dl/'+tbl_patient.code" target="_blank">DL</a></li>
+                                    </template>
+                                    <li><span class="text-main underline font-bold cursor-pointer" @click="work_complete(tbl_patient_key)">完了</span></li>
                                 </template>
                             </template>
 
                             <template v-if="tbl_patient.payment_status==2">
-                                <li class="text-[10px]"><span class="bg-red text-white p-[1px_2px] rounded-lg mr-[3px] leading-none">！</span><span class="font-bold text-red underline text-bold cursor-pointer" @click="payment_complete(tbl_patient_key)">支払</span></li>
+                                <li class="text-[10px]"><span class="font-bold text-red underline text-bold cursor-pointer" @click="payment_complete(tbl_patient_key)">支払</span></li>
                             </template>
+                        </ul>
+                    </td>
+                    <td class="w-[200px] justify-center">
+                        <ul class="flex space-x-[3px]">
+                            <li><span class="cursor-pointer p-[2px_3px] bg-slate-350 text-white">補正</span></li>
+                            <li><span class="p-[2px_3px] bg-green-400 text-white">補正</span></li>
                         </ul>
                     </td>
                     <td class="w-[90px]"><a class="text-main hover:underline" :href="global.front_url+'/'+tbl_patient.code" target="_blank">{{ tbl_patient.code }}</a></td>
@@ -150,30 +155,37 @@
                         <template v-else>--</template>
                     </td>
 
-                    <td class="w-[114px]">
-                        <template v-if="tbl_patient.submitted_at">{{ tbl_patient.submitted_at }}</template>
-                        <template v-else>--</template>
+                    <td class="w-[92px]">
+                        <span class="tool-tip" :tooltip-data="tbl_patient.submitted_at">{{ short_date(tbl_patient.submitted_at) }}</span>
                     </td>
+
                     <td class="w-[64px] justify-end">{{ tbl_patient.review_point }}</td>
-                    <td class="w-[50px] justify-center" :class="{'font-bold text-red':tbl_patient.payment_status==2,'font-bold text-green':tbl_patient.payment_status==3,'font-bold text-slate-400':tbl_patient.payment_status==4,}">{{ global.payment_statuses[tbl_patient.payment_status] }}</td>
-                    <td class="w-[114px]">
-                        <template v-if="tbl_patient.undertook_at">{{ tbl_patient.undertook_at }}</template>
-                        <template v-else>--</template>
+                    <td class="w-[56px] justify-center" :class="{'font-bold text-red':tbl_patient.payment_status==2,'font-bold text-green':tbl_patient.payment_status==3,'font-bold text-slate-400':tbl_patient.payment_status==4,}">{{ global.payment_statuses[tbl_patient.payment_status] }}</td>
+                    <td class="w-[92px]">
+                        <span class="tool-tip" :tooltip-data="tbl_patient.undertook_at">{{ short_date(tbl_patient.undertook_at) }}</span>
                     </td>
-                    <td class="w-[100px]">
-                        <template v-if="tbl_patient.user_undertook_by">{{ tbl_patient.user_undertook_by.name }}</template>
-                        <template v-else>--</template>
+
+                    <td class="w-[90px] !p-0"
+                        v-if="tbl_patient.submitted_at">
+                        <select class="em-input-small w-40 !border-0 !text-[12px] !bg-transparent" v-model="tbl_patient.working_by" @change="change_working_by($event,tbl_patient_key)" :disabled="tbl_patient.completed_at">
+                            <option v-for="(user,user_key) in params.users" :value="user.tbl_user_id">{{user.name}}</option>
+                        </select>
                     </td>
-                    <td class="w-[114px]">
-                        <template v-if="tbl_patient.completed_at">{{ tbl_patient.completed_at }}</template>
-                        <template v-else>--</template>
+                    <td class="w-[90px]" v-else>--</td>
+
+
+                    <td class="w-[92px]">
+                        <span class="tool-tip" :tooltip-data="tbl_patient.completed_at">{{ short_date(tbl_patient.completed_at) }}</span>
                     </td>
-                    <td class="w-[114px]">
-                        <template v-if="tbl_patient.presented_at">{{ tbl_patient.presented_at }}</template>
-                        <template v-else>--</template>
+                    <td class="w-[102px]">
+                        <span class="tool-tip" :tooltip-data="tbl_patient.presented_at">{{ short_date(tbl_patient.presented_at) }}</span>
                     </td>
-                    <td class="w-[114px]">{{ tbl_patient.created_at }}</td>
-                    <td class="w-[114px]">{{ tbl_patient.updated_at }}</td>
+                    <td class="w-[86px]">
+                        <span class="tool-tip" :tooltip-data="tbl_patient.created_at">{{ short_date(tbl_patient.created_at) }}</span>
+                    </td>
+                    <td class="w-[86px]">
+                        <span class="tool-tip" :tooltip-data="tbl_patient.updated_at">{{ short_date(tbl_patient.updated_at) }}</span>
+                    </td>
                     <td class="w-[140px] cursor-pointer hover:bg-main/10" @click="text_copy(tbl_patient.richmenu_id)">
                         <span v-if="tbl_patient.richmenu_id" class="truncate">{{ tbl_patient.richmenu_id }}</span>
                         <template v-else>--</template>
@@ -227,7 +239,7 @@ export default {
                     mst_maternity_id: {
                         in: [],
                     },
-                    undertook_by: {
+                    working_by: {
                         in: [],
                     },
 
@@ -371,6 +383,34 @@ export default {
                 this.params.list[tbl_patient_key].is_highlight = false;
             }
         },
+        async change_working_by(e,tbl_patient_key){
+            let user = {};
+            for(let user_key in this.params.users){
+                user = this.params.users[user_key];
+                if(e.target.value == user.tbl_user_id)break;
+            }
+
+            this.params.list[tbl_patient_key].is_highlight = true;
+
+            if(window.confirm(this.params.list[tbl_patient_key].name+'さんの作業担当を'+user.name+'さんに渡します。\nよろしいですか？')) {
+                await axios.post('/api/v1/g/patient/'+this.params.list[tbl_patient_key].tbl_patient_id+'/change_working_by'+'?api_token='+global.api_token,
+                    {
+                        tbl_patient_id:this.params.list[tbl_patient_key].tbl_patient_id,
+                        working_by:user.tbl_user_id,
+                    }
+                ).then((response) => {//リクエストの成功
+                    this.params.list[tbl_patient_key] = response.data.result;
+                }).catch((error) => {//リクエストの失敗
+                    alert('エラーが発生しました\n正しく完了していない可能性があります。');
+                }).finally(() => {
+                    this.params.list[tbl_patient_key].is_highlight = false;
+                });
+            }else{
+                this.params.list[tbl_patient_key].working_by = this.params.list[tbl_patient_key].old_working_by;
+                this.params.list[tbl_patient_key].is_highlight = false;
+            }
+        },
+
         page_link_click:function(page){
             let t = this;
             this.params.search_params.page = page;
@@ -383,6 +423,18 @@ export default {
         },
         text_copy:function(txt){
             navigator.clipboard.writeText(txt);
+        },
+        short_date:function(date_str){
+            if(!date_str){
+                return '--';
+            }
+            let date = new Date(date_str);
+            let year = date.getFullYear();
+            let month = (date.getMonth()+1).toString().padStart(2, '0');
+            let day = date.getDate().toString().padStart(2, '0');
+            let hour = date.getHours().toString().padStart(2, '0');
+            let minute = date.getMinutes().toString().padStart(2, '0');
+            return month+'-'+day+' '+''+hour+':'+minute;
         }
     },
     watch:{

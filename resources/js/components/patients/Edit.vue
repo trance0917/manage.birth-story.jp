@@ -36,7 +36,7 @@ export default {
                     mst_maternity_id: {
                         in: [],
                     },
-                    undertook_by: {
+                    working_by: {
                         in: [],
                     },
 

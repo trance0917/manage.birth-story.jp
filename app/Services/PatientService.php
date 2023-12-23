@@ -37,7 +37,7 @@ class PatientService{
             'search_params.tbl_patients.is_use_instagram.like' => 'nullable|string',
 
             'search_params.tbl_patients.mst_maternity_id.in.*' => 'nullable|integer',
-            'search_params.tbl_patients.undertook_by.in.*' => 'nullable|integer',
+            'search_params.tbl_patients.working_by.in.*' => 'nullable|integer',
             'search_params.tbl_patients.created_at.from' => 'nullable|date',
             'search_params.tbl_patients.created_at.to' => 'nullable|date',
             //mst_material_idを取得する
@@ -154,61 +154,8 @@ class PatientService{
             'tbl_patient_mediums:tbl_patient_medium_id,tbl_patient_id,type,file_name,registered_at,extension,order',
             'tbl_patient_reviews:tbl_patient_review_id,tbl_patient_id,mst_maternity_question_id,score',
             'mst_maternity:mst_maternity_id,name',
-            'user_undertook_by:id,name',
+            'user_working_by:tbl_user_id,name',
 
-        ])->select(
-            'tbl_patient_id',
-            'mst_maternity_id',
-            'code',
-            'line_name',
-            'line_user_id',
-            'line_picture_url',
-            'richmenu_id',
-            'name',
-            'roman_alphabet',
-            'baby_name',
-            'baby_roman_alphabet',
-            'birth_day',
-            'birth_time',
-            'weight',
-            'height',
-            'sex',
-            'what_number',
-            'health_check_date',
-            'message',
-            'is_use_instagram',
-            'submitted_at',
-            'review',
-            'review_point',
-            'amazon_id',
-            'payment_status',
-            'undertook_at',
-            'undertook_by',
-            'completed_at',
-            'presented_at',
-            'memo',
-            'created_at',
-            'updated_at',
-        )->find($tbl_patient_id);
-
-        return $tbl_patient;
-    }
-    public function getPatients(array $tbl_patient_ids)
-    {
-        //バリデーション
-        $validator = Validator:: make(['tbl_patient_ids' => $tbl_patient_ids], [
-            'tbl_patient_ids' => 'required|array',
-            'tbl_patient_ids.*' => 'integer',
-        ]);
-        if ($validator->fails()) {
-            return [];
-        }
-
-        $tbl_patients = TblPatient::with([
-            'tbl_patient_mediums:tbl_patient_medium_id,tbl_patient_id,type,file_name,registered_at,extension,order',
-            'tbl_patient_reviews:tbl_patient_review_id,tbl_patient_id,mst_maternity_question_id,score',
-            'mst_maternity:mst_maternity_id,name',
-            'user_undertook_by:id,name',
         ])->select(
     'tbl_patient_id',
             'mst_maternity_id',
@@ -236,13 +183,70 @@ class PatientService{
             'amazon_id',
             'payment_status',
             'undertook_at',
-            'undertook_by',
+            'working_by',
             'completed_at',
             'presented_at',
             'memo',
             'created_at',
             'updated_at',
-        )->whereIn('tbl_patient_id', $tbl_patient_ids)->orderByDESC('tbl_patient_id')->get();
+        )
+            ->selectRaw('\'\' AS `old_working_by`')
+            ->find($tbl_patient_id);
+
+        return $tbl_patient;
+    }
+    public function getPatients(array $tbl_patient_ids)
+    {
+        //バリデーション
+        $validator = Validator:: make(['tbl_patient_ids' => $tbl_patient_ids], [
+            'tbl_patient_ids' => 'required|array',
+            'tbl_patient_ids.*' => 'integer',
+        ]);
+        if ($validator->fails()) {
+            return [];
+        }
+
+        $tbl_patients = TblPatient::with([
+            'tbl_patient_mediums:tbl_patient_medium_id,tbl_patient_id,type,file_name,registered_at,extension,order',
+            'tbl_patient_reviews:tbl_patient_review_id,tbl_patient_id,mst_maternity_question_id,score',
+            'mst_maternity:mst_maternity_id,name',
+            'user_working_by:tbl_user_id,name',
+        ])->select(
+    'tbl_patient_id',
+            'mst_maternity_id',
+            'code',
+            'line_name',
+            'line_user_id',
+            'line_picture_url',
+            'richmenu_id',
+            'name',
+            'roman_alphabet',
+            'baby_name',
+            'baby_roman_alphabet',
+            'birth_day',
+            'birth_time',
+            'weight',
+            'height',
+            'sex',
+            'what_number',
+            'health_check_date',
+            'message',
+            'is_use_instagram',
+            'submitted_at',
+            'review',
+            'review_point',
+            'amazon_id',
+            'payment_status',
+            'undertook_at',
+            'working_by',
+            'completed_at',
+            'presented_at',
+            'memo',
+            'created_at',
+            'updated_at',
+        )
+            ->selectRaw('\'\' AS `old_working_by`')
+            ->whereIn('tbl_patient_id', $tbl_patient_ids)->orderByDESC('tbl_patient_id')->get();
 
         return $tbl_patients;
     }

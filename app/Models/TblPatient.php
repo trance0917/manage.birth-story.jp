@@ -37,7 +37,7 @@ use App\Traits\SerializeDate;
  * @property string|null $amazon_id
  * @property Carbon|null $completed_at
  * @property Carbon|null $undertook_at
- * @property int $undertook_by
+ * @property int $working_by
  * @property string|null $memo
  * @property string|null $deleted_at
  * @property Carbon|null $created_at
@@ -68,7 +68,7 @@ class TblPatient extends Model
 		'completed_at' => 'datetime',
 		'undertook_at' => 'datetime',
         'presented_at' => 'datetime',
-		'undertook_by' => 'int'
+		'working_by' => 'int'
 	];
 
 	protected $fillable = [
@@ -92,9 +92,11 @@ class TblPatient extends Model
 		'is_use_instagram',
 		'review',
 		'amazon_id',
+        'payment_status',
+        'payment_by',
 		'completed_at',
 		'undertook_at',
-		'undertook_by',
+		'working_by',
         'presented_at',
 		'memo'
 	];
@@ -108,9 +110,9 @@ class TblPatient extends Model
     {
         return $this->hasOne(MstMaternity::class, 'mst_maternity_id', 'mst_maternity_id');
     }
-    public function user_undertook_by()
+    public function user_working_by()
     {
-        return $this->hasOne(User::class, 'id', 'undertook_by');
+        return $this->hasOne(TblUser::class, 'tbl_user_id', 'working_by');
     }
     public function tbl_patient_reviews()
     {
@@ -123,5 +125,10 @@ class TblPatient extends Model
     public function getAverageScoreAttribute()
     {
         return sprintf("%.1f",round($this->tbl_patient_reviews->average('score'),1));
+    }
+
+    public function getOldWorkingByAttribute()
+    {
+        return $this->working_by;
     }
 }

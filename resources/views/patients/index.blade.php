@@ -11,7 +11,7 @@
             search_params:{!! json_encode($search_params,JSON_UNESCAPED_UNICODE )!!},
             pagination:{!! json_encode(\Arr::except($list->toArray(), ['data'])??[],JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT ) !!},
             mst_maternities:{!! json_encode(App\Models\MstMaternity::get(),JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT ) !!},
-            users:{!! json_encode(App\Models\User::get(),JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT ) !!},
+            users:{!! json_encode(App\Models\TblUser::get(),JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT ) !!},
         };
 
     </script>
