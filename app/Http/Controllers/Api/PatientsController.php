@@ -8,8 +8,10 @@ use App\Models\TblPatient;
 use App\Services\LineBotService;
 use Illuminate\Http\Request;
 use App\Services\PatientService;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use LINE\LINEBot\MessageBuilder\RawMessageBuilder;
 use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 
@@ -147,5 +149,65 @@ class PatientsController extends Controller
         ]);
     }
 
+    public function savePresent(TblPatient $tbl_patient,Request $request,PatientService $patient_service){
+        $key = $request->key;
+
+        if($key=='present_movie_path'){
+            $filesize=1024*200;
+            $validator = Validator:: make(['file' => $request->file,], ['file' => 'file|max:'.$filesize.'|mimes:mp4',]);
+        }else{
+            $filesize=1024*10;
+            $validator = Validator:: make(['file' => $request->file,], ['file' => 'file|max:'.$filesize.'|mimes:jpg,png',]);
+        }
+
+        if ($validator->fails()) {
+            return response()->json([
+                'result' => false,
+                'messages' => '',
+                'errors' => $validator->errors(),
+            ],400);
+        }
+
+        DB::beginTransaction();
+        try {
+
+            $file = $request->file;
+            if ($file instanceof UploadedFile) {
+                $directory_path = 'public/patients/'.$tbl_patient->tbl_patient_id.'_'.$tbl_patient->code;
+                if(\Storage::exists($directory_path)){
+                    \Storage::makeDirectory($directory_path);
+                }
+                dump($directory_path);
+                $filepath = pathinfo($file->getClientOriginalName());
+                $filename = preg_replace('/[^0-9]/' ,'' , microtime()) . '.' . $filepath['extension'];
+
+                $file->storeAs($directory_path, $filename);
+
+                $old_file_name = $tbl_patient->$key;
+                //古いファイルは消しておく
+                if($old_file_name){
+                    \Storage::disk('local')->delete(''.$directory_path .'/'. $old_file_name);
+                }
+                $tbl_patient->$key=$filename;
+                $tbl_patient->save();
+                $tbl_patient = $patient_service->getPatient($tbl_patient->tbl_patient_id);
+            }
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollback();
+            Log::error($e);
+            return [
+                'result' => false,
+                'messages' => $e->getMessage(),
+                'errors' => [],
+            ];
+        }
+
+        return response()->json([
+            'result' => $tbl_patient,
+            'messages' => '',
+            'errors' => [],
+        ]);
+    }
 
 }

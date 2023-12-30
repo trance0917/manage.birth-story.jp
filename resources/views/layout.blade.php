@@ -15,14 +15,14 @@
     <section class="menu-list">
 
         <section class="box">
-            <h3><span><i class="fa-regular fa-rectangle-list text-right mr-[5px]"></i>商品管理</span></h3>
+            <h3><span>商品管理</span></h3>
             <ul>
                 <li><a href="/patients"><i class="fa-solid fa-caret-right"></i>提出データ</a></li>
             </ul>
         </section>
 
         <section class="box">
-            <h3><span><i class="fa-solid fa-gear text-right mr-[5px]"></i>システム設定</span></h3>
+            <h3><span>システム設定</span></h3>
             <ul>
                 <li><a href="/logout"><i class="fa-solid fa-caret-right"></i>ログアウト</a></li>
             </ul>

@@ -1,6 +1,45 @@
 <template>
-    <form class="em-filter" method="get" ref="form">
+    <form  method="get" ref="form">
         {{params.tbl_patient.name}}
+        <div class="w-[200px]">
+            <div class="text-[14px] font-bold text-center mb-[3px]">プレゼントの動画</div>
+            <label class="relative" for="present_movie_path" v-if="!params.tbl_patient.present_movie_path">
+                <div class="choice py-[40px] text-slate-400 text-[16px] bg-slate-100 block text-center border border-dashed border-slate-300">動画を設定</div>
+                <i v-if="'present_movie_path'==loading_input_key"
+                   class="fa-solid fa-spinner fa-spin text-slate-300 text-[40px] absolute top-[calc(50%-20px)] left-[calc(50%-20px)]"></i>
+            </label>
+            <div v-else>
+                <video controls width="320" height="240">
+                    <source :src="'/storage/patients/'+params.tbl_patient.tbl_patient_id+'_'+params.tbl_patient.code+'/'+params.tbl_patient.present_movie_path">
+                    <p>動画を再生するには、videoタグをサポートしたブラウザが必要です。</p>
+                </video>
+                <label for="present_movie_path">変更</label>
+            </div>
+
+            <input type="file" id="present_movie_path" accept="video/*" v-on:change="save_movie($event,'present_movie_path')" />
+            <div class="bg-green-500/20" :style="loading_progress.present_movie_path"></div>
+            mp4,200mb以下
+
+        </div>
+
+        <div class="w-[200px]">
+            <div class="text-[14px] font-bold text-center mb-[3px]">プレゼントの画像</div>
+            <label class="relative" for="present_photoart_path" v-if="!params.tbl_patient.present_photoart_path">
+                <div class="choice py-[40px] text-slate-400 text-[16px] bg-slate-100 block text-center border border-dashed border-slate-300">画像を設定</div>
+                <i v-if="'present_photoart_path'==loading_input_key"
+                   class="fa-solid fa-spinner fa-spin text-slate-300 text-[40px] absolute top-[calc(50%-20px)] left-[calc(50%-20px)]"></i>
+            </label>
+            <div v-else>
+                <img :src="'/storage/patients/'+params.tbl_patient.tbl_patient_id+'_'+params.tbl_patient.code+'/'+params.tbl_patient.present_photoart_path">
+                <label for="present_photoart_path">変更</label>
+            </div>
+
+            <input type="file" id="present_photoart_path" accept="image/*" v-on:change="save_movie($event,'present_photoart_path')" />
+            <div class="bg-green-500/20" :style="loading_progress.present_photoart_path"></div>
+            png,jpgのみ10MB以下
+            <!--            <div class="error text-center" v-if="errors['tbl_patient.tbl_patient_mediums.first_cry']">@{{ errors['tbl_patient.tbl_patient_mediums.first_cry'][0] }}</div>-->
+        </div>
+
     </form><!--end em-filter-->
 
 
@@ -15,99 +54,12 @@ export default {
     data(){
         return {
             params:params,
-            shapes: {},
-            material_groups: {},
-            materials: {},
-            suppliers: {},
 
-            published_at_types: {
-                0: '掲載中',
-                1: '未掲載',
-            },
-
-            init_search_params: {
-                tbl_patients:{
-                    name: {
-                        like: '',
-                    },
-                    is_use_instagram: {
-                        like: '',
-                    },
-                    mst_maternity_id: {
-                        in: [],
-                    },
-                    working_by: {
-                        in: [],
-                    },
-
-                    created_at: {
-                        from: '',
-                        to: '',
-                    },
-                },
-
-
-
-                // is_approval: '',
-                // mst_shapes: {
-                //     mst_shape_id: {
-                //         in: [null],
-                //     },
-                // },
-                // mst_material_groups: {
-                //     mst_material_group_id: {
-                //         in: [null],
-                //     },
-                // },
-                // mst_materials: {
-                //     mst_material_id: {
-                //         in: [null],
-                //     },
-                // },
-                //
-                // tbl_supplier_product_versions: {
-                //     approval_at: {
-                //         isnull: null,
-                //     },
-                //     is_admin_edit: {
-                //         in: [],
-                //     },
-                //     tbl_supplier_id: {
-                //         in: [null],
-                //     },
-                //     is_volume_discount_settings_enabled: {
-                //         in: [],
-                //     },
-                //     is_pre_order_discount_settings_enabled: {
-                //         in: [],
-                //     },
-                //
-                // },
-                //
-                // tbl_product_composition_registrations: {
-                //     tbl_product_composition_id: {
-                //         in: [],
-                //     },
-                //     published_at: {
-                //         isnull: null,
-                //     },
-                //     created_at: {
-                //         from: '',
-                //         to: '',
-                //     },
-                // },
-                // tbl_product_composition_registration_details: {
-                //     name: {
-                //         like: '',
-                //     },
-                // },
-                // tbl_product_registrations: {
-                //     mst_product_type_id: {
-                //         in: [],
-                //     },
-                // },
-
-            },
+            loading_input_key:'',
+            loading_progress:{
+                present_movie_path:'width:0%;height:0px;',
+                present_photoart_path:'width:0%;height:0px;',
+            }
 
         }
     },
@@ -115,64 +67,44 @@ export default {
     beforeMount:function(){
     },
     mounted:function(){
-        // if(this.params.search_params.mst_material_groups.mst_material_group_id.in[0]!=null){
-        //     this.get_materials(this.params.search_params.mst_material_groups.mst_material_group_id.in[0]);
-        // }
+
     },
     created:async function(){
 
     },
 
     methods:{
+        async save_movie(e,key){
+            this.loading_input_key=key;
 
-        async work_begin(tbl_patient_key){
-            this.params.list[tbl_patient_key].is_highlight = true;
-            if(window.confirm(this.params.list[tbl_patient_key].name+'さんの担当者として制作を開始します。')) {
-                await axios.post('/api/v1/g/patient/'+this.params.list[tbl_patient_key].tbl_patient_id+'/work_begin'+'?api_token='+global.api_token,
-                    {
-                        tbl_patient_id:this.params.list[tbl_patient_key].tbl_patient_id,
+            await axios.post('/api/v1/g/patient/'+this.params.tbl_patient.tbl_patient_id+'/save_present'+'?api_token='+global.api_token,
+                {
+                    key:key,
+                    file:e.target.files[0],
+                },
+                {
+                    headers: {'content-type': 'multipart/form-data'},
+                    onUploadProgress: (event) => {
+                        let percent_completed = Math.round( (event.loaded * 100) / event.total );
+                        this.loading_progress[key]='width:'+(percent_completed)+'%;height:10px;';
                     }
-                ).then((response) => {//リクエストの成功
-                    this.params.list[tbl_patient_key] = response.data.result;
-                }).catch((error) => {//リクエストの失敗
-                    alert('エラーが発生しました\n正しく完了していない可能性があります。');
-                }).finally(() => {
-                    this.params.list[tbl_patient_key].is_highlight = false;
-                });
-            }else{
-                this.params.list[tbl_patient_key].is_highlight = false;
-            }
-        },
-        async work_complete(tbl_patient_key){
-            this.params.list[tbl_patient_key].is_highlight = true;
-            if(window.confirm(this.params.list[tbl_patient_key].name+'さんの作業を完了します。\nよろしいですか？')) {
-                await axios.post('/api/v1/g/patient/'+this.params.list[tbl_patient_key].tbl_patient_id+'/work_complete'+'?api_token='+global.api_token,
-                    {
-                        tbl_patient_id:this.params.list[tbl_patient_key].tbl_patient_id,
-                    }
-                ).then((response) => {//リクエストの成功
-                    this.params.list[tbl_patient_key] = response.data.result;
-                }).catch((error) => {//リクエストの失敗
-                    alert('エラーが発生しました\n正しく完了していない可能性があります。');
-                }).finally(() => {
-                    this.params.list[tbl_patient_key].is_highlight = false;
-                });
-            }else{
-                this.params.list[tbl_patient_key].is_highlight = false;
-            }
-        },
-        page_link_click:function(page){
-            let t = this;
-            this.params.search_params.page = page;
-            setTimeout(() => {t.$refs.form.submit();}, 5);
-        },
-        submit:function(){
-            let t = this;
-            this.params.search_params.page = 1;
-            setTimeout(() => {t.$refs.form.submit();}, 5);
-        },
-        text_copy:function(txt){
-            navigator.clipboard.writeText(txt);
+                }
+            ).then((response) => {//リクエストの成功
+                this.params.tbl_patient = response.data.result;
+                let path =  this.params.tbl_patient[key];
+                this.params.tbl_patient[key] = '';
+
+                setTimeout(() => {
+                    this.params.tbl_patient[key] = path;
+                }, 1);
+
+            }).catch((error) => {//リクエストの失敗
+                alert('エラーが発生しました\nファイル拡張子、容量を確認してください');
+            }).finally(() => {
+                e.target.value='';
+                this.loading_input_key='';
+                this.loading_progress[key]='width:0%;';
+            });
         }
     },
     watch:{

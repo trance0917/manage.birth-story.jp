@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\LineBotService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Services\PatientService;
@@ -52,6 +53,7 @@ class PatientsController extends Controller
 
     public function edit(TblPatient $tbl_patient,Request $request, PatientService $patient_service)
     {
+
         return view('patients.edit' ,compact('tbl_patient'));
     }
 

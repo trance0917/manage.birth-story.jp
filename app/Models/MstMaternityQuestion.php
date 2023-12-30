@@ -39,12 +39,4 @@ class MstMaternityQuestion extends Model
 		'question',
 		'order'
 	];
-
-    public static $score_type = [
-        1=>'不満',
-        2=>'やや不満',
-        3=>'普通',
-        4=>'やや満足',
-        5=>'満足',
-    ];
 }

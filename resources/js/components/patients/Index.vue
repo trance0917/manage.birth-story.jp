@@ -223,15 +223,6 @@ export default {
     data(){
         return {
             params:params,
-            shapes: {},
-            material_groups: {},
-            materials: {},
-            suppliers: {},
-
-            published_at_types: {
-                0: '掲載中',
-                1: '未掲載',
-            },
 
             init_search_params: {
                 tbl_patients:{
