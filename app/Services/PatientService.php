@@ -151,11 +151,19 @@ class PatientService{
         }
 
         $tbl_patient = TblPatient::with([
-            'tbl_patient_mediums:tbl_patient_medium_id,tbl_patient_id,type,file_name,registered_at,extension,order',
-            'tbl_patient_reviews:tbl_patient_review_id,tbl_patient_id,mst_maternity_question_id,score',
+            'tbl_patient_mediums'=>function ($query){
+                //ファイル名 空にしているのはミューテタで取得できるため
+                $query->select(['tbl_patient_id','extension','tbl_patient_medium_id','type','file_name','order','registered_at'])->selectRaw('\'\' AS `src`');
+            },
+            'tbl_patient_mediums.tbl_patient:tbl_patient_id,code',
+            'tbl_patient_reviews'=>function ($query){
+                //ファイル名 空にしているのはミューテタで取得できるため
+                $query->select(['tbl_patient_review_id','tbl_patient_id','mst_maternity_question_id','score']);
+            },
             'mst_maternity:mst_maternity_id,name',
             'tbl_user_working_by:tbl_user_id,name',
             'tbl_user_task_retouch_by:tbl_user_id,name',
+            'tbl_user_payment_by:tbl_user_id,name',
         ])->select(
     'tbl_patient_id',
             'mst_maternity_id',
@@ -182,6 +190,7 @@ class PatientService{
             'review_point',
             'amazon_id',
             'payment_status',
+            'payment_by',
             'undertook_at',
             'working_by',
             'task_retouch_by',
@@ -194,6 +203,7 @@ class PatientService{
             'updated_at',
         )
             ->selectRaw('\'\' AS `old_working_by`')
+            ->selectRaw('\'\' AS `average_score`')
             ->find($tbl_patient_id);
 
         return $tbl_patient;
@@ -210,11 +220,19 @@ class PatientService{
         }
 
         $tbl_patients = TblPatient::with([
-            'tbl_patient_mediums:tbl_patient_medium_id,tbl_patient_id,type,file_name,registered_at,extension,order',
-            'tbl_patient_reviews:tbl_patient_review_id,tbl_patient_id,mst_maternity_question_id,score',
+            'tbl_patient_mediums'=>function ($query){
+                //ファイル名 空にしているのはミューテタで取得できるため
+                $query->select(['tbl_patient_id','extension','tbl_patient_medium_id','type','file_name','order','registered_at'])->selectRaw('\'\' AS `src`');
+            },
+            'tbl_patient_mediums.tbl_patient:tbl_patient_id,code',
+            'tbl_patient_reviews'=>function ($query){
+                //ファイル名 空にしているのはミューテタで取得できるため
+                $query->select(['tbl_patient_review_id','tbl_patient_id','mst_maternity_question_id','score']);
+            },
             'mst_maternity:mst_maternity_id,name',
             'tbl_user_working_by:tbl_user_id,name',
             'tbl_user_task_retouch_by:tbl_user_id,name',
+            'tbl_user_payment_by:tbl_user_id,name',
         ])->select(
     'tbl_patient_id',
             'mst_maternity_id',
@@ -241,6 +259,7 @@ class PatientService{
             'review_point',
             'amazon_id',
             'payment_status',
+            'payment_by',
             'undertook_at',
             'working_by',
             'task_retouch_by',
@@ -253,6 +272,7 @@ class PatientService{
             'updated_at',
         )
             ->selectRaw('\'\' AS `old_working_by`')
+            ->selectRaw('\'\' AS `average_score`')
             ->whereIn('tbl_patient_id', $tbl_patient_ids)->orderByDESC('tbl_patient_id')->get();
 
         return $tbl_patients;

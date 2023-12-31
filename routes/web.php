@@ -21,10 +21,11 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('patients', [PatientsController::class, 'index'])->name('patients-index');
-    Route::get('patients/{tbl_patient}', [PatientsController::class, 'edit'])->name('patients-edit');
+
 
     Route::get('patients/json', [PatientsController::class, 'json'])->name('patients-json');
 
+    Route::get('patients/{tbl_patient}', [PatientsController::class, 'edit'])->name('patients-edit');
 //    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 //    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

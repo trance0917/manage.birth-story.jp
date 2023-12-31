@@ -58,6 +58,9 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
             .em-container{
                 @apply inline-block max-w-[calc(100%-15px)] pb-25 text-xs;
             }
+            .em-container-detail{
+                @apply inline-block max-w-[calc(100%-15px)] pb-25 text-sm;
+            }
         }
     }
 

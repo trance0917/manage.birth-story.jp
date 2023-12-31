@@ -84,6 +84,7 @@
                 <th class="w-[55px]">#</th>
                 <th class="w-[100px]">状態</th>
                 <th class="w-[230px]">進捗</th>
+                <th class="w-[54px]"><i class="fa-solid fa-gift"></i></th>
                 <th class="w-[90px]">コード</th>
                 <th class="w-[180px]">産院</th>
                 <th class="w-[110px]">ママの名前</th>
@@ -99,7 +100,6 @@
                 <th class="w-[102px]">プレゼント日時</th>
                 <th class="w-[86px]">登録日</th>
                 <th class="w-[86px]">更新日</th>
-                <th class="w-[140px]">リッチメニュー</th>
             </tr>
 
             <template v-if="params.list.length">
@@ -133,13 +133,22 @@
                     </td>
                     <td class="w-[230px] justify-center">
                         <ul class="flex space-x-[3px]">
-                            <li v-if="!tbl_patient.task_retouch_by"><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip" tooltip-data="写真レタッチ" @click="task_retouch_by_complete(tbl_patient_key)">補正</span></li>
+                            <li v-if="!tbl_patient.task_retouch_by"><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="写真レタッチ" @click="task_retouch_by_complete(tbl_patient_key)">補正</span></li>
                             <li v-else><span class="p-[1px_3px] bg-green-400 text-white tool-tip" :tooltip-data="'写真レタッチ：'+tbl_patient.tbl_user_task_retouch_by.name">補正</span></li>
-                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip" tooltip-data="フォト">フォ</span></li>
-                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip" tooltip-data="ムービーDVD">DVD</span></li>
-                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip" tooltip-data="MP4データ">MP4</span></li>
-                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip" tooltip-data="オーサリング">オサ</span></li>
-                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip" tooltip-data="最終チェック">確認</span></li>
+                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="フォト">フォ</span></li>
+                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="ムービーDVD">DVD</span></li>
+                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="MP4データ">MP4</span></li>
+                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="オーサリング">オサ</span></li>
+                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="最終チェック">確認</span></li>
+                        </ul>
+                    </td>
+
+
+
+                    <td class="w-[54px] flex justify-center">
+                        <ul class="flex space-x-[5px]">
+                            <li><i class="fa-regular fa-image text-slate-250" :class="{'!text-green-300':tbl_patient.present_movie_path}"></i></li>
+                            <li><i class="fa-brands fa-youtube text-slate-250" :class="{'!text-green-300':tbl_patient.present_photoart_path}"></i></li>
                         </ul>
                     </td>
                     <td class="w-[90px]"><a class="text-main hover:underline" :href="global.front_url+'/'+tbl_patient.code" target="_blank">{{ tbl_patient.code }}</a></td>
@@ -165,7 +174,11 @@
                     </td>
 
                     <td class="w-[64px] justify-end">{{ tbl_patient.review_point }}</td>
-                    <td class="w-[56px] justify-center" :class="{'font-bold text-red':tbl_patient.payment_status==2,'font-bold text-green':tbl_patient.payment_status==3,'font-bold text-slate-400':tbl_patient.payment_status==4,}">{{ global.payment_statuses[tbl_patient.payment_status] }}</td>
+
+                    <td class="w-[56px] justify-center" :class="{'font-bold text-red':tbl_patient.payment_status==2,'font-bold text-green':tbl_patient.payment_status==3,'font-bold text-slate-400':tbl_patient.payment_status==4,}">
+                        <span class="tool-tip" v-if="tbl_patient.payment_status==3" :tooltip-data="'支払者：'+tbl_patient.tbl_user_payment_by.name">{{ global.payment_statuses[tbl_patient.payment_status] }}</span>
+                        <template v-else>{{ global.payment_statuses[tbl_patient.payment_status] }}</template>
+                    </td>
                     <td class="w-[92px]">
                         <span class="tool-tip" :tooltip-data="tbl_patient.undertook_at">{{ short_date(tbl_patient.undertook_at) }}</span>
                     </td>
@@ -190,10 +203,6 @@
                     </td>
                     <td class="w-[86px]">
                         <span class="tool-tip" :tooltip-data="tbl_patient.updated_at">{{ short_date(tbl_patient.updated_at) }}</span>
-                    </td>
-                    <td class="w-[140px] cursor-pointer hover:bg-main/10" @click="text_copy(tbl_patient.richmenu_id)">
-                        <span v-if="tbl_patient.richmenu_id" class="truncate">{{ tbl_patient.richmenu_id }}</span>
-                        <template v-else>--</template>
                     </td>
                 </tr>
             </template>
@@ -437,9 +446,9 @@ export default {
             this.params.search_params.page = 1;
             setTimeout(() => {t.$refs.form.submit();}, 5);
         },
-        text_copy:function(txt){
-            navigator.clipboard.writeText(txt);
-        },
+        // text_copy:function(txt){
+        //     navigator.clipboard.writeText(txt);
+        // },
         short_date:function(date_str){
             if(!date_str){
                 return '--';

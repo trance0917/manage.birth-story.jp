@@ -47,13 +47,13 @@ class PatientsController extends Controller
     }
     public function json(Request $request, PatientService $patient_service)
     {
-        $d = $patient_service->getPatient(16);
+        $d = $patient_service->getPatient(60);
         return response()->json($d);
     }
 
     public function edit(TblPatient $tbl_patient,Request $request, PatientService $patient_service)
     {
-
+        $tbl_patient = $patient_service->getPatient($tbl_patient->tbl_patient_id);
         return view('patients.edit' ,compact('tbl_patient'));
     }
 

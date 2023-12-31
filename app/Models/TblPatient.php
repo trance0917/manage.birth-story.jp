@@ -118,6 +118,10 @@ class TblPatient extends Model
     {
         return $this->hasOne(TblUser::class, 'tbl_user_id', 'task_retouch_by');
     }
+    public function tbl_user_payment_by()
+    {
+        return $this->hasOne(TblUser::class, 'tbl_user_id', 'payment_by');
+    }
     public function tbl_patient_reviews()
     {
         return $this->hasMany(TblPatientReview::class, 'tbl_patient_id', 'tbl_patient_id');
@@ -130,7 +134,6 @@ class TblPatient extends Model
     {
         return sprintf("%.1f",round($this->tbl_patient_reviews->average('score'),1));
     }
-
     public function getOldWorkingByAttribute()
     {
         return $this->working_by;

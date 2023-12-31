@@ -177,7 +177,6 @@ class PatientsController extends Controller
                 if(\Storage::exists($directory_path)){
                     \Storage::makeDirectory($directory_path);
                 }
-                dump($directory_path);
                 $filepath = pathinfo($file->getClientOriginalName());
                 $filename = preg_replace('/[^0-9]/' ,'' , microtime()) . '.' . $filepath['extension'];
 

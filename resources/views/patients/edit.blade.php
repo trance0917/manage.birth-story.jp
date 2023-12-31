@@ -2,7 +2,7 @@
 @section('meta')@endsection
 @section('contents')
     <h1>提出データ</h1>
-    <div id="patients-edit" class="em-container">
+    <div id="patients-edit" class="em-container-detail">
 
     </div><!--end em-container-->
     <script>
