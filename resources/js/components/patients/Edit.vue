@@ -371,7 +371,7 @@
                         <div class="flex flex-wrap m-[-5px]">
                             <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums">
                                 <div v-if="medium.type=='echo'" class="m-[5px]">
-                                    <img :src="medium.src" alt="" />
+                                    <img :src="medium.src" width="150" alt="" />
                                 </div>
                             </template>
                         </div>
@@ -382,7 +382,7 @@
                         <div class="flex flex-wrap m-[-5px]">
                             <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums">
                                 <div v-if="medium.type=='namecard'" class="m-[5px]">
-                                    <img :src="medium.src" alt="" />
+                                    <img :src="medium.src" width="150" alt="" />
                                 </div>
                             </template>
                         </div>
@@ -393,7 +393,7 @@
                         <div class="flex flex-wrap m-[-5px]">
                             <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums">
                                 <div v-if="medium.type=='pregnancy'" class="m-[5px]">
-                                    <img :src="medium.src" alt="" />
+                                    <img :src="medium.src" width="150" alt="" />
                                 </div>
                             </template>
                         </div>
@@ -404,7 +404,7 @@
                         <div class="flex flex-wrap m-[-5px]">
                             <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums">
                                 <div v-if="medium.type=='free'" class="m-[5px]">
-                                    <img :src="medium.src" alt="" />
+                                    <img :src="medium.src" width="150" alt="" />
                                 </div>
                             </template>
                         </div>
@@ -415,7 +415,7 @@
                         <div class="flex flex-wrap m-[-5px]">
                             <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums">
                                 <div v-if="medium.type=='photoart'" class="m-[5px]">
-                                    <img :src="medium.src" alt="" />
+                                    <img :src="medium.src" width="150" alt="" />
                                 </div>
                             </template>
                         </div>
