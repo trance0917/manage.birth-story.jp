@@ -53,8 +53,8 @@ class PatientsController extends Controller
 
     public function edit(TblPatient $tbl_patient,Request $request, PatientService $patient_service)
     {
-        $line_bot_service = new LineBotService($tbl_patient->mst_maternity);
-        $line_bot_service->pushMessageFollow($tbl_patient);
+//        $line_bot_service = new LineBotService($tbl_patient->mst_maternity);
+//        $line_bot_service->pushMessageFollow($tbl_patient);
         $tbl_patient = $patient_service->getPatient($tbl_patient->tbl_patient_id);
 
         return view('patients.edit' ,compact('tbl_patient'));
