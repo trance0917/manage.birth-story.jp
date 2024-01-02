@@ -9,7 +9,6 @@ use App\Models\TblPatient;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use LINE\LINEBot;
-use LINE\LINEBot\HTTPClient;
 use LINE\LINEBot\HTTPClient\CurlHTTPClient;
 use LINE\LINEBot\MessageBuilder;
 use LINE\LINEBot\MessageBuilder\RawMessageBuilder;
@@ -26,16 +25,14 @@ class LineBotService extends LINEBot
     /** @var HTTPClient */
     private $httpClient;
 
-    private $mst_maternity;
-
-    public function __construct(MstMaternity $mst_maternity)
+    public function __construct()
     {
-        $httpClient = new CurlHTTPClient($mst_maternity->line_message_channel_token);
-        $args = ['channelSecret' => $mst_maternity->line_message_channel_secret];
+        $httpClient = new CurlHTTPClient(config('birthstory.line_message_channel_token'));
+        $args = ['channelSecret' => config('birthstory.line_message_channel_secret')];
+
         parent::__construct($httpClient, $args);
         $this->httpClient = $httpClient;
         $this->channelSecret = $args['channelSecret'];
-        $this->mst_maternity = $mst_maternity;
     }
 
     public function pushMessage($to, MessageBuilder $messageBuilder, $model = null)
@@ -54,6 +51,10 @@ class LineBotService extends LINEBot
             $log_line_message->application_type = 2;
             $log_line_message->mst_maternity_user_id = $model->mst_maternity_user_id;
             $log_line_message->line_user_id = $model->line_user_id;
+        }else{
+            $log_line_message->type = 3;
+            $log_line_message->application_type = 2;
+            $log_line_message->line_user_id = $to;
         }
         $log_line_message->message = json_encode($messageBuilder->buildMessage());
         $log_line_message->http_status = $http_status;
@@ -62,7 +63,6 @@ class LineBotService extends LINEBot
         if($http_status!=200){
             event(new \App\Events\LineErrorSendEvent($log_line_message));
         }
-
 
         return $res;
     }

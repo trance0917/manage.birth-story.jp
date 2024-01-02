@@ -174,7 +174,7 @@ class PatientsController extends Controller
             $file = $request->file;
             if ($file instanceof UploadedFile) {
                 $directory_path = 'public/patients/'.$tbl_patient->tbl_patient_id.'_'.$tbl_patient->code;
-                if(\Storage::exists($directory_path)){
+                if(!\Storage::exists($directory_path)){
                     \Storage::makeDirectory($directory_path);
                 }
                 $filepath = pathinfo($file->getClientOriginalName());

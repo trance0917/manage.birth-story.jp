@@ -2,7 +2,6 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use LINE\LINEBot\HTTPClient\CurlHTTPClient;
-use App\Services\MaternityLineBotService;
 use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 use App\Models\MstMaternity;
 use App\Models\LogLineWebhook;
