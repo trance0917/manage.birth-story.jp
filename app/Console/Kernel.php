@@ -26,7 +26,6 @@ class Kernel extends ConsoleKernel
 //        $schedule->command('inspire')->everyMinute();
         //毎日16-19時の間に毎分
         $schedule->command('command:present')->cron('* 16-19 * * *');
-
     }
 
     /**
