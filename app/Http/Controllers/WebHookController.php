@@ -11,6 +11,6 @@ use App\Models\LogLineWebhook;
 final class WebHookController extends Controller
 {
     public function github(Request $request){
-        exec("cd /var/www/dev.manage.birth-story.jp ; git pull",$opt, $return_ver);
+        exec("cd /var/www/dev.manage.birth-story.jp ; git reset --hard origin/main",$opt, $return_ver);
     }
 }
