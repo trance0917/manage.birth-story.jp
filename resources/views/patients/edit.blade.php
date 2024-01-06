@@ -8,6 +8,7 @@
     <script>
         let params = {
             tbl_patient:{!! json_encode($tbl_patient,JSON_PRETTY_PRINT) !!},
+            richmenu_id:'{{$richmenu_id}}',
         };
 
     </script>

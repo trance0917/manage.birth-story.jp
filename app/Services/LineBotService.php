@@ -41,6 +41,7 @@ class LineBotService extends LINEBot
 
         $res = parent::pushMessage($to, $messageBuilder);
         $http_status = $res->getHTTPStatus();
+//        $http_status=200;$res=null;
         if ($model instanceof TblPatient) {
             $log_line_message->type = 1;
             $log_line_message->application_type = 2;

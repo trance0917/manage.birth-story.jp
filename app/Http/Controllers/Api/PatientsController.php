@@ -79,7 +79,7 @@ class PatientsController extends Controller
             $tbl_patient->save();
             $mst_maternity = $tbl_patient->mst_maternity;
             $tbl_patient = $patient_service->getPatient($tbl_patient->tbl_patient_id);
-            $line_bot_service = new LineBotService($mst_maternity);
+            $line_bot_service = new LineBotService();
             $line_bot_service->pushMessage($tbl_patient->line_user_id, new TextMessageBuilder('アマゾンギフト('.$tbl_patient->review_point.'pt)のお支払いが完了いたしました。'), $tbl_patient);
             DB::commit();
         } catch (\Throwable $e) {
@@ -156,7 +156,7 @@ class PatientsController extends Controller
             $filesize=1024*200;
             $validator = Validator:: make(['file' => $request->file,], ['file' => 'file|max:'.$filesize.'|mimes:mp4',]);
         }else{
-            $filesize=1024*10;
+            $filesize=1024*1;
             $validator = Validator:: make(['file' => $request->file,], ['file' => 'file|max:'.$filesize.'|mimes:jpg,png',]);
         }
 

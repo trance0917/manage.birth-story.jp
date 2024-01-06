@@ -45,6 +45,12 @@ class PatientsController extends Controller
         $list->onEachSide(5);
         return view('patients.index' ,compact('search_params','list'));
     }
+    public function richmenuImg(TblPatient $tbl_patient,Request $request, PatientService $patient_service){
+        $line_bot_service = new LineBotService();
+        header('Content-Type: image/jpeg');
+        echo $line_bot_service->downloadRichMenuImage($tbl_patient->richmenu_id)->getRawBody();
+    }
+
     public function json(Request $request, PatientService $patient_service)
     {
         $d = $patient_service->getPatient(60);
@@ -53,11 +59,18 @@ class PatientsController extends Controller
 
     public function edit(TblPatient $tbl_patient,Request $request, PatientService $patient_service)
     {
-//        $line_bot_service = new LineBotService();
+        $line_bot_service = new LineBotService();
+
+        $richmenu = $line_bot_service->getRichMenuId($tbl_patient->line_user_id);
+        $richmenu_id = '';
+        if($richmenu->getHTTPStatus()=='200'){
+            $richmenu_id = $richmenu->getJSONDecodedBody()['richMenuId'];
+        }
+
 //        $line_bot_service->pushMessageFollow($tbl_patient);
         $tbl_patient = $patient_service->getPatient($tbl_patient->tbl_patient_id);
 
-        return view('patients.edit' ,compact('tbl_patient'));
+        return view('patients.edit' ,compact('tbl_patient','richmenu_id'));
     }
 
 }

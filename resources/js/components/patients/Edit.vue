@@ -34,7 +34,7 @@
                             <p class="em-input-head">プレゼントの画像</p>
                             <div class="w-[500px]">
                                 <label class="relative" for="present_photoart_path" v-if="!params.tbl_patient.present_photoart_path">
-                                    <div class="aspect-video text-slate-400 text-[16px] bg-slate-100 block text-center border border-dashed border-slate-300 flex items-center justify-center hover:bg-slate-150 cursor-pointer leading-snug"><div><span class="font-bold">画像を設定</span><br /><span class="text-[13px]">拡張子:png,jpg / サイズ:10MB以下</span></div></div>
+                                    <div class="aspect-video text-slate-400 text-[16px] bg-slate-100 block text-center border border-dashed border-slate-300 flex items-center justify-center hover:bg-slate-150 cursor-pointer leading-snug"><div><span class="font-bold">画像を設定</span><br /><span class="text-[13px]">拡張子:png,jpg / サイズ:1MB以下</span></div></div>
                                     <i v-if="'present_photoart_path'==loading_input_key"
                                        class="fa-solid fa-spinner fa-spin text-slate-300 text-[40px] absolute top-[calc(50%-20px)] left-[calc(50%-20px)]"></i>
                                 </label>
@@ -323,9 +323,11 @@
                                 {{params.tbl_patient.line_user_id}}
                             </div>
                         </div>
+                    </div>
 
+                    <div class="flex space-x-[20px]">
                         <div class="em-input-box">
-                            <p class="em-input-head">Richmenu id</p>
+                            <p class="em-input-head">レコードのRichmenu id</p>
                             <div>
                                 <template v-if="params.tbl_patient.richmenu_id">
                                     {{params.tbl_patient.richmenu_id}}
@@ -333,6 +335,23 @@
                                 <template v-else>--</template>
                             </div>
                         </div>
+                        <div class="em-input-box">
+                            <p class="em-input-head">レスポンスされたrichmenu_id</p>
+                            <div>
+                                <template v-if="params.richmenu_id">
+                                    {{params.richmenu_id}}
+                                </template>
+                                <template v-else>--</template>
+                            </div>
+                        </div>
+                        <div class="em-input-box">
+                            <p class="em-input-head">設定中のリッチメニュー</p>
+                            <div>
+                                <img :src="'/patients/'+params.tbl_patient.tbl_patient_id+'/richmenu_img'" width="250" alt="--" />
+                            </div>
+                        </div>
+
+
                     </div>
 
                     <div class="flex space-x-[20px]">
@@ -436,7 +455,7 @@
                                     </video>
                                 </div>
                             </template>
-                            <div class="nothing w-[48.5%]">
+                            <div class="nothing w-[48.5%] m-[5px]">
                                 <div class="text-[14px] font-bold text-center mb-[3px]">入れたい産声</div>
                                 <div class="text-center mt-[3px] py-[2px] border font-bold border-dashed border-slate !text-slate text-[12px] py-[40px] bg-slate-50">未保存</div>
                             </div>
@@ -450,7 +469,7 @@
                                     </video>
                                 </div>
                             </template>
-                            <div class="nothing w-[48.5%]">
+                            <div class="nothing w-[48.5%] m-[5px]">
                                 <div class="text-[14px] font-bold text-center mb-[3px]">動画(横アングル)</div>
                                 <div class="text-center mt-[3px] py-[2px] border font-bold border-dashed border-slate !text-slate text-[12px] py-[40px] bg-slate-50">未保存</div>
                             </div>

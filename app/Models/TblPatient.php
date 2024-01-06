@@ -138,4 +138,12 @@ class TblPatient extends Model
     {
         return $this->working_by;
     }
+    public function getPresentMoviePathUrlAttribute()
+    {
+        return config('app.url').'/storage/patients/'.$this->tbl_patient_id.'_'.$this->code.'/'.$this->present_movie_path;
+    }
+    public function getPresentPhotoartPathUrlAttribute()
+    {
+        return config('app.url').'/storage/patients/'.$this->tbl_patient_id.'_'.$this->code.'/'.$this->present_photoart_path;
+    }
 }
