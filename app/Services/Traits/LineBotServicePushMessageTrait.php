@@ -153,7 +153,7 @@ trait LineBotServicePushMessageTrait
                 'body' => [
                     'type' => 'box', 'layout' => 'vertical','spacing' => 'none', 'margin' => 'none',
                     'contents' => [
-                        ['type' => 'text', 'text' => '高評価ありがとうございました！', 'size' => 'md', 'weight' => 'bold', 'align' => 'center',"wrap" => true],
+                        ['type' => 'text', 'text' => 'レビューをありがとうございました！', 'size' => 'md', 'weight' => 'bold', 'align' => 'center',"wrap" => true],
                         ['type' => 'separator', 'margin' => 'md'],
                         [
                             'type' => 'image',
@@ -162,10 +162,10 @@ trait LineBotServicePushMessageTrait
                             'aspectRatio' => '5:1','size' => '3xl'
                         ],
                         [
-                            'type' => 'text', 'text' => $tbl_patient->mst_maternity->name.'の高評価レビューをありがとうございました！googleレビューへの投稿がお済でなければ、ご対応いただけると嬉しいです。',
+                            'type' => 'text', 'text' => $tbl_patient->mst_maternity->name.'のレビューを提出していただき、ありがとうございました！googleレビューへの投稿がお済でなければ、ご対応いただけると嬉しいです。',
                             'wrap' => true, 'color' => '#555555', 'size' => 'md', 'weight' => 'regular','margin' => 'lg',
                             'contents' => [
-                                ['type' => 'span', 'text' => $tbl_patient->mst_maternity->name."の高評価レビューをありがとうございました！"],
+                                ['type' => 'span', 'text' => $tbl_patient->mst_maternity->name."のレビューを提出していただき、ありがとうございました！"],
                                 ['type' => 'span', 'text' => 'googleレビューへの投稿','decoration' => 'underline', 'weight' => 'bold'],
                                 ['type' => 'span', 'text' => 'がお済でなければ、ご対応いただけると嬉しいです。']
                             ],
