@@ -157,7 +157,8 @@
                     <td class="w-[110px]"><span class="truncate"><template v-if="tbl_patient.name">{{ tbl_patient.name }}</template><template v-else>--</template></span></td>
                     <td class="w-[64px] justify-center" :class="{'font-bold text-green':tbl_patient.is_use_instagram==1,'font-bold text-slate-400':tbl_patient.is_use_instagram==2}">
                         <template v-if="tbl_patient.is_use_instagram==1">許可</template>
-                        <template v-else>不許可</template>
+                        <template v-else-if="tbl_patient.is_use_instagram==2">不許可</template>
+                        <template v-else>--</template>
                     </td>
                     <td class="w-[80px]">
                         <template v-if="tbl_patient.birth_day">{{ tbl_patient.birth_day }}</template>
@@ -176,7 +177,7 @@
                     <td class="w-[64px] justify-end">{{ tbl_patient.review_point }}</td>
 
                     <td class="w-[56px] justify-center" :class="{'font-bold text-red':tbl_patient.payment_status==2,'font-bold text-green':tbl_patient.payment_status==3,'font-bold text-slate-400':tbl_patient.payment_status==4,}">
-                        <span class="tool-tip" v-if="tbl_patient.payment_status==3" :tooltip-data="'支払者：'+tbl_patient.tbl_user_payment_by.name">{{ global.payment_statuses[tbl_patient.payment_status] }}</span>
+                        <span class="tool-tip" v-if="tbl_patient.payment_status==3" :tooltip-data="'支払者：'+(tbl_patient.tbl_user_payment_by!==null?tbl_patient.tbl_user_payment_by.name:'--')">{{ global.payment_statuses[tbl_patient.payment_status] }}</span>
                         <template v-else>{{ global.payment_statuses[tbl_patient.payment_status] }}</template>
                     </td>
                     <td class="w-[92px]">
