@@ -101,7 +101,7 @@ trait LineBotServicePushMessageTrait
 
     public function pushMessagePresentNotReview(TblPatient $tbl_patient){
         $message = [
-            'type' => 'flex', 'altText' => 'お写真の提出が完了しました。',
+            'type' => 'flex', 'altText' => 'アンケートのお願い',
             'contents' => [
                 'type' => 'bubble','size' => 'kilo','direction' => 'ltr',
                 'body' => [
