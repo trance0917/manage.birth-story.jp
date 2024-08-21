@@ -130,7 +130,10 @@ class PatientService{
         $tbl_patient_count = $tbl_patients->count();
 
         $tbl_patient_id_array = [];
-        $tbl_patient_id_ids = $tbl_patients->orderByDESC('tbl_patient_id')->offset($validated['offset'])->limit($validated['limit'])->get();
+        $tbl_patient_id_ids = $tbl_patients->orderByDESC('tbl_patient_id')
+            ->offset($validated['offset'])
+            ->limit($validated['limit'])
+            ->get();
         if (!empty($tbl_patient_id_ids->count())) {
             $tbl_patient_id_array = $tbl_patient_id_ids->pluck('tbl_patient_id')->toArray();
         }

@@ -149,6 +149,29 @@ class PatientsController extends Controller
         ]);
     }
 
+    public function changeDeletedAt(TblPatient $tbl_patient,Request $request,PatientService $patient_service){
+        DB::beginTransaction();
+        try {
+            $tbl_patient->delete();
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollback();
+            Log::error($e);
+            return [
+                'result' => false,
+                'messages' => $e->getMessage(),
+                'errors' => [],
+            ];
+        }
+
+        return response()->json([
+            'result' => $tbl_patient,
+            'messages' => '',
+            'errors' => [],
+        ]);
+    }
+
+
     public function savePresent(TblPatient $tbl_patient,Request $request,PatientService $patient_service){
         $key = $request->key;
 

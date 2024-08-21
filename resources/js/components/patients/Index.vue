@@ -100,112 +100,118 @@
                 <th class="w-[102px]">プレゼント日時</th>
                 <th class="w-[86px]">登録日</th>
                 <th class="w-[86px]">更新日</th>
+                <th class="w-[40px]">--</th>
             </tr>
 
             <template v-if="params.list.length">
-                <tr v-for="(tbl_patient ,tbl_patient_key) in params.list" :class="{'bg-orange-100':tbl_patient.is_highlight}">
-                    <td class="w-[55px]"><a class="text-main hover:underline" :href="'/patients/'+tbl_patient.tbl_patient_id">{{ ('0000'+tbl_patient.tbl_patient_id).slice(-5) }}</a></td>
-                    <td class="w-[100px] justify-center">
-                        <ul class="space-x-[5px] flex">
-                            <template v-if="tbl_patient.completed_at">
-                                <li><span class="bg-green-400 text-white p-[1px_4px]">完成</span></li>
-                            </template>
-                            <template v-else-if="!tbl_patient.submitted_at">
-                                <li><span class="bg-slate-300 text-white p-[1px_4px]">申込待ち</span></li>
-                            </template>
-
-                            <template v-else-if="tbl_patient.submitted_at">
-                                <template v-if="!tbl_patient.working_by">
-                                    <li><span class="text-main underline font-bold cursor-pointer" @click="work_begin(tbl_patient_key)">作業開始</span></li>
+                <template v-for="(tbl_patient ,tbl_patient_key) in params.list" :class="{'bg-orange-100':tbl_patient.is_highlight}">
+                    <tr :class="{'opacity-30':tbl_patient.deleted_at}">
+                        <td class="w-[55px]"><a class="text-main hover:underline" :href="'/patients/'+tbl_patient.tbl_patient_id">{{ ('0000'+tbl_patient.tbl_patient_id).slice(-5) }}</a></td>
+                        <td class="w-[100px] justify-center">
+                            <ul class="space-x-[5px] flex">
+                                <template v-if="tbl_patient.completed_at">
+                                    <li><span class="bg-green-400 text-white p-[1px_4px]">完成</span></li>
                                 </template>
-                                <template v-else>
-                                    <template v-if="tbl_patient.working_by==global.user.tbl_user_id">
-                                        <li><a class="text-main underline font-bold" :href="global.front_app_basic_url+'/dl/'+tbl_patient.code" target="_blank">DL</a></li>
+                                <template v-else-if="!tbl_patient.submitted_at">
+                                    <li><span class="bg-slate-300 text-white p-[1px_4px]">申込待ち</span></li>
+                                </template>
+
+                                <template v-else-if="tbl_patient.submitted_at">
+                                    <template v-if="!tbl_patient.working_by">
+                                        <li><span class="text-main underline font-bold cursor-pointer" @click="work_begin(tbl_patient_key)">作業開始</span></li>
                                     </template>
-                                    <li><span class="text-main underline font-bold cursor-pointer" @click="work_complete(tbl_patient_key)">完了</span></li>
+                                    <template v-else>
+                                        <template v-if="tbl_patient.working_by==global.user.tbl_user_id">
+                                            <li class="mr-[7px]"><a class="text-main underline font-bold" :href="global.front_app_basic_url+'/dl/'+tbl_patient.code" target="_blank">DL</a></li>
+                                        </template>
+                                        <li><span class="text-red underline font-bold cursor-pointer" @click="work_complete(tbl_patient_key)">完了</span></li>
+                                    </template>
                                 </template>
-                            </template>
 
-                            <template v-if="tbl_patient.payment_status==2">
-                                <li class="text-[10px]"><span class="font-bold text-red underline text-bold cursor-pointer" @click="payment_complete(tbl_patient_key)">支払</span></li>
-                            </template>
-                        </ul>
-                    </td>
-                    <td class="w-[230px] justify-center">
-                        <ul class="flex space-x-[3px]">
-                            <li v-if="!tbl_patient.task_retouch_by"><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="写真レタッチ" @click="task_retouch_by_complete(tbl_patient_key)">補正</span></li>
-                            <li v-else><span class="p-[1px_3px] bg-green-400 text-white tool-tip" :tooltip-data="'写真レタッチ：'+tbl_patient.tbl_user_task_retouch_by.name">補正</span></li>
-                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="フォト">フォ</span></li>
-                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="ムービーDVD">DVD</span></li>
-                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="MP4データ">MP4</span></li>
-                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="オーサリング">オサ</span></li>
-                            <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="最終チェック">確認</span></li>
-                        </ul>
-                    </td>
-
+                                <template v-if="tbl_patient.payment_status==2">
+                                    <li class="text-[10px]"><span class="font-bold text-red underline text-bold cursor-pointer" @click="payment_complete(tbl_patient_key)">支払</span></li>
+                                </template>
+                            </ul>
+                        </td>
+                        <td class="w-[230px] justify-center">
+                            <ul class="flex space-x-[3px]">
+                                <li v-if="!tbl_patient.task_retouch_by"><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="写真レタッチ" @click="task_retouch_by_complete(tbl_patient_key)">補正</span></li>
+                                <li v-else><span class="p-[1px_3px] bg-green-400 text-white tool-tip" :tooltip-data="'写真レタッチ：'+tbl_patient.tbl_user_task_retouch_by.name">補正</span></li>
+                                <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="フォト">フォ</span></li>
+                                <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="ムービーDVD">DVD</span></li>
+                                <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="MP4データ">MP4</span></li>
+                                <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="オーサリング">オサ</span></li>
+                                <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="最終チェック">確認</span></li>
+                            </ul>
+                        </td>
 
 
-                    <td class="w-[54px] flex justify-center">
-                        <ul class="flex space-x-[5px]">
-                            <li><i class="fa-regular fa-image text-slate-250" :class="{'!text-green-300':tbl_patient.present_movie_path}"></i></li>
-                            <li><i class="fa-brands fa-youtube text-slate-250" :class="{'!text-green-300':tbl_patient.present_photoart_path}"></i></li>
-                        </ul>
-                    </td>
-                    <td class="w-[90px]"><a class="text-main hover:underline" :href="global.front_url+'/'+tbl_patient.code" target="_blank">{{ tbl_patient.code }}</a></td>
 
-                    <td class="w-[180px]"><span class="truncate">{{ tbl_patient.mst_maternity.name }}</span></td>
-                    <td class="w-[110px]"><span class="truncate"><template v-if="tbl_patient.name">{{ tbl_patient.name }}</template><template v-else>--</template></span></td>
-                    <td class="w-[64px] justify-center" :class="{'font-bold text-green':tbl_patient.is_use_instagram==1,'font-bold text-slate-400':tbl_patient.is_use_instagram==2}">
-                        <template v-if="tbl_patient.is_use_instagram==1">許可</template>
-                        <template v-else-if="tbl_patient.is_use_instagram==2">不許可</template>
-                        <template v-else>--</template>
-                    </td>
-                    <td class="w-[80px]">
-                        <template v-if="tbl_patient.birth_day">{{ tbl_patient.birth_day }}</template>
-                        <template v-else>--</template>
-                    </td>
+                        <td class="w-[54px] flex justify-center">
+                            <ul class="flex space-x-[5px]">
+                                <li><i class="fa-regular fa-image text-slate-250" :class="{'!text-green-300':tbl_patient.present_movie_path}"></i></li>
+                                <li><i class="fa-brands fa-youtube text-slate-250" :class="{'!text-green-300':tbl_patient.present_photoart_path}"></i></li>
+                            </ul>
+                        </td>
+                        <td class="w-[90px]"><a class="text-main hover:underline" :href="global.front_url+'/'+tbl_patient.code" target="_blank">{{ tbl_patient.code }}</a></td>
 
-                    <td class="w-[80px]">
-                        <template v-if="tbl_patient.health_check_date">{{ tbl_patient.health_check_date }}</template>
-                        <template v-else>--</template>
-                    </td>
+                        <td class="w-[180px]"><span class="truncate">{{ tbl_patient.mst_maternity.name }}</span></td>
+                        <td class="w-[110px]"><span class="truncate"><template v-if="tbl_patient.name">{{ tbl_patient.name }}</template><template v-else>--</template></span></td>
+                        <td class="w-[64px] justify-center" :class="{'font-bold text-green':tbl_patient.is_use_instagram==1,'font-bold text-slate-400':tbl_patient.is_use_instagram==2}">
+                            <template v-if="tbl_patient.is_use_instagram==1">許可</template>
+                            <template v-else-if="tbl_patient.is_use_instagram==2">不許可</template>
+                            <template v-else>--</template>
+                        </td>
+                        <td class="w-[80px]">
+                            <template v-if="tbl_patient.birth_day">{{ tbl_patient.birth_day }}</template>
+                            <template v-else>--</template>
+                        </td>
 
-                    <td class="w-[92px]">
-                        <span class="tool-tip" :tooltip-data="tbl_patient.submitted_at">{{ short_date(tbl_patient.submitted_at) }}</span>
-                    </td>
+                        <td class="w-[80px]">
+                            <template v-if="tbl_patient.health_check_date">{{ tbl_patient.health_check_date }}</template>
+                            <template v-else>--</template>
+                        </td>
 
-                    <td class="w-[64px] justify-end">{{ tbl_patient.review_point }}</td>
+                        <td class="w-[92px]">
+                            <span class="tool-tip" :tooltip-data="tbl_patient.submitted_at">{{ short_date(tbl_patient.submitted_at) }}</span>
+                        </td>
 
-                    <td class="w-[56px] justify-center" :class="{'font-bold text-red':tbl_patient.payment_status==2,'font-bold text-green':tbl_patient.payment_status==3,'font-bold text-slate-400':tbl_patient.payment_status==4,}">
-                        <span class="tool-tip" v-if="tbl_patient.payment_status==3" :tooltip-data="'支払者：'+(tbl_patient.tbl_user_payment_by!==null?tbl_patient.tbl_user_payment_by.name:'--')">{{ global.payment_statuses[tbl_patient.payment_status] }}</span>
-                        <template v-else>{{ global.payment_statuses[tbl_patient.payment_status] }}</template>
-                    </td>
-                    <td class="w-[92px]">
-                        <span class="tool-tip" :tooltip-data="tbl_patient.undertook_at">{{ short_date(tbl_patient.undertook_at) }}</span>
-                    </td>
+                        <td class="w-[64px] justify-end">{{ tbl_patient.review_point }}</td>
 
-                    <td class="w-[90px] !p-0"
-                        v-if="tbl_patient.submitted_at">
-                        <select class="em-input-small w-40 !border-0 !text-[12px] !bg-transparent" v-model="tbl_patient.working_by" @change="change_working_by($event,tbl_patient_key)" :disabled="tbl_patient.completed_at">
-                            <option v-for="(user,user_key) in params.users" :value="user.tbl_user_id">{{user.name}}</option>
-                        </select>
-                    </td>
-                    <td class="w-[90px]" v-else>--</td>
+                        <td class="w-[56px] justify-center" :class="{'font-bold text-red':tbl_patient.payment_status==2,'font-bold text-green':tbl_patient.payment_status==3,'font-bold text-slate-400':tbl_patient.payment_status==4,}">
+                            <span class="tool-tip" v-if="tbl_patient.payment_status==3" :tooltip-data="'支払者：'+(tbl_patient.tbl_user_payment_by!==null?tbl_patient.tbl_user_payment_by.name:'--')">{{ global.payment_statuses[tbl_patient.payment_status] }}</span>
+                            <template v-else>{{ global.payment_statuses[tbl_patient.payment_status] }}</template>
+                        </td>
+                        <td class="w-[92px]">
+                            <span class="tool-tip" :tooltip-data="tbl_patient.undertook_at">{{ short_date(tbl_patient.undertook_at) }}</span>
+                        </td>
+
+                        <td class="w-[90px] !p-0"
+                            v-if="tbl_patient.submitted_at">
+                            <select class="em-input-small w-40 !border-0 !text-[12px] !bg-transparent" v-model="tbl_patient.working_by" @change="change_working_by($event,tbl_patient_key)" :disabled="tbl_patient.completed_at">
+                                <option v-for="(user,user_key) in params.users" :value="user.tbl_user_id">{{user.name}}</option>
+                            </select>
+                        </td>
+                        <td class="w-[90px]" v-else>--</td>
 
 
-                    <td class="w-[92px]">
-                        <span class="tool-tip" :tooltip-data="tbl_patient.completed_at">{{ short_date(tbl_patient.completed_at) }}</span>
-                    </td>
-                    <td class="w-[102px]">
-                        <span class="tool-tip" :tooltip-data="tbl_patient.presented_at">{{ short_date(tbl_patient.presented_at) }}</span>
-                    </td>
-                    <td class="w-[86px]">
-                        <span class="tool-tip" :tooltip-data="tbl_patient.created_at">{{ short_date(tbl_patient.created_at) }}</span>
-                    </td>
-                    <td class="w-[86px]">
-                        <span class="tool-tip" :tooltip-data="tbl_patient.updated_at">{{ short_date(tbl_patient.updated_at) }}</span>
-                    </td>
-                </tr>
+                        <td class="w-[92px]">
+                            <span class="tool-tip" :tooltip-data="tbl_patient.completed_at">{{ short_date(tbl_patient.completed_at) }}</span>
+                        </td>
+                        <td class="w-[102px]">
+                            <span class="tool-tip" :tooltip-data="tbl_patient.presented_at">{{ short_date(tbl_patient.presented_at) }}</span>
+                        </td>
+                        <td class="w-[86px]">
+                            <span class="tool-tip" :tooltip-data="tbl_patient.created_at">{{ short_date(tbl_patient.created_at) }}</span>
+                        </td>
+                        <td class="w-[86px]">
+                            <span class="tool-tip" :tooltip-data="tbl_patient.updated_at">{{ short_date(tbl_patient.updated_at) }}</span>
+                        </td>
+                        <td class="w-[40px]">
+                            <a class="text-[10px] hover:underline" href="javascript:void(0);" @click="change_deleted_at(tbl_patient_key)">削除</a>
+                        </td>
+                    </tr>
+                </template>
             </template>
             <tr v-else>
                 <td colspan="100" class="p-5 w-full">該当データなし</td>
@@ -426,6 +432,25 @@ export default {
                     }
                 ).then((response) => {//リクエストの成功
                     this.params.list[tbl_patient_key] = response.data.result;
+                }).catch((error) => {//リクエストの失敗
+                    alert('エラーが発生しました\n正しく完了していない可能性があります。');
+                }).finally(() => {
+                    this.params.list[tbl_patient_key].is_highlight = false;
+                });
+            }else{
+                this.params.list[tbl_patient_key].is_highlight = false;
+            }
+        },
+
+        async change_deleted_at(tbl_patient_key){
+                this.params.list[tbl_patient_key].is_highlight = true;
+            if(window.confirm(this.params.list[tbl_patient_key].name+'さんのデータを削除します。\nよろしいですか？')) {
+                await axios.post('/api/v1/g/patient/'+this.params.list[tbl_patient_key].tbl_patient_id+'/change_deleted_at'+'?api_token='+global.api_token,
+                    {
+                        tbl_patient_id:this.params.list[tbl_patient_key].tbl_patient_id,
+                    }
+                ).then((response) => {//リクエストの成功
+                    this.params.list[tbl_patient_key].deleted_at = response.data.result.deleted_at;
                 }).catch((error) => {//リクエストの失敗
                     alert('エラーが発生しました\n正しく完了していない可能性があります。');
                 }).finally(() => {
