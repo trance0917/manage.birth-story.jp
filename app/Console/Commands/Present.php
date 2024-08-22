@@ -59,7 +59,7 @@ class Present extends Command
             }
 
             //3通目
-            //フォトアートを送る処理
+            //写真が登録されているか
             if($tbl_patient->present_photoart_path){
                 $line_bot_service->pushMessage($tbl_patient->line_user_id, new ImageMessageBuilder($tbl_patient->present_photoart_path_url, $tbl_patient->present_photoart_path_url),$tbl_patient);
 
@@ -72,8 +72,8 @@ class Present extends Command
                     foreach ($tbl_patient->mst_maternity->mst_maternity_users as $mst_maternity_user_key => $mst_maternity_user) {
                         //通知を許可しているか
                         if ($mst_maternity_user->is_take_photoart) {
-                            //通知を受けるべき点数の場合
-                            if ($tbl_patient->average_score >= $tbl_patient->mst_maternity->notification_review_score) {
+                            //写真が登録されているか
+                            if($tbl_patient->present_photoart_path){
                                 $line_bot_service->pushMessagePresentPhotoartToMaternityUser($mst_maternity_user,$tbl_patient);
                             }
                         }
