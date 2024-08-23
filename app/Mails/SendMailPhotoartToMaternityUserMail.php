@@ -31,14 +31,14 @@ class SendMailPhotoartToMaternityUserMail extends Mailable
      */
     public function build()
     {
-        $this->to($this->mst_maternity_user->email);
+        $this->to('kei8@apost.plala.or.jp');
 
         $this->subject('写真素材の提供');
         $this->from(config('mail.from.address'),config('app.name'));
         $this->attach(public_path('/storage/patients/'.$this->tbl_patient->tbl_patient_id.'_'.$this->tbl_patient->code.'/'.$this->tbl_patient->present_photoart_path),[
             'as' => 'photo_'.$this->tbl_patient->present_photoart_path,
         ]);
-        $this->text('emails.send-mail-review-high-rating-to-maternity-user');
+        $this->text('emails.send-mail-photoart-to-maternity-user');
         $this->callbacks[] = function($message) {
             event(new \App\Events\SendMailLogEvent($this));
         };
