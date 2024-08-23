@@ -31,7 +31,7 @@ class SendMailPhotoartToMaternityUserMail extends Mailable
      */
     public function build()
     {
-        $this->to('kei8@apost.plala.or.jp');
+        $this->to($this->mst_maternity_user->email);
 
         $this->subject('写真素材の提供');
         $this->from(config('mail.from.address'),config('app.name'));
