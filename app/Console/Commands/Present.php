@@ -75,6 +75,7 @@ class Present extends Command
                             //写真が登録されているか
                             if($tbl_patient->present_photoart_path){
                                 $line_bot_service->pushMessagePresentPhotoartToMaternityUser($mst_maternity_user,$tbl_patient);
+                                event(new \App\Events\SendMailPhotoartToMaternityUserEvent($mst_maternity_user,$tbl_patient));
                             }
                         }
                     }

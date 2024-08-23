@@ -34,7 +34,9 @@ class MstMaternityUser extends Model
 	protected $casts = [
 		'mst_maternity_id' => 'int',
 		'is_review_notification' => 'int',
-		'is_take_photoart' => 'int'
+		'is_take_photoart' => 'int',
+        'is_send_line' => 'int',
+        'is_send_mail' => 'int',
 	];
 
 	protected $fillable = [
@@ -42,6 +44,8 @@ class MstMaternityUser extends Model
 		'name',
 		'line_user_id',
 		'is_review_notification',
-		'is_take_photoart'
+		'is_take_photoart',
+        'is_send_line',
+        'is_send_mail',
 	];
 }
