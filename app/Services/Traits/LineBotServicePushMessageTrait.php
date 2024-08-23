@@ -96,7 +96,7 @@ trait LineBotServicePushMessageTrait
 
     public function pushMessagePresentPhotoartToMaternityUser(MstMaternityUser $mst_maternity_user,TblPatient $tbl_patient){
         $this->pushMessage($mst_maternity_user->line_user_id, new ImageMessageBuilder($tbl_patient->present_photoart_path_url, $tbl_patient->present_photoart_path_url),$mst_maternity_user);
-            $this->pushMessage($mst_maternity_user->line_user_id, new TextMessageBuilder($tbl_patient->name.'さまにプレゼントしたお写真です。(instagramの掲載:可能)'), $mst_maternity_user);
+        $this->pushMessage($mst_maternity_user->line_user_id, new TextMessageBuilder($tbl_patient->name.'さまにプレゼントしたお写真です。(instagramの掲載:可能)'), $mst_maternity_user);
     }
 
     public function pushMessagePresentNotReview(TblPatient $tbl_patient){
