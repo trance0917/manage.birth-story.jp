@@ -176,7 +176,7 @@ class PatientsController extends Controller
         $key = $request->key;
 
         if($key=='present_movie_path'){
-            $filesize=1024*200;
+            $filesize=1024*400;
             $validator = Validator:: make(['file' => $request->file,], ['file' => 'file|max:'.$filesize.'|mimes:mp4',]);
         }else{
             $filesize=1024*1;
