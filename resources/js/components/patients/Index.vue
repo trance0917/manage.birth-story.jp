@@ -92,8 +92,9 @@
                 <th class="w-[80px]">出産日</th>
                 <th class="w-[80px]">健診予定日</th>
                 <th class="w-[92px]">申込完了日時</th>
-                <th class="w-[64px]">ポイント</th>
-                <th class="w-[56px]">支払</th>
+                <th class="w-[92px]">LINE名</th>
+<!--                <th class="w-[64px]">ポイント</th>-->
+<!--                <th class="w-[56px]">支払</th>-->
                 <th class="w-[92px]">作業開始日時</th>
                 <th class="w-[90px]">担当者</th>
                 <th class="w-[92px]">作業完了日時</th>
@@ -175,13 +176,19 @@
                         <td class="w-[92px]">
                             <span class="tool-tip" :tooltip-data="tbl_patient.submitted_at">{{ short_date(tbl_patient.submitted_at) }}</span>
                         </td>
-
-                        <td class="w-[64px] justify-end">{{ tbl_patient.review_point }}</td>
-
-                        <td class="w-[56px] justify-center" :class="{'font-bold text-red':tbl_patient.payment_status==2,'font-bold text-green':tbl_patient.payment_status==3,'font-bold text-slate-400':tbl_patient.payment_status==4,}">
-                            <span class="tool-tip" v-if="tbl_patient.payment_status==3" :tooltip-data="'支払者：'+(tbl_patient.tbl_user_payment_by!==null?tbl_patient.tbl_user_payment_by.name:'--')">{{ global.payment_statuses[tbl_patient.payment_status] }}</span>
-                            <template v-else>{{ global.payment_statuses[tbl_patient.payment_status] }}</template>
+                        <td class="w-[92px]">
+                            <span class="truncate">
+                            <template v-if="tbl_patient.line_name">{{ tbl_patient.line_name }}</template>
+                            <template v-else>--</template>
+                            </span>
                         </td>
+
+<!--                        <td class="w-[64px] justify-end">{{ tbl_patient.review_point }}</td>-->
+
+<!--                        <td class="w-[56px] justify-center" :class="{'font-bold text-red':tbl_patient.payment_status==2,'font-bold text-green':tbl_patient.payment_status==3,'font-bold text-slate-400':tbl_patient.payment_status==4,}">-->
+<!--                            <span class="tool-tip" v-if="tbl_patient.payment_status==3" :tooltip-data="'支払者：'+(tbl_patient.tbl_user_payment_by!==null?tbl_patient.tbl_user_payment_by.name:'&#45;&#45;')">{{ global.payment_statuses[tbl_patient.payment_status] }}</span>-->
+<!--                            <template v-else>{{ global.payment_statuses[tbl_patient.payment_status] }}</template>-->
+<!--                        </td>-->
                         <td class="w-[92px]">
                             <span class="tool-tip" :tooltip-data="tbl_patient.undertook_at">{{ short_date(tbl_patient.undertook_at) }}</span>
                         </td>
