@@ -510,15 +510,21 @@ export default {
             let name = tbl_patient.name ? tbl_patient.name:'';
             let roman_alphabet = tbl_patient.roman_alphabet ? tbl_patient.roman_alphabet : '';
             let baby_roman_alphabet = tbl_patient.baby_roman_alphabet ? tbl_patient.baby_roman_alphabet : '';
-            let birth_day = tbl_patient.birth_day ? tbl_patient.birth_day :'';
+            let birth_day = tbl_patient.birth_day ? tbl_patient.birth_day : '';
+            let birth_time = tbl_patient.birth_time ? tbl_patient.birth_time : '';
+
+            let weight = tbl_patient.weight ? tbl_patient.weight : '';
+            let height = tbl_patient.height ? tbl_patient.height : '';
+
             let health_check_date = tbl_patient.health_check_date ? tbl_patient.health_check_date : '';
+
             let use_instagram = '';
             if(tbl_patient.is_use_instagram=='1'){
                 use_instagram = '〇';
             }else{
                 use_instagram = '×';
             }
-            txt = code + '\t' + name + '\t' + roman_alphabet + '\t' + '\t' + baby_roman_alphabet + '\t' + birth_day + '\t' + '\t' + '\t' + health_check_date + '\t' + use_instagram;
+            txt = code + '\t' + name + '\t' + roman_alphabet + '\t' + '\t' + baby_roman_alphabet + '\t' + birth_day + '\t' + birth_time + '\t' + weight + '\t' + height + '\t' + health_check_date + '\t' + use_instagram;
             navigator.clipboard.writeText(txt).then(
                 () => {
                     // コピーに成功したときの処理
