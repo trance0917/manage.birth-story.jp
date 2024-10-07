@@ -82,13 +82,16 @@
             <tbody>
             <tr>
                 <th class="w-[55px]">#</th>
+
                 <th class="w-[100px]">状態</th>
-                <th class="w-[230px]">進捗</th>
+                <th class="w-[180px]">ママの名前</th>
+
+
                 <th class="w-[54px]"><i class="fa-solid fa-gift"></i></th>
                 <th class="w-[90px]">コード</th>
                 <th class="w-[34px]"><i class="fa-solid fa-copy"></i></th>
-                <th class="w-[180px]">産院</th>
-                <th class="w-[110px]">ママの名前</th>
+                <th class="w-[120px]">産院</th>
+
                 <th class="w-[64px]">インスタ</th>
                 <th class="w-[80px]">出産日</th>
                 <th class="w-[80px]">健診予定日</th>
@@ -100,6 +103,9 @@
                 <th class="w-[90px]">担当者</th>
                 <th class="w-[92px]">作業完了日時</th>
                 <th class="w-[102px]">プレゼント日時</th>
+
+                <th class="w-[230px]">進捗</th>
+
                 <th class="w-[86px]">登録日</th>
                 <th class="w-[86px]">更新日</th>
                 <th class="w-[40px]">--</th>
@@ -135,19 +141,15 @@
                                 </template>
                             </ul>
                         </td>
-                        <td class="w-[230px] justify-center">
-                            <ul class="flex space-x-[3px]">
-                                <li v-if="!tbl_patient.task_retouch_by"><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="写真レタッチ" @click="task_retouch_by_complete(tbl_patient_key)">補正</span></li>
-                                <li v-else><span class="p-[1px_3px] bg-green-400 text-white tool-tip" :tooltip-data="'写真レタッチ：'+tbl_patient.tbl_user_task_retouch_by.name">補正</span></li>
-                                <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="フォト">フォ</span></li>
-                                <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="ムービーDVD">DVD</span></li>
-                                <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="MP4データ">MP4</span></li>
-                                <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="オーサリング">オサ</span></li>
-                                <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="最終チェック">確認</span></li>
-                            </ul>
+
+
+                        <td class="w-[180px]" :tooltip-data="tbl_patient.undertook_at">
+                            <span class="truncate">
+                                <template v-if="tbl_patient.name">{{ tbl_patient.name }}</template><template v-else>--</template>
+                                (<template v-if="tbl_patient.roman_alphabet">{{ tbl_patient.roman_alphabet }}</template><template v-else>--</template>)
+                            </span>
+
                         </td>
-
-
 
                         <td class="w-[54px] flex justify-center">
                             <ul class="flex space-x-[5px]">
@@ -163,8 +165,8 @@
                                 ></i>
                         </td>
 
-                        <td class="w-[180px]"><span class="truncate">{{ tbl_patient.mst_maternity.name }}</span></td>
-                        <td class="w-[110px]"><span class="truncate"><template v-if="tbl_patient.name">{{ tbl_patient.name }}</template><template v-else>--</template></span></td>
+                        <td class="w-[120px]"><span class="truncate">{{ tbl_patient.mst_maternity.name }}</span></td>
+
                         <td class="w-[64px] justify-center" :class="{'font-bold text-green':tbl_patient.is_use_instagram==1,'font-bold text-slate-400':tbl_patient.is_use_instagram==2}">
                             <template v-if="tbl_patient.is_use_instagram==1">許可</template>
                             <template v-else-if="tbl_patient.is_use_instagram==2">不許可</template>
@@ -214,6 +216,17 @@
                         </td>
                         <td class="w-[102px]">
                             <span class="tool-tip" :tooltip-data="tbl_patient.presented_at">{{ short_date(tbl_patient.presented_at) }}</span>
+                        </td>
+                        <td class="w-[230px] justify-center">
+                            <ul class="flex space-x-[3px]">
+                                <li v-if="!tbl_patient.task_retouch_by"><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="写真レタッチ" @click="task_retouch_by_complete(tbl_patient_key)">補正</span></li>
+                                <li v-else><span class="p-[1px_3px] bg-green-400 text-white tool-tip" :tooltip-data="'写真レタッチ：'+tbl_patient.tbl_user_task_retouch_by.name">補正</span></li>
+                                <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="フォト">フォ</span></li>
+                                <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="ムービーDVD">DVD</span></li>
+                                <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="MP4データ">MP4</span></li>
+                                <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="オーサリング">オサ</span></li>
+                                <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="最終チェック">確認</span></li>
+                            </ul>
                         </td>
                         <td class="w-[86px]">
                             <span class="tool-tip" :tooltip-data="tbl_patient.created_at">{{ short_date(tbl_patient.created_at) }}</span>

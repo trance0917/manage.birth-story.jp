@@ -33,14 +33,14 @@
       "assets/fa-brands-400-5656d596.ttf"
     ],
     "css": [
-      "assets/app-d384c865.css"
+      "assets/app-996efad9.css"
     ],
-    "file": "assets/app-d43921a2.js",
+    "file": "assets/app-1d7982fe.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
   "resources/scss/app.scss": {
-    "file": "assets/app-d384c865.css",
+    "file": "assets/app-996efad9.css",
     "isEntry": true,
     "src": "resources/scss/app.scss"
   }
