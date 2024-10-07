@@ -86,6 +86,7 @@
                 <th class="w-[230px]">進捗</th>
                 <th class="w-[54px]"><i class="fa-solid fa-gift"></i></th>
                 <th class="w-[90px]">コード</th>
+                <th class="w-[34px]"><i class="fa-solid fa-copy"></i></th>
                 <th class="w-[180px]">産院</th>
                 <th class="w-[110px]">ママの名前</th>
                 <th class="w-[64px]">インスタ</th>
@@ -155,6 +156,12 @@
                             </ul>
                         </td>
                         <td class="w-[90px]"><a class="text-main hover:underline" :href="global.front_url+'/'+tbl_patient.code" target="_blank">{{ tbl_patient.code }}</a></td>
+
+                        <td class="w-[34px] flex justify-center">
+                                <i class="absolute fa-regular fa-copy text-slate-600 hover:cursor-pointer hover:text-slate-400 active:text-white active:bg-green p-[5px_9px] rounded-sm"
+                                   @click="text_copy(tbl_patient_key)"
+                                ></i>
+                        </td>
 
                         <td class="w-[180px]"><span class="truncate">{{ tbl_patient.mst_maternity.name }}</span></td>
                         <td class="w-[110px]"><span class="truncate"><template v-if="tbl_patient.name">{{ tbl_patient.name }}</template><template v-else>--</template></span></td>
@@ -493,6 +500,33 @@ export default {
             let hour = date.getHours().toString().padStart(2, '0');
             let minute = date.getMinutes().toString().padStart(2, '0');
             return month+'-'+day+' '+''+hour+':'+minute;
+        },
+
+        text_copy:function(tbl_patient_key){
+            let tbl_patient = this.params.list[tbl_patient_key];
+            let txt = '';
+
+            let code = tbl_patient.code;
+            let name = tbl_patient.name ? tbl_patient.name:'';
+            let roman_alphabet = tbl_patient.roman_alphabet ? tbl_patient.roman_alphabet : '';
+            let baby_roman_alphabet = tbl_patient.baby_roman_alphabet ? tbl_patient.baby_roman_alphabet : '';
+            let birth_day = tbl_patient.birth_day ? tbl_patient.birth_day :'';
+            let health_check_date = tbl_patient.health_check_date ? tbl_patient.health_check_date : '';
+            let use_instagram = '';
+            if(tbl_patient.is_use_instagram=='1'){
+                use_instagram = '〇';
+            }else{
+                use_instagram = '×';
+            }
+            txt = code + '\t' + name + '\t' + roman_alphabet + '\t' + '\t' + baby_roman_alphabet + '\t' + birth_day + '\t' + '\t' + '\t' + health_check_date + '\t' + use_instagram;
+            navigator.clipboard.writeText(txt).then(
+                () => {
+                    // コピーに成功したときの処理
+                },
+                () => {
+                    // コピーに失敗したときの処理
+                });
+
         }
     },
     watch:{
