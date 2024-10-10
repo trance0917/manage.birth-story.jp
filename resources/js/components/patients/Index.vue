@@ -93,7 +93,7 @@
                 <th class="w-[120px]">産院</th>
 
                 <th class="w-[64px]">インスタ</th>
-                <th class="w-[64px]">レビュー</th>
+                <th class="w-[54px]">review</th>
 
                 <th class="w-[80px]">出産日</th>
                 <th class="w-[80px]">健診予定日</th>
@@ -175,9 +175,9 @@
                             <template v-else>--</template>
                         </td>
 
-                        <td class="w-[64px] justify-center">
+                        <td class="w-[54px] justify-center">
                             <ul class="space-x-[3px] flex">
-                                <li><i class="fa-solid fa-star text-star"></i></li>
+                                <li><i class="fa-solid fa-star text-slate-250" :class="{'text-star':tbl_patient.reviewed_at}"></i></li>
                                 <li :class="{'hidden':!tbl_patient.reviewed_at}">
                                     <i class="!inline fa-brands fa-google p-[2px_3px] rounded border cursor-pointer"
                                         :class="{
