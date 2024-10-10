@@ -86,10 +86,13 @@ class Present extends Command
 
                 //4通目
                 //アンケート有り＋高評価時のメッセージ
-                if($tbl_patient->tbl_patient_reviews->count()){
-                    //回答している場合
+                if($tbl_patient->reviewed_at){
+                    //規定以上で回答している場合
                     if($tbl_patient->average_score >= $tbl_patient->mst_maternity->minimum_review_score){
-                        $line_bot_service->pushMessagePresentHighScoreReview($tbl_patient);
+                        //Googleクチコミをまだ確認できていない場合
+                        if(!$tbl_patient->is_google_review){
+                            $line_bot_service->pushMessagePresentHighScoreReview($tbl_patient);
+                        }
                     }
                 }else{
                     //回答していない場合
