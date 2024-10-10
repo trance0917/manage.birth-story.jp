@@ -182,7 +182,7 @@
                                     <i class="!inline fa-brands fa-google p-[2px_3px] rounded border cursor-pointer"
                                         :class="{
                                             'text-white bg-google border-google':tbl_patient.is_google_review,
-                                            'text-google/80 hover:bg-google/20 hover:border-google/40':!tbl_patient.is_google_review
+                                            'text-slate-350 hover:bg-slate-200 border-slate-300':!tbl_patient.is_google_review
                                         }"
 
 
