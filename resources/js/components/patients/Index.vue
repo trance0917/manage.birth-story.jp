@@ -48,7 +48,7 @@
 
         <dl class="em-filter-box">
             <div class="em-filter-box-item">
-                <dt class="w-22">登録日:</dt>
+                <dt class="w-14">登録日:</dt>
                 <dd><input class="em-input-small w-28" type="date" name="tbl_patients[created_at][from]" :max="params.search_params.tbl_patients.created_at.to" v-model="params.search_params.tbl_patients.created_at.from" />
                     ～
                     <input class="em-input-small w-28" type="date" name="tbl_patients[created_at][to]" :min="params.search_params.tbl_patients.created_at.from" v-model="params.search_params.tbl_patients.created_at.to" /></dd>
@@ -93,6 +93,8 @@
                 <th class="w-[120px]">産院</th>
 
                 <th class="w-[64px]">インスタ</th>
+                <th class="w-[64px]">レビュー</th>
+
                 <th class="w-[80px]">出産日</th>
                 <th class="w-[80px]">健診予定日</th>
                 <th class="w-[92px]">申込完了日時</th>
@@ -172,6 +174,25 @@
                             <template v-else-if="tbl_patient.is_use_instagram==2">不許可</template>
                             <template v-else>--</template>
                         </td>
+
+                        <td class="w-[64px] justify-center">
+                            <ul class="space-x-[3px] flex">
+                                <li><i class="fa-solid fa-star text-star"></i></li>
+                                <li :class="{'hidden':!tbl_patient.reviewed_at}">
+                                    <i class="!inline fa-brands fa-google p-[2px_3px] rounded border cursor-pointer"
+                                        :class="{
+                                            'text-white bg-google border-google':tbl_patient.is_google_review,
+                                            'text-google/80 hover:bg-google/20 hover:border-google/40':!tbl_patient.is_google_review
+                                        }"
+
+
+                                       @click="change_is_google_review(tbl_patient_key)">
+                                    </i>
+                                </li>
+
+                            </ul>
+                        </td>
+
                         <td class="w-[80px]">
                             <template v-if="tbl_patient.birth_day">{{ tbl_patient.birth_day }}</template>
                             <template v-else>--</template>
@@ -469,6 +490,8 @@ export default {
             }
         },
 
+
+
         async change_deleted_at(tbl_patient_key){
                 this.params.list[tbl_patient_key].is_highlight = true;
             if(window.confirm(this.params.list[tbl_patient_key].name+'さんのデータを削除します。\nよろしいですか？')) {
@@ -478,6 +501,33 @@ export default {
                     }
                 ).then((response) => {//リクエストの成功
                     this.params.list[tbl_patient_key].deleted_at = response.data.result.deleted_at;
+                }).catch((error) => {//リクエストの失敗
+                    alert('エラーが発生しました\n正しく完了していない可能性があります。');
+                }).finally(() => {
+                    this.params.list[tbl_patient_key].is_highlight = false;
+                });
+            }else{
+                this.params.list[tbl_patient_key].is_highlight = false;
+            }
+        },
+
+        async change_is_google_review(tbl_patient_key){
+            this.params.list[tbl_patient_key].is_highlight = true;
+            let txt = '';
+            if(!this.params.list[tbl_patient_key].is_google_review){
+                txt = this.params.list[tbl_patient_key].name+'さんのGoogleレビューを確認しました。\nチェックしますか？';
+            }else{
+                txt = this.params.list[tbl_patient_key].name+'さんのGoogleレビューを取り消します。\nよろしいですか？';
+            }
+
+            if(window.confirm(txt)) {
+                await axios.post('/api/v1/g/patient/'+this.params.list[tbl_patient_key].tbl_patient_id+'/change_is_google_review'+'?api_token='+global.api_token,
+                    {
+                        tbl_patient_id:this.params.list[tbl_patient_key].tbl_patient_id,
+                        is_google_review:this.params.list[tbl_patient_key].is_google_review
+                    }
+                ).then((response) => {//リクエストの成功
+                    this.params.list[tbl_patient_key].is_google_review = response.data.result.is_google_review;
                 }).catch((error) => {//リクエストの失敗
                     alert('エラーが発生しました\n正しく完了していない可能性があります。');
                 }).finally(() => {

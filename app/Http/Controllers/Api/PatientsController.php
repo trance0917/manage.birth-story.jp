@@ -170,6 +170,34 @@ class PatientsController extends Controller
             'errors' => [],
         ]);
     }
+    public function changeIsGoogleReview(TblPatient $tbl_patient,Request $request,PatientService $patient_service){
+        DB::beginTransaction();
+        try {
+            if($request->is_google_review){
+                $tbl_patient->is_google_review=0;
+            }else{
+                $tbl_patient->is_google_review=1;
+            }
+            $tbl_patient->save();
+
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollback();
+            Log::error($e);
+            return [
+                'result' => false,
+                'messages' => $e->getMessage(),
+                'errors' => [],
+            ];
+        }
+
+        return response()->json([
+            'result' => $tbl_patient,
+            'messages' => '',
+            'errors' => [],
+        ]);
+    }
+
 
 
     public function savePresent(TblPatient $tbl_patient,Request $request,PatientService $patient_service){

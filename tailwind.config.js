@@ -101,6 +101,12 @@ module.exports = {
                     150:'#eaeff5',
                     250:'#d9e1ea',
                     350:'#b0bccd',
+                },
+                google:{
+                    DEFAULT: '#4285F4',
+                },
+                star:{
+                    DEFAULT: '#f8bf04',
                 }
             },
 

@@ -23,6 +23,8 @@ Route::prefix('v1/g')->group(function () {
         Route::post('/patient/{tbl_patient}/change_working_by', [PatientsController::class, 'changeWorkingBy']);
         Route::post('/patient/{tbl_patient}/task_retouch_by_complete', [PatientsController::class, 'taskRetouchByComplete']);
         Route::post('/patient/{tbl_patient}/change_deleted_at', [PatientsController::class, 'changeDeletedAt']);
+        Route::post('/patient/{tbl_patient}/change_is_google_review', [PatientsController::class, 'changeIsGoogleReview']);
+
         Route::post('/patient/{tbl_patient}/save_present', [PatientsController::class, 'savePresent']);
     });
 });
