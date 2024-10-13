@@ -14,6 +14,12 @@
                     <option v-for="(is_use_instagram,is_use_instagram_key) in global.is_use_instagrams" :value="is_use_instagram_key">{{is_use_instagram}}</option>
                 </select></dd>
             </div>
+            <div class="em-filter-box-item">
+                <dt class="w-19">申込済:</dt>
+                <ul class="flex space-x-0.5">
+                    <li><input type="checkbox" id="submitted_at" true-value="1" value="1" name="tbl_patients[submitted_at][isnotnull]" v-model="params.search_params.tbl_patients.submitted_at.isnotnull" /><label for="submitted_at">申込済</label></li>
+                </ul>
+            </div>
 
         </dl><!--end em-filter-box-->
         <dl class="em-filter-box">
@@ -53,7 +59,12 @@
                     ～
                     <input class="em-input-small w-28" type="date" name="tbl_patients[created_at][to]" :min="params.search_params.tbl_patients.created_at.from" v-model="params.search_params.tbl_patients.created_at.to" /></dd>
             </div>
+            <div class="em-filter-box-item">
+                <dt class="w-14">出産日:</dt>
+                <dd><input class="em-input-small w-28" type="date" name="tbl_patients[birth_day][in][]" v-model="params.search_params.tbl_patients.birth_day.in[0]" /></dd>
+            </div>
         </dl><!--end em-filter-box-->
+
         <dl class="em-filter-box flex items-end">
             <div class="em-filter-box-item">
                 <button class="em-btn px-7 py-1.5 bg-orange" type="submit" @click="submit">検索</button>
@@ -85,7 +96,8 @@
 
                 <th class="w-[100px]">状態</th>
                 <th class="w-[180px]">ママの名前</th>
-
+                <th class="w-[80px]">出産日</th>
+                <th class="w-[80px]">健診予定日</th>
 
                 <th class="w-[54px]"><i class="fa-solid fa-gift"></i></th>
                 <th class="w-[90px]">コード</th>
@@ -95,8 +107,6 @@
                 <th class="w-[64px]">インスタ</th>
                 <th class="w-[54px]">review</th>
 
-                <th class="w-[80px]">出産日</th>
-                <th class="w-[80px]">健診予定日</th>
                 <th class="w-[92px]">申込完了日時</th>
                 <th class="w-[92px]">LINE名</th>
 <!--                <th class="w-[64px]">ポイント</th>-->
@@ -116,7 +126,9 @@
             <template v-if="params.list.length">
                 <template v-for="(tbl_patient ,tbl_patient_key) in params.list" :class="{'bg-orange-100':tbl_patient.is_highlight}">
                     <tr :class="{'opacity-30':tbl_patient.deleted_at}">
+                        <!--#-->
                         <td class="w-[55px]"><a class="text-main hover:underline" :href="'/patients/'+tbl_patient.tbl_patient_id">{{ ('0000'+tbl_patient.tbl_patient_id).slice(-5) }}</a></td>
+                        <!--状態-->
                         <td class="w-[100px] justify-center">
                             <ul class="space-x-[5px] flex">
                                 <template v-if="tbl_patient.completed_at">
@@ -144,37 +156,55 @@
                             </ul>
                         </td>
 
-
+                        <!--ママの名前-->
                         <td class="w-[180px]" :tooltip-data="tbl_patient.undertook_at">
                             <span class="truncate">
                                 <template v-if="tbl_patient.name">{{ tbl_patient.name }}</template><template v-else>--</template>
                                 (<template v-if="tbl_patient.roman_alphabet">{{ tbl_patient.roman_alphabet }}</template><template v-else>--</template>)
                             </span>
-
                         </td>
 
+                        <!--出産日-->
+                        <td class="w-[80px]">
+                            <template v-if="tbl_patient.birth_day">{{ tbl_patient.birth_day }}</template>
+                            <template v-else>--</template>
+                        </td>
+
+                        <!--健診予定日-->
+                        <td class="w-[80px]">
+                            <template v-if="tbl_patient.health_check_date">{{ tbl_patient.health_check_date }}</template>
+                            <template v-else>--</template>
+                        </td>
+
+                        <!--fa-gift-->
                         <td class="w-[54px] flex justify-center">
                             <ul class="flex space-x-[5px]">
                                 <li><i class="fa-regular fa-image text-slate-250" :class="{'!text-green-300':tbl_patient.present_movie_path}"></i></li>
                                 <li><i class="fa-brands fa-youtube text-slate-250" :class="{'!text-green-300':tbl_patient.present_photoart_path}"></i></li>
                             </ul>
                         </td>
+
+                        <!--コード-->
                         <td class="w-[90px]"><a class="text-main hover:underline" :href="global.front_url+'/'+tbl_patient.code" target="_blank">{{ tbl_patient.code }}</a></td>
 
+                        <!--fa-copy-->
                         <td class="w-[34px] flex justify-center">
                                 <i class="absolute fa-regular fa-copy text-slate-600 hover:cursor-pointer hover:text-slate-400 active:text-white active:bg-green p-[5px_9px] rounded-sm"
                                    @click="text_copy(tbl_patient_key)"
                                 ></i>
                         </td>
 
+                        <!--産院-->
                         <td class="w-[120px]"><span class="truncate">{{ tbl_patient.mst_maternity.name }}</span></td>
 
+                        <!--インスタ-->
                         <td class="w-[64px] justify-center" :class="{'font-bold text-green':tbl_patient.is_use_instagram==1,'font-bold text-slate-400':tbl_patient.is_use_instagram==2}">
                             <template v-if="tbl_patient.is_use_instagram==1">許可</template>
                             <template v-else-if="tbl_patient.is_use_instagram==2">不許可</template>
                             <template v-else>--</template>
                         </td>
 
+                        <!--review-->
                         <td class="w-[54px] justify-center">
                             <ul class="space-x-[3px] flex">
                                 <li><i class="fa-solid fa-star text-slate-250" :class="{'text-star':tbl_patient.reviewed_at}"></i></li>
@@ -184,8 +214,6 @@
                                             'text-white bg-google border-google':tbl_patient.is_google_review,
                                             'text-slate-350 hover:bg-slate-200 border-slate-300':!tbl_patient.is_google_review
                                         }"
-
-
                                        @click="change_is_google_review(tbl_patient_key)">
                                     </i>
                                 </li>
@@ -193,19 +221,14 @@
                             </ul>
                         </td>
 
-                        <td class="w-[80px]">
-                            <template v-if="tbl_patient.birth_day">{{ tbl_patient.birth_day }}</template>
-                            <template v-else>--</template>
-                        </td>
 
-                        <td class="w-[80px]">
-                            <template v-if="tbl_patient.health_check_date">{{ tbl_patient.health_check_date }}</template>
-                            <template v-else>--</template>
-                        </td>
 
+                        <!--申込完了日時-->
                         <td class="w-[92px]">
                             <span class="tool-tip" :tooltip-data="tbl_patient.submitted_at">{{ short_date(tbl_patient.submitted_at) }}</span>
                         </td>
+
+                        <!--LINE名-->
                         <td class="w-[92px]">
                             <span class="truncate">
                             <template v-if="tbl_patient.line_name">{{ tbl_patient.line_name }}</template>
@@ -219,10 +242,13 @@
 <!--                            <span class="tool-tip" v-if="tbl_patient.payment_status==3" :tooltip-data="'支払者：'+(tbl_patient.tbl_user_payment_by!==null?tbl_patient.tbl_user_payment_by.name:'&#45;&#45;')">{{ global.payment_statuses[tbl_patient.payment_status] }}</span>-->
 <!--                            <template v-else>{{ global.payment_statuses[tbl_patient.payment_status] }}</template>-->
 <!--                        </td>-->
+
+                        <!--作業開始日時-->
                         <td class="w-[92px]">
                             <span class="tool-tip" :tooltip-data="tbl_patient.undertook_at">{{ short_date(tbl_patient.undertook_at) }}</span>
                         </td>
 
+                        <!--担当者-->
                         <td class="w-[90px] !p-0"
                             v-if="tbl_patient.submitted_at">
                             <select class="em-input-small w-40 !border-0 !text-[12px] !bg-transparent" v-model="tbl_patient.working_by" @change="change_working_by($event,tbl_patient_key)" :disabled="tbl_patient.completed_at">
@@ -232,12 +258,17 @@
                         <td class="w-[90px]" v-else>--</td>
 
 
+                        <!--作業完了日時-->
                         <td class="w-[92px]">
                             <span class="tool-tip" :tooltip-data="tbl_patient.completed_at">{{ short_date(tbl_patient.completed_at) }}</span>
                         </td>
+
+                        <!--プレゼント日時-->
                         <td class="w-[102px]">
                             <span class="tool-tip" :tooltip-data="tbl_patient.presented_at">{{ short_date(tbl_patient.presented_at) }}</span>
                         </td>
+
+                        <!--進捗-->
                         <td class="w-[230px] justify-center">
                             <ul class="flex space-x-[3px]">
                                 <li v-if="!tbl_patient.task_retouch_by"><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="写真レタッチ" @click="task_retouch_by_complete(tbl_patient_key)">補正</span></li>
@@ -249,12 +280,18 @@
                                 <li><span class="cursor-pointer p-[1px_3px] bg-slate-300 text-white tool-tip hover:bg-slate-400" tooltip-data="最終チェック">確認</span></li>
                             </ul>
                         </td>
+
+                        <!--登録日-->
                         <td class="w-[86px]">
                             <span class="tool-tip" :tooltip-data="tbl_patient.created_at">{{ short_date(tbl_patient.created_at) }}</span>
                         </td>
+
+                        <!--更新日-->
                         <td class="w-[86px]">
                             <span class="tool-tip" :tooltip-data="tbl_patient.updated_at">{{ short_date(tbl_patient.updated_at) }}</span>
                         </td>
+
+                        <!------>
                         <td class="w-[40px]">
                             <a class="text-[10px] hover:underline" href="javascript:void(0);" @click="change_deleted_at(tbl_patient_key)">削除</a>
                         </td>
@@ -307,6 +344,14 @@ export default {
                         from: '',
                         to: '',
                     },
+                    birth_day: {
+                        in: [],
+                    },
+                    submitted_at: {
+                        isnotnull: null,
+                    },
+
+
                 },
 
 

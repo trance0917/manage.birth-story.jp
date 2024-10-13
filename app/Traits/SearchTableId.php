@@ -106,6 +106,12 @@ trait SearchTableId
                         } else {
                             $table->whereNotNull($search_column);
                         }
+                    } else if ($method == 'isnotnull') {
+                        if ($values) {
+                            $table->whereNotNull($search_column);
+                        } else {
+                            $table->whereNull($search_column);
+                        }
                     }
                 }
             }

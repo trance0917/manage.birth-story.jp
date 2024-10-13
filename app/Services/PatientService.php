@@ -40,6 +40,10 @@ class PatientService{
             'search_params.tbl_patients.working_by.in.*' => 'nullable|integer',
             'search_params.tbl_patients.created_at.from' => 'nullable|date',
             'search_params.tbl_patients.created_at.to' => 'nullable|date',
+            'search_params.tbl_patients.birth_day.in.*' => 'nullable|date',
+
+            'search_params.tbl_patients.submitted_at.isnotnull' => 'nullable|boolean',
+
             //mst_material_idを取得する
 //            'search_params.mst_product_categories.mst_product_category_id.in.*' => 'nullable|integer',
 //            'search_params.mst_material_groups.mst_material_group_id.in.*' => 'nullable|integer',
