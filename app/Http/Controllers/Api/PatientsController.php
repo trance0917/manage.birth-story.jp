@@ -198,6 +198,14 @@ class PatientsController extends Controller
         ]);
     }
 
+    public function sendLine(TblPatient $tbl_patient,Request $request,PatientService $patient_service){
+        $line_bot_service = new LineBotService();
+        $res = $line_bot_service->pushMessage($tbl_patient->line_user_id, new TextMessageBuilder($request->line_text), $tbl_patient);
+        return response()->json([],$res->getHTTPStatus());
+    }
+
+
+
 
 
     public function savePresent(TblPatient $tbl_patient,Request $request,PatientService $patient_service){
