@@ -61,7 +61,9 @@
             </div>
             <div class="em-filter-box-item">
                 <dt class="w-14">出産日:</dt>
-                <dd><input class="em-input-small w-28" type="date" name="tbl_patients[birth_day][in][]" v-model="params.search_params.tbl_patients.birth_day.in[0]" /></dd>
+                <dd><input class="em-input-small w-28" type="date" name="tbl_patients[birth_day][from]" :max="params.search_params.tbl_patients.birth_day.to" v-model="params.search_params.tbl_patients.birth_day.from" />
+                    ～
+                    <input class="em-input-small w-28" type="date" name="tbl_patients[birth_day][to]" :min="params.search_params.tbl_patients.birth_day.from" v-model="params.search_params.tbl_patients.birth_day.to" /></dd>
             </div>
         </dl><!--end em-filter-box-->
 
@@ -96,13 +98,13 @@
 
                 <th class="w-[100px]">状態</th>
                 <th class="w-[180px]">ママの名前</th>
-                <th class="w-[80px]">出産日</th>
-                <th class="w-[80px]">健診予定日</th>
+                <th class="w-[68px]">出産日</th>
+                <th class="w-[68px]">予定日</th>
 
                 <th class="w-[54px]"><i class="fa-solid fa-gift"></i></th>
-                <th class="w-[90px]">コード</th>
+                <th class="w-[80px]">コード</th>
                 <th class="w-[34px]"><i class="fa-solid fa-copy"></i></th>
-                <th class="w-[120px]">産院</th>
+                <th class="w-[100px]">産院</th>
 
                 <th class="w-[64px]">インスタ</th>
                 <th class="w-[54px]">review</th>
@@ -165,15 +167,13 @@
                         </td>
 
                         <!--出産日-->
-                        <td class="w-[80px]">
-                            <template v-if="tbl_patient.birth_day">{{ tbl_patient.birth_day }}</template>
-                            <template v-else>--</template>
+                        <td class="w-[68px]">
+                            <span class="tool-tip" :tooltip-data="tbl_patient.birth_day">{{ short_day(tbl_patient.birth_day) }}</span>
                         </td>
 
                         <!--健診予定日-->
-                        <td class="w-[80px]">
-                            <template v-if="tbl_patient.health_check_date">{{ tbl_patient.health_check_date }}</template>
-                            <template v-else>--</template>
+                        <td class="w-[68px]">
+                            <span class="tool-tip" :tooltip-data="tbl_patient.health_check_date">{{ short_day(tbl_patient.health_check_date) }}</span>
                         </td>
 
                         <!--fa-gift-->
@@ -185,7 +185,7 @@
                         </td>
 
                         <!--コード-->
-                        <td class="w-[90px]"><a class="text-main hover:underline" :href="global.front_url+'/'+tbl_patient.code" target="_blank">{{ tbl_patient.code }}</a></td>
+                        <td class="w-[80px]"><a class="text-main hover:underline" :href="global.front_url+'/'+tbl_patient.code" target="_blank">{{ tbl_patient.code }}</a></td>
 
                         <!--fa-copy-->
                         <td class="w-[34px] flex justify-center">
@@ -195,7 +195,7 @@
                         </td>
 
                         <!--産院-->
-                        <td class="w-[120px]"><span class="truncate">{{ tbl_patient.mst_maternity.name }}</span></td>
+                        <td class="w-[100px]"><span class="truncate">{{ tbl_patient.mst_maternity.name }}</span></td>
 
                         <!--インスタ-->
                         <td class="w-[64px] justify-center" :class="{'font-bold text-green':tbl_patient.is_use_instagram==1,'font-bold text-slate-400':tbl_patient.is_use_instagram==2}">
@@ -345,7 +345,8 @@ export default {
                         to: '',
                     },
                     birth_day: {
-                        in: [],
+                        from: '',
+                        to: '',
                     },
                     submitted_at: {
                         isnotnull: null,
@@ -608,6 +609,16 @@ export default {
             let hour = date.getHours().toString().padStart(2, '0');
             let minute = date.getMinutes().toString().padStart(2, '0');
             return month+'-'+day+' '+''+hour+':'+minute;
+        },
+        short_day:function(day_str){
+            if(!day_str){
+                return '--';
+            }
+            let date = new Date(day_str);
+            let year = ("" + date.getFullYear()).slice(-2);
+            let month = (date.getMonth()+1).toString().padStart(2, '0');
+            let day = date.getDate().toString().padStart(2, '0');
+            return year+'-'+month+'-'+day;
         },
 
         text_copy:function(tbl_patient_key){

@@ -40,7 +40,8 @@ class PatientService{
             'search_params.tbl_patients.working_by.in.*' => 'nullable|integer',
             'search_params.tbl_patients.created_at.from' => 'nullable|date',
             'search_params.tbl_patients.created_at.to' => 'nullable|date',
-            'search_params.tbl_patients.birth_day.in.*' => 'nullable|date',
+            'search_params.tbl_patients.birth_day.from' => 'nullable|date',
+            'search_params.tbl_patients.birth_day.to' => 'nullable|date',
 
             'search_params.tbl_patients.submitted_at.isnotnull' => 'nullable|boolean',
 

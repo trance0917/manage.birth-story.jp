@@ -21,7 +21,7 @@ class PatientsController extends Controller
         $search_params = $request->all();
 
         $search_params['page'] = $search_params['page'] ?? 1;
-        $search_params['per'] = $search_params['per'] ?? 20;
+        $search_params['per'] = $search_params['per'] ?? 50;
 
         $data = $patient_service->getPatientIds(
             $search_params['per']
