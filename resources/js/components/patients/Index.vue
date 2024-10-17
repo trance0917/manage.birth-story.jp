@@ -15,9 +15,13 @@
                 </select></dd>
             </div>
             <div class="em-filter-box-item">
-                <dt class="w-19">申込済:</dt>
-                <ul class="flex space-x-0.5">
+                <dt class="w-19">抽出:</dt>
+                <ul class="flex gap-0.5 max-w-[150px] flex-wrap">
                     <li><input type="checkbox" id="submitted_at" true-value="1" value="1" name="tbl_patients[submitted_at][isnotnull]" v-model="params.search_params.tbl_patients.submitted_at.isnotnull" /><label for="submitted_at">申込済</label></li>
+                    <li><input type="checkbox" id="undertook_at" true-value="1" value="1" name="tbl_patients[undertook_at][isnotnull]" v-model="params.search_params.tbl_patients.undertook_at.isnotnull" /><label for="undertook_at">作業開始</label></li>
+                    <li><input type="checkbox" id="completed_at" true-value="1" value="1" name="tbl_patients[completed_at][isnotnull]" v-model="params.search_params.tbl_patients.completed_at.isnotnull" /><label for="completed_at">完了</label></li>
+                    <li><input type="checkbox" id="reviewed_at" true-value="1" value="1" name="tbl_patients[reviewed_at][isnotnull]" v-model="params.search_params.tbl_patients.reviewed_at.isnotnull" /><label for="reviewed_at">アンケ済</label></li>
+                    <li><input type="checkbox" id="is_google_review" true-value="1" value="1" name="tbl_patients[is_google_review][in][]" v-model="params.search_params.tbl_patients.is_google_review.in[0]" /><label for="is_google_review">GR確認</label></li>
                 </ul>
             </div>
 
@@ -97,11 +101,12 @@
                 <th class="w-[55px]">#</th>
 
                 <th class="w-[100px]">状態</th>
+                <th class="w-[54px]"><i class="fa-solid fa-gift"></i></th>
+
                 <th class="w-[180px]">ママの名前</th>
                 <th class="w-[68px]">出産日</th>
                 <th class="w-[68px]">予定日</th>
 
-                <th class="w-[54px]"><i class="fa-solid fa-gift"></i></th>
                 <th class="w-[80px]">コード</th>
                 <th class="w-[34px]"><i class="fa-solid fa-copy"></i></th>
                 <th class="w-[100px]">産院</th>
@@ -127,7 +132,7 @@
 
             <template v-if="params.list.length">
                 <template v-for="(tbl_patient ,tbl_patient_key) in params.list" :class="{'bg-orange-100':tbl_patient.is_highlight}">
-                    <tr :class="{'opacity-30':tbl_patient.deleted_at}">
+                    <tr :class="{'opacity-30':tbl_patient.deleted_at,'bg-slate-150':tbl_patient.undertook_at}">
                         <!--#-->
                         <td class="w-[55px]"><a class="text-main hover:underline" :href="'/patients/'+tbl_patient.tbl_patient_id">{{ ('0000'+tbl_patient.tbl_patient_id).slice(-5) }}</a></td>
                         <!--状態-->
@@ -158,6 +163,14 @@
                             </ul>
                         </td>
 
+                        <!--fa-gift-->
+                        <td class="w-[54px] flex justify-center">
+                            <ul class="flex space-x-[5px]">
+                                <li><i class="fa-regular fa-image text-slate-250" :class="{'!text-green-300':tbl_patient.present_movie_path}"></i></li>
+                                <li><i class="fa-brands fa-youtube text-slate-250" :class="{'!text-green-300':tbl_patient.present_photoart_path}"></i></li>
+                            </ul>
+                        </td>
+
                         <!--ママの名前-->
                         <td class="w-[180px]" :tooltip-data="tbl_patient.undertook_at">
                             <span class="truncate">
@@ -176,22 +189,14 @@
                             <span class="tool-tip" :tooltip-data="tbl_patient.health_check_date">{{ short_day(tbl_patient.health_check_date) }}</span>
                         </td>
 
-                        <!--fa-gift-->
-                        <td class="w-[54px] flex justify-center">
-                            <ul class="flex space-x-[5px]">
-                                <li><i class="fa-regular fa-image text-slate-250" :class="{'!text-green-300':tbl_patient.present_movie_path}"></i></li>
-                                <li><i class="fa-brands fa-youtube text-slate-250" :class="{'!text-green-300':tbl_patient.present_photoart_path}"></i></li>
-                            </ul>
-                        </td>
-
                         <!--コード-->
                         <td class="w-[80px]"><a class="text-main hover:underline" :href="global.front_url+'/'+tbl_patient.code" target="_blank">{{ tbl_patient.code }}</a></td>
 
                         <!--fa-copy-->
                         <td class="w-[34px] flex justify-center">
-                                <i class="absolute fa-regular fa-copy text-slate-600 hover:cursor-pointer hover:text-slate-400 active:text-white active:bg-green p-[5px_9px] rounded-sm"
-                                   @click="text_copy(tbl_patient_key)"
-                                ></i>
+                            <i class="absolute fa-regular fa-copy text-slate-600 hover:cursor-pointer hover:text-slate-400 active:text-white active:bg-green p-[5px_9px] rounded-sm"
+                               @click="text_copy(tbl_patient_key)"
+                            ></i>
                         </td>
 
                         <!--産院-->
@@ -205,11 +210,11 @@
                         </td>
 
                         <!--review-->
-                        <td class="w-[54px] justify-center">
+                        <td class="w-[54px] justify-center relative" >
                             <ul class="space-x-[3px] flex">
-                                <li><i class="fa-solid fa-star text-slate-250" :class="{'text-star':tbl_patient.reviewed_at}"></i></li>
+                                <li><i class="fa-solid fa-star text-slate-250 text-[10px]" :class="{'text-star':tbl_patient.reviewed_at}"></i></li>
                                 <li :class="{'hidden':!tbl_patient.reviewed_at}">
-                                    <i class="!inline fa-brands fa-google p-[2px_3px] rounded border cursor-pointer"
+                                    <i class="!inline text-[10px] fa-brands fa-google p-[2px_3px_3px] rounded border cursor-pointer"
                                         :class="{
                                             'text-white bg-google border-google':tbl_patient.is_google_review,
                                             'text-slate-350 hover:bg-slate-200 border-slate-300':!tbl_patient.is_google_review
@@ -217,8 +222,8 @@
                                        @click="change_is_google_review(tbl_patient_key)">
                                     </i>
                                 </li>
-
                             </ul>
+                            <i v-if="tbl_patient.present_after_notified_at" class="absolute text-red right-[2px] bottom-[2px] text-[8px] fa-solid fa-volume-high"></i>
                         </td>
 
 
@@ -351,6 +356,22 @@ export default {
                     submitted_at: {
                         isnotnull: null,
                     },
+                    undertook_at: {
+                        isnotnull: null,
+                    },
+                    completed_at: {
+                        isnotnull: null,
+                    },
+                    reviewed_at: {
+                        isnotnull: null,
+                    },
+                    is_google_review: {
+                        in: [],
+                    },
+
+
+
+
 
 
                 },

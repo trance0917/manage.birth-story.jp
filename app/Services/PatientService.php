@@ -44,6 +44,11 @@ class PatientService{
             'search_params.tbl_patients.birth_day.to' => 'nullable|date',
 
             'search_params.tbl_patients.submitted_at.isnotnull' => 'nullable|boolean',
+            'search_params.tbl_patients.undertook_at.isnotnull' => 'nullable|boolean',
+            'search_params.tbl_patients.completed_at.isnotnull' => 'nullable|boolean',
+            'search_params.tbl_patients.reviewed_at.isnotnull' => 'nullable|boolean',
+
+            'search_params.tbl_patients.is_google_review.in.*' => 'nullable|integer',
 
             //mst_material_idを取得する
 //            'search_params.mst_product_categories.mst_product_category_id.in.*' => 'nullable|integer',
@@ -206,6 +211,8 @@ class PatientService{
             'task_retouch_by',
             'present_movie_path',
             'present_photoart_path',
+            'present_after_notified_at',
+            'is_present_after_notified',
             'completed_at',
             'presented_at',
             'memo',
@@ -277,6 +284,8 @@ class PatientService{
             'task_retouch_by',
             'present_movie_path',
             'present_photoart_path',
+            'present_after_notified_at',
+            'is_present_after_notified',
             'completed_at',
             'presented_at',
             'memo',

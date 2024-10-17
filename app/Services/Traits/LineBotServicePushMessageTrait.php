@@ -147,13 +147,13 @@ trait LineBotServicePushMessageTrait
     }
     public function pushMessagePresentHighScoreReview(TblPatient $tbl_patient){
         $message = [
-            'type' => 'flex', 'altText' => '出産記念プレゼントです',
+            'type' => 'flex', 'altText' => 'バースストーリーからのお願い✨',
             'contents' => [
-                'type' => 'bubble', 'size' => 'kilo', 'direction' => 'ltr',
+                'type' => 'bubble', 'size' => 'mega', 'direction' => 'ltr',
                 'body' => [
                     'type' => 'box', 'layout' => 'vertical','spacing' => 'none', 'margin' => 'none',
                     'contents' => [
-                        ['type' => 'text', 'text' => 'レビューをありがとうございました！', 'size' => 'md', 'weight' => 'bold', 'align' => 'center',"wrap" => true],
+                        ['type' => 'text', 'text' => 'バースストーリーからのお願い✨', 'size' => 'md', 'weight' => 'bold', 'align' => 'center',"wrap" => true],
                         ['type' => 'separator', 'margin' => 'md'],
                         [
                             'type' => 'image',
@@ -161,25 +161,30 @@ trait LineBotServicePushMessageTrait
                             'margin' => 'lg', 'offsetTop' => '0px', 'offsetBottom' => '0px', 'offsetStart' => '0px', 'offsetEnd' => '0px',
                             'aspectRatio' => '5:1','size' => '3xl'
                         ],
-                        [
-                            'type' => 'text', 'text' => $tbl_patient->mst_maternity->name.'のレビューを提出していただき、ありがとうございました！googleレビューへの投稿がお済でなければ、ご対応いただけると嬉しいです。',
-                            'wrap' => true, 'color' => '#555555', 'size' => 'md', 'weight' => 'regular','margin' => 'lg',
-                            'contents' => [
-                                ['type' => 'span', 'text' => $tbl_patient->mst_maternity->name."のレビューを提出していただき、ありがとうございました！"],
-                                ['type' => 'span', 'text' => 'googleレビューへの投稿','decoration' => 'underline', 'weight' => 'bold'],
-                                ['type' => 'span', 'text' => 'がお済でなければ、ご対応いただけると嬉しいです。']
-                            ],
-                        ],
-                        [
-                            'type' => 'text',
-                            'text' => '下記のボタンから、レビューをコピーして30秒で投稿ができます。',
-                            'wrap' => true,
-                            'contents' => [
-                                ['type' => 'span', 'text' => '下記のボタンから、'],
-                                ['type' => 'span','text' => 'レビューをコピーして30秒で投稿','decoration' => 'underline', 'weight' => 'bold'],
-                                ['type' => 'span', 'text' => 'ができます。']
-                            ],
 
+                        [
+                            'type' => 'text', 'text' => '素敵な思い出を作る機会をいただきまして、ありがとうございます✨',
+                            'wrap' => true, 'color' => '#555555', 'size' => 'md', 'weight' => 'regular','margin' => 'lg',
+                        ],
+
+                        [
+                            'type' => 'text', 'text' => 'バースストーリーからお願いがあります🙏',
+                            'wrap' => true, 'color' => '#555555', 'size' => 'md', 'weight' => 'regular','margin' => 'md',
+                        ],
+
+                        [
+                            'type' => 'text', 'text' => '以前に書いていただいたレビューをそのまま投稿していただけませんでしょうか？',
+                            'wrap' => true, 'color' => '#555555', 'size' => 'md', 'weight' => 'regular','margin' => 'md',
+                        ],
+
+                        [
+                            'type' => 'text', 'text' => '実際にご利用されたママさまからのレビューは、今後ご利用されるママさんにとってとても重要です😉',
+                            'wrap' => true, 'color' => '#555555', 'size' => 'md', 'weight' => 'regular','margin' => 'md',
+                        ],
+
+                        [
+                            'type' => 'text', 'text' => '産院様も、私たちもGoogleレビューをいただけると非常にうれしいので、お手すきの際にぜひお願いいたします🙏',
+                            'wrap' => true, 'color' => '#555555', 'size' => 'md', 'weight' => 'regular','margin' => 'md',
                         ]
                     ]
                 ],
@@ -187,11 +192,16 @@ trait LineBotServicePushMessageTrait
                     'type' => 'box', 'layout' => 'vertical','margin' => 'none', 'spacing' => 'none',
                     'contents' => [
                         [
-                            'type' => 'button', 'style' => 'primary', 'color' => '#F68CA9', 'margin' => 'none','height' => 'sm',
+                            'type' => 'button', 'style' => 'primary', 'color' => '#F68CA9', 'margin' => 'none','height' => 'md',
                             'action' => [
-                                'type' => 'uri', 'label' => 'コピーして投稿する',
+                                'type' => 'uri', 'label' => 'レビューの確認',
                                 'uri' => config('birthstory.front_app_url') . '/' . $tbl_patient->code . '/?openExternalBrowser=1'
                             ]
+                        ],
+
+                        [
+                            'type' => 'text', 'text' => '✨タップして貼り付けるだけ✨',
+                            'wrap' => true, 'color' => '#888888', 'size' => 'sm', 'weight' => 'regular','margin' => 'md', 'align' => 'center',
                         ]
                     ]
                 ]

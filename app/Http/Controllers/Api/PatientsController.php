@@ -198,14 +198,19 @@ class PatientsController extends Controller
         ]);
     }
 
-    public function sendLine(TblPatient $tbl_patient,Request $request,PatientService $patient_service){
-        $line_bot_service = new LineBotService();
+    public function sendLine(TblPatient $tbl_patient,Request $request,LineBotService $line_bot_service){
         $res = $line_bot_service->pushMessage($tbl_patient->line_user_id, new TextMessageBuilder($request->line_text), $tbl_patient);
         return response()->json([],$res->getHTTPStatus());
     }
 
 
+    public function googleReviewRemind(TblPatient $tbl_patient,Request $request,LineBotService $line_bot_service){
+        $line_bot_service->pushMessagePresentHighScoreReview($tbl_patient);
 
+
+//        $res = $line_bot_service->pushMessage($tbl_patient->line_user_id, new TextMessageBuilder($request->line_text), $tbl_patient);
+        return response()->json([],$res->getHTTPStatus());
+    }
 
 
     public function savePresent(TblPatient $tbl_patient,Request $request,PatientService $patient_service){
@@ -215,7 +220,7 @@ class PatientsController extends Controller
             $filesize=1024*400;
             $validator = Validator:: make(['file' => $request->file,], ['file' => 'file|max:'.$filesize.'|mimes:mp4',]);
         }else{
-            $filesize=1024*1;
+            $filesize=1024*2;
             $validator = Validator:: make(['file' => $request->file,], ['file' => 'file|max:'.$filesize.'|mimes:jpg,png',]);
         }
 
@@ -229,7 +234,6 @@ class PatientsController extends Controller
 
         DB::beginTransaction();
         try {
-
             $file = $request->file;
             if ($file instanceof UploadedFile) {
                 $directory_path = 'public/patients/'.$tbl_patient->tbl_patient_id.'_'.$tbl_patient->code;

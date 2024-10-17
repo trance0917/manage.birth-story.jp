@@ -12,7 +12,7 @@
                                 <p class="em-input-head">プレゼントの動画</p>
                                 <div class="w-[500px]">
                                     <label class="relative" for="present_movie_path" v-if="!params.tbl_patient.present_movie_path">
-                                        <div class="aspect-video text-slate-400 text-[16px] bg-slate-100 block text-center border border-dashed border-slate-300 flex items-center justify-center hover:bg-slate-150 cursor-pointer leading-snug"><div><span class="font-bold">動画を設定</span><br /><span class="text-[13px]">拡張子:mp4 / サイズ:200MB以下</span></div></div>
+                                        <div class="aspect-video text-slate-400 text-[16px] bg-slate-100 block text-center border border-dashed border-slate-300 flex items-center justify-center hover:bg-slate-150 cursor-pointer leading-snug"><div><span class="font-bold">動画を設定</span><br /><span class="text-[13px]">拡張子:mp4 / サイズ:400MB以下</span></div></div>
                                         <i v-if="'present_movie_path'==loading_input_key"
                                            class="fa-solid fa-spinner fa-spin text-slate-300 text-[40px] absolute top-[calc(50%-20px)] left-[calc(50%-20px)]"></i>
                                     </label>
@@ -33,7 +33,7 @@
                                 <p class="em-input-head">プレゼントの画像</p>
                                 <div class="w-[500px]">
                                     <label class="relative" for="present_photoart_path" v-if="!params.tbl_patient.present_photoart_path">
-                                        <div class="aspect-video text-slate-400 text-[16px] bg-slate-100 block text-center border border-dashed border-slate-300 flex items-center justify-center hover:bg-slate-150 cursor-pointer leading-snug"><div><span class="font-bold">画像を設定</span><br /><span class="text-[13px]">拡張子:png,jpg / サイズ:1MB以下</span></div></div>
+                                        <div class="aspect-video text-slate-400 text-[16px] bg-slate-100 block text-center border border-dashed border-slate-300 flex items-center justify-center hover:bg-slate-150 cursor-pointer leading-snug"><div><span class="font-bold">画像を設定</span><br /><span class="text-[13px]">拡張子:png,jpg / サイズ:2MB以下</span></div></div>
                                         <i v-if="'present_photoart_path'==loading_input_key"
                                            class="fa-solid fa-spinner fa-spin text-slate-300 text-[40px] absolute top-[calc(50%-20px)] left-[calc(50%-20px)]"></i>
                                     </label>
@@ -479,6 +479,8 @@
                 </div>
             </div>
         </div>
+
+        <button class="em-btn px-[20px] py-[4px] bg-orange" type="submit" @click="test_line">テストライン</button>
     </div>
 
 </template>
@@ -562,7 +564,20 @@ export default {
                     this.line_text='';
                 });
             }
+        },
+        async test_line(){
+            if(window.confirm(this.params.tbl_patient.name+'さんにテストライン送信します。\nよろしいですか？')) {
+                await axios.post('/api/v1/g/patient/'+this.params.tbl_patient.tbl_patient_id+'/google_review_remind'+'?api_token='+global.api_token,
+                    {}
+                ).then((response) => {//リクエストの成功
+                    alert('送信が成功しました。');
+                }).catch((error) => {//リクエストの失敗
+                    alert('エラーが発生しました\n正しく送信できていない可能性があります。');
+                }).finally(() => {
+                });
+            }
         }
+
     },
     watch:{
         // 'params.search_params.mst_material_groups.mst_material_group_id.in.0':function (e){

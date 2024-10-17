@@ -91,7 +91,7 @@ class Present extends Command
                     if($tbl_patient->average_score >= $tbl_patient->mst_maternity->minimum_review_score){
                         //Googleクチコミをまだ確認できていない場合
                         if(!$tbl_patient->is_google_review){
-                            $line_bot_service->pushMessagePresentHighScoreReview($tbl_patient);
+//                            $line_bot_service->pushMessagePresentHighScoreReview($tbl_patient);
                         }
                     }
                 }else{
