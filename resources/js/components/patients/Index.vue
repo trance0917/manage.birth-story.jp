@@ -41,6 +41,8 @@
                     <option v-for="(user,user_key) in params.users" :value="user.tbl_user_id">{{user.name}}</option>
                 </select></dd>
             </div>
+
+
 <!--            <div class="em-filter-box-item">-->
 <!--                <dt class="w-16">割引:</dt>-->
 <!--                <ul class="flex space-x-0.5">-->
@@ -58,16 +60,31 @@
 
         <dl class="em-filter-box">
             <div class="em-filter-box-item">
-                <dt class="w-14">登録日:</dt>
-                <dd><input class="em-input-small w-28" type="date" name="tbl_patients[created_at][from]" :max="params.search_params.tbl_patients.created_at.to" v-model="params.search_params.tbl_patients.created_at.from" />
+                <dt class="w-14">出産日:</dt>
+                <dd><input class="em-input-small w-28" type="date" name="tbl_patients[birth_day][date_from]" :max="params.search_params.tbl_patients.birth_day.date_to" v-model="params.search_params.tbl_patients.birth_day.date_from" />
                     ～
-                    <input class="em-input-small w-28" type="date" name="tbl_patients[created_at][to]" :min="params.search_params.tbl_patients.created_at.from" v-model="params.search_params.tbl_patients.created_at.to" /></dd>
+                    <input class="em-input-small w-28" type="date" name="tbl_patients[birth_day][date_to]" :min="params.search_params.tbl_patients.birth_day.date_from" v-model="params.search_params.tbl_patients.birth_day.date_to" /></dd>
             </div>
             <div class="em-filter-box-item">
-                <dt class="w-14">出産日:</dt>
-                <dd><input class="em-input-small w-28" type="date" name="tbl_patients[birth_day][from]" :max="params.search_params.tbl_patients.birth_day.to" v-model="params.search_params.tbl_patients.birth_day.from" />
+                <dt class="w-14">健診日:</dt>
+                <dd><input class="em-input-small w-28" type="date" name="tbl_patients[health_check_date][date_from]" :max="params.search_params.tbl_patients.health_check_date.date_to" v-model="params.search_params.tbl_patients.health_check_date.date_from" />
                     ～
-                    <input class="em-input-small w-28" type="date" name="tbl_patients[birth_day][to]" :min="params.search_params.tbl_patients.birth_day.from" v-model="params.search_params.tbl_patients.birth_day.to" /></dd>
+                    <input class="em-input-small w-28" type="date" name="tbl_patients[health_check_date][date_to]" :min="params.search_params.tbl_patients.health_check_date.date_from" v-model="params.search_params.tbl_patients.health_check_date.date_to" /></dd>
+            </div>
+        </dl><!--end em-filter-box-->
+
+        <dl class="em-filter-box">
+            <div class="em-filter-box-item">
+                <dt class="w-14">更新日:</dt>
+                <dd><input class="em-input-small w-28" type="date" name="tbl_patients[updated_at][date_from]" :max="params.search_params.tbl_patients.updated_at.date_to" v-model="params.search_params.tbl_patients.updated_at.date_from" />
+                    ～
+                    <input class="em-input-small w-28" type="date" name="tbl_patients[updated_at][date_to]" :min="params.search_params.tbl_patients.updated_at.date_from" v-model="params.search_params.tbl_patients.updated_at.date_to" /></dd>
+            </div>
+            <div class="em-filter-box-item">
+                <dt class="w-14">登録日:</dt>
+                <dd><input class="em-input-small w-28" type="date" name="tbl_patients[created_at][date_from]" :max="params.search_params.tbl_patients.created_at.date_to" v-model="params.search_params.tbl_patients.created_at.date_from" />
+                    ～
+                    <input class="em-input-small w-28" type="date" name="tbl_patients[created_at][date_to]" :min="params.search_params.tbl_patients.created_at.date_from" v-model="params.search_params.tbl_patients.created_at.date_to" /></dd>
             </div>
         </dl><!--end em-filter-box-->
 
@@ -105,7 +122,7 @@
 
                 <th class="w-[180px]">ママの名前</th>
                 <th class="w-[68px]">出産日</th>
-                <th class="w-[68px]">予定日</th>
+                <th class="w-[68px]">健診日</th>
 
                 <th class="w-[80px]">コード</th>
                 <th class="w-[34px]"><i class="fa-solid fa-copy"></i></th>
@@ -184,7 +201,7 @@
                             <span class="tool-tip" :tooltip-data="tbl_patient.birth_day">{{ short_day(tbl_patient.birth_day) }}</span>
                         </td>
 
-                        <!--健診予定日-->
+                        <!--健診日-->
                         <td class="w-[68px]">
                             <span class="tool-tip" :tooltip-data="tbl_patient.health_check_date">{{ short_day(tbl_patient.health_check_date) }}</span>
                         </td>
@@ -346,12 +363,20 @@ export default {
                     },
 
                     created_at: {
-                        from: '',
-                        to: '',
+                        date_from: '',
+                        date_to: '',
+                    },
+                    updated_at: {
+                        date_from: '',
+                        date_to: '',
+                    },
+                    health_check_date: {
+                        date_from: '',
+                        date_to: '',
                     },
                     birth_day: {
-                        from: '',
-                        to: '',
+                        date_from: '',
+                        date_to: '',
                     },
                     submitted_at: {
                         isnotnull: null,
@@ -362,6 +387,7 @@ export default {
                     completed_at: {
                         isnotnull: null,
                     },
+
                     reviewed_at: {
                         isnotnull: null,
                     },

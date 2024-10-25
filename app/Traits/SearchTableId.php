@@ -93,6 +93,10 @@ trait SearchTableId
                         $table->where($search_column, '>=', $values);
                     } else if ($method == 'to') {
                         $table->where($search_column, '<', $values);
+                    } else if ($method == 'date_from') {
+                        $table->whereRaw('DATE_FORMAT('.$search_column.',\'%Y-%m-%d\') >= \''.$values.'\'');
+                    } else if ($method == 'date_to') {
+                        $table->whereRaw('DATE_FORMAT('.$search_column.',\'%Y-%m-%d\') <= \''.$values.'\'');
                     } else if ($method == 'like' && $values !== '') {
                         $values_array = explode(' ', str_replace('　', ' ', $values));
                         foreach ($values_array as $value) {

@@ -38,10 +38,14 @@ class PatientService{
 
             'search_params.tbl_patients.mst_maternity_id.in.*' => 'nullable|integer',
             'search_params.tbl_patients.working_by.in.*' => 'nullable|integer',
-            'search_params.tbl_patients.created_at.from' => 'nullable|date',
-            'search_params.tbl_patients.created_at.to' => 'nullable|date',
-            'search_params.tbl_patients.birth_day.from' => 'nullable|date',
-            'search_params.tbl_patients.birth_day.to' => 'nullable|date',
+            'search_params.tbl_patients.created_at.date_from' => 'nullable|date',
+            'search_params.tbl_patients.created_at.date_to' => 'nullable|date',
+            'search_params.tbl_patients.birth_day.date_from' => 'nullable|date',
+            'search_params.tbl_patients.birth_day.date_to' => 'nullable|date',
+            'search_params.tbl_patients.updated_at.date_from' => 'nullable|date',
+            'search_params.tbl_patients.updated_at.date_to' => 'nullable|date',
+            'search_params.tbl_patients.health_check_date.date_from' => 'nullable|date',
+            'search_params.tbl_patients.health_check_date.date_to' => 'nullable|date',
 
             'search_params.tbl_patients.submitted_at.isnotnull' => 'nullable|boolean',
             'search_params.tbl_patients.undertook_at.isnotnull' => 'nullable|boolean',
