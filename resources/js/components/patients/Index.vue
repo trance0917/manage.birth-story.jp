@@ -153,7 +153,7 @@
                         <!--#-->
                         <td class="w-[55px]"><a class="text-main hover:underline" :href="'/patients/'+tbl_patient.tbl_patient_id">{{ ('0000'+tbl_patient.tbl_patient_id).slice(-5) }}</a></td>
                         <!--状態-->
-                        <td class="w-[100px] justify-center">
+                        <td class="w-[100px] justify-center relative">
                             <ul class="space-x-[5px] flex">
                                 <template v-if="tbl_patient.completed_at">
                                     <li><span class="bg-green-400 text-white p-[1px_4px]">完成</span></li>
@@ -178,6 +178,7 @@
                                     <li class="text-[10px]"><span class="font-bold text-red underline text-bold cursor-pointer" @click="payment_complete(tbl_patient_key)">支払</span></li>
                                 </template>
                             </ul>
+                            <i v-if="tbl_patient.presented_at" class="absolute text-red right-[2px] bottom-[2px] text-[8px] fa-solid fa-gift"></i>
                         </td>
 
                         <!--fa-gift-->
@@ -189,11 +190,13 @@
                         </td>
 
                         <!--ママの名前-->
-                        <td class="w-[180px]" :tooltip-data="tbl_patient.undertook_at">
+                        <td class="w-[180px]  relative" :tooltip-data="tbl_patient.undertook_at">
                             <span class="truncate">
                                 <template v-if="tbl_patient.name">{{ tbl_patient.name }}</template><template v-else>--</template>
                                 (<template v-if="tbl_patient.roman_alphabet">{{ tbl_patient.roman_alphabet }}</template><template v-else>--</template>)
                             </span>
+
+                            <i v-if="tbl_patient.message" class="absolute text-red right-[2px] bottom-[2px] text-[10px] fa-regular fa-comment-dots"></i>
                         </td>
 
                         <!--出産日-->
