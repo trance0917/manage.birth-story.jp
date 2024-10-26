@@ -95,8 +95,8 @@
         </dl><!--end em-filter-box-->
         <input type="hidden" name="page" v-model="params.search_params.page" />
         <input type="hidden" name="per" v-model="params.search_params.per" />
-        <input type="text" name="sort_key" v-model="params.search_params.sort_key" />
-        <input type="text" name="sort_type" v-model="params.search_params.sort_type" />
+        <input type="hidden" name="sort_key" v-model="params.search_params.sort_key" />
+        <input type="hidden" name="sort_type" v-model="params.search_params.sort_type" />
     </form><!--end em-filter-->
 
 
