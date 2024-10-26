@@ -95,6 +95,8 @@
         </dl><!--end em-filter-box-->
         <input type="hidden" name="page" v-model="params.search_params.page" />
         <input type="hidden" name="per" v-model="params.search_params.per" />
+        <input type="hidden" name="sort_key" v-model="params.search_params.sort_key" />
+        <input type="hidden" name="sort_type" v-model="params.search_params.sort_type" />
     </form><!--end em-filter-->
 
 
@@ -115,14 +117,29 @@
         <table>
             <tbody>
             <tr>
-                <th class="w-[55px]">#</th>
+                <th class="w-[55px] cursor-pointer !bg-orange-100 hover:!bg-orange-200 relative" @click="sort_change('tbl_patient_id',params.search_params.sort_type=='asc'?'desc':'asc')">
+                    #
+                    <i v-if="params.search_params.sort_key!='tbl_patient_id'" class="fa-solid fa-sort"></i>
+                    <i v-else-if="params.search_params.sort_key!='tbl_patient_id' || params.search_params.sort_type!='desc'" class="fa-solid fa-sort-up"></i>
+                    <i v-else-if="params.search_params.sort_key!='tbl_patient_id' || params.search_params.sort_type!='asc'" class="fa-solid fa-sort-down"></i>
+                </th>
 
                 <th class="w-[100px]">状態</th>
                 <th class="w-[54px]"><i class="fa-solid fa-gift"></i></th>
 
                 <th class="w-[180px]">ママの名前</th>
-                <th class="w-[68px]">出産日</th>
-                <th class="w-[68px]">健診日</th>
+                <th class="w-[68px] cursor-pointer !bg-orange-100 hover:!bg-orange-200 relative" @click="sort_change('birth_day',params.search_params.sort_type=='asc'?'desc':'asc')">
+                    出産日
+                    <i v-if="params.search_params.sort_key!='birth_day'" class="fa-solid fa-sort"></i>
+                    <i v-else-if="params.search_params.sort_key!='birth_day' || params.search_params.sort_type!='desc'" class="fa-solid fa-sort-up"></i>
+                    <i v-else-if="params.search_params.sort_key!='birth_day' || params.search_params.sort_type!='asc'" class="fa-solid fa-sort-down"></i>
+                </th>
+                <th class="w-[68px] cursor-pointer !bg-orange-100 hover:!bg-orange-200 relative" @click="sort_change('health_check_date',params.search_params.sort_type=='asc'?'desc':'asc')">
+                    健診日
+                    <i v-if="params.search_params.sort_key!='health_check_date'" class="fa-solid fa-sort"></i>
+                    <i v-else-if="params.search_params.sort_key!='health_check_date' || params.search_params.sort_type!='desc'" class="fa-solid fa-sort-up"></i>
+                    <i v-else-if="params.search_params.sort_key!='health_check_date' || params.search_params.sort_type!='asc'" class="fa-solid fa-sort-down"></i>
+                </th>
 
                 <th class="w-[80px]">コード</th>
                 <th class="w-[34px]"><i class="fa-solid fa-copy"></i></th>
@@ -142,8 +159,19 @@
 
                 <th class="w-[230px]">進捗</th>
 
-                <th class="w-[86px]">登録日</th>
-                <th class="w-[86px]">更新日</th>
+                <th class="w-[86px] cursor-pointer !bg-orange-100 hover:!bg-orange-200 relative" @click="sort_change('created_at',params.search_params.sort_type=='asc'?'desc':'asc')">
+                    登録日
+                    <i v-if="params.search_params.sort_key!='created_at'" class="fa-solid fa-sort"></i>
+                    <i v-else-if="params.search_params.sort_key!='created_at' || params.search_params.sort_type!='desc'" class="fa-solid fa-sort-up"></i>
+                    <i v-else-if="params.search_params.sort_key!='created_at' || params.search_params.sort_type!='asc'" class="fa-solid fa-sort-down"></i>
+
+                </th>
+                <th class="w-[86px] cursor-pointer !bg-orange-100 hover:!bg-orange-200 relative" @click="sort_change('updated_at',params.search_params.sort_type=='asc'?'desc':'asc')">
+                更新日
+                    <i v-if="params.search_params.sort_key!='updated_at'" class="fa-solid fa-sort"></i>
+                    <i v-else-if="params.search_params.sort_key!='updated_at' || params.search_params.sort_type!='desc'" class="fa-solid fa-sort-up"></i>
+                    <i v-else-if="params.search_params.sort_key!='updated_at' || params.search_params.sort_type!='asc'" class="fa-solid fa-sort-down"></i>
+                </th>
                 <th class="w-[40px]">--</th>
             </tr>
 
@@ -397,16 +425,7 @@ export default {
                     is_google_review: {
                         in: [],
                     },
-
-
-
-
-
-
                 },
-
-
-
                 // is_approval: '',
                 // mst_shapes: {
                 //     mst_shape_id: {
@@ -702,6 +721,12 @@ export default {
                     // コピーに失敗したときの処理
                 });
 
+        },
+        sort_change(sort_key,sort_type){
+
+            this.params.search_params.sort_key=sort_key;
+            this.params.search_params.sort_type=sort_type;
+            this.submit();
         }
     },
     watch:{

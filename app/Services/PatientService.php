@@ -22,16 +22,21 @@ class PatientService{
      * search_params[tbl_name][column_name][isnull] = 1
      * @return array [count => 件数, product_composition_registration_ids => IDの配列]
      */
-    public function getPatientIds(int $limit, int $offset, array $search_params)
+    public function getPatientIds(int $limit, int $offset, string $sort_key, string $sort_type, array $search_params)
     {
         //バリデーション
         $validator = Validator:: make([
             'limit' => $limit,
             'offset' => $offset,
+            'sort_key' => $sort_key,
+            'sort_type' => $sort_type,
             'search_params' => $search_params,
         ], [
             'limit' => 'required|integer',
             'offset' => 'required|integer',
+            //ソートするカラムを追加するときはここにも入れる
+            'sort_key' => ['required','string','regex:/^(tbl_patient_id|health_check_date|birth_day|updated_at|created_at)$/'],
+            'sort_type' => ['required','string','regex:/^(desc|asc)$/'],
 
             'search_params.tbl_patients.name.like' => 'nullable|string',
             'search_params.tbl_patients.is_use_instagram.like' => 'nullable|string',
@@ -82,7 +87,7 @@ class PatientService{
         if ($validator->fails()) {
             return [
                 'count' => 0,
-                'product_composition_registration_ids' => [],
+                'tbl_patient_ids' => [],
                 'errors' => $validator->errors(),
             ];
         }
@@ -144,10 +149,14 @@ class PatientService{
         $tbl_patient_count = $tbl_patients->count();
 
         $tbl_patient_id_array = [];
-        $tbl_patient_id_ids = $tbl_patients->orderByDESC('tbl_patient_id')
+
+        $tbl_patient_id_ids = $tbl_patients
+            ->orderByRaw(''.$sort_key.' IS NULL ASC')
+            ->orderBy($sort_key,$sort_type)
             ->offset($validated['offset'])
             ->limit($validated['limit'])
             ->get();
+
         if (!empty($tbl_patient_id_ids->count())) {
             $tbl_patient_id_array = $tbl_patient_id_ids->pluck('tbl_patient_id')->toArray();
         }
@@ -298,7 +307,10 @@ class PatientService{
         )
             ->selectRaw('\'\' AS `old_working_by`')
             ->selectRaw('\'\' AS `average_score`')
-            ->whereIn('tbl_patient_id', $tbl_patient_ids)->orderByDESC('tbl_patient_id')->get();
+            ->whereIn('tbl_patient_id', $tbl_patient_ids)
+            ->orderByRaw('FIELD(tbl_patient_id,'.implode(',',$tbl_patient_ids).') ')
+            ->get();
+
 
         return $tbl_patients;
     }

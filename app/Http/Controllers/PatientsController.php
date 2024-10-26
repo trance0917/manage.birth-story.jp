@@ -22,10 +22,14 @@ class PatientsController extends Controller
 
         $search_params['page'] = $search_params['page'] ?? 1;
         $search_params['per'] = $search_params['per'] ?? 50;
+        $search_params['sort_key'] = $search_params['sort_key'] ?? 'tbl_patient_id';
+        $search_params['sort_type'] = $search_params['sort_type'] ?? 'desc';
 
         $data = $patient_service->getPatientIds(
             $search_params['per']
             ,($search_params['page'] - 1) * $search_params['per']
+            ,$search_params['sort_key']
+            ,$search_params['sort_type']
             ,$search_params
         );
 //        dump($data);

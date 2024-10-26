@@ -124,7 +124,10 @@
                     th{
                         @apply bg-slate-150;
                         .fa-sort,.fa-sort-up,.fa-sort-down{
-                            @apply absolute top-2 text-main right-1.25;
+                            @apply absolute top-2 right-1.25;
+                        }
+                        .fa-sort{
+                            @apply text-slate-350;
                         }
                         .fa-sort-up,.fa-sort-down{
                             @apply text-orange;
