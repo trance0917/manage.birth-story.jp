@@ -465,7 +465,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="em-input-box">
+                    <p class="em-input-head">ログ</p>
+                    <div>
 
+                        <a class="text-main underline" :href="'/patients/'+params.tbl_patient.tbl_patient_id+'/line_log'" target="_blank">確認する</a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="em-board">
@@ -480,7 +486,7 @@
             </div>
         </div>
 
-        <button class="em-btn px-[20px] py-[4px] bg-orange" type="submit" @click="test_line">テストライン</button>
+<!--        <button class="em-btn px-[20px] py-[4px] bg-orange" type="submit" @click="test_line">テストライン</button>-->
     </div>
 
 </template>

@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('patients', [PatientsController::class, 'index'])->name('patients-index');
     Route::get('patients/{tbl_patient}/richmenu_img', [PatientsController::class, 'richmenuImg'])->name('patients-richmenu_img');
+    Route::get('patients/{tbl_patient}/line_log', [PatientsController::class, 'lineLog'])->name('patients-line_log');
 
 
     Route::get('patients/json', [PatientsController::class, 'json'])->name('patients-json');

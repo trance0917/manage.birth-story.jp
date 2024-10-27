@@ -137,6 +137,12 @@ class TblPatient extends Model
     {
         return $this->hasMany(TblPatientMedium::class, 'tbl_patient_id', 'tbl_patient_id');
     }
+    public function log_line_message()
+    {
+        return $this->hasMany(LogLineMessage::class, 'tbl_patient_id', 'tbl_patient_id')
+            ->select(['log_line_message_id','tbl_patient_id','message','http_status','created_at'])
+            ->orderBy('created_at', 'desc');
+    }
     public function getAverageScoreAttribute()
     {
         return sprintf("%.1f",round($this->tbl_patient_reviews->average('score'),1));

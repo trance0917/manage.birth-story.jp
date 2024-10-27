@@ -55,6 +55,10 @@ class PatientsController extends Controller
         echo $line_bot_service->downloadRichMenuImage($tbl_patient->richmenu_id)->getRawBody();
     }
 
+    public function lineLog(TblPatient $tbl_patient,Request $request, PatientService $patient_service){
+        return response()->json($tbl_patient->log_line_message);
+    }
+
     public function json(Request $request, PatientService $patient_service)
     {
         $d = $patient_service->getPatient(60);

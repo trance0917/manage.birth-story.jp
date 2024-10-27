@@ -198,7 +198,6 @@ trait LineBotServicePushMessageTrait
                                 'uri' => config('birthstory.front_app_url') . '/' . $tbl_patient->code
                             ]
                         ],
-
                         [
                             'type' => 'text', 'text' => '✨タップして貼り付けるだけ✨',
                             'wrap' => true, 'color' => '#888888', 'size' => 'sm', 'weight' => 'regular','margin' => 'md', 'align' => 'center',
