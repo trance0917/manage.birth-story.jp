@@ -92,7 +92,7 @@ class LineBotService extends LINEBot
                         [
                             'type' => 'button','style' => 'primary','color' => '#F68CA9','margin' => 'lg',
                             'action' => [
-                                'type' => 'uri','label' => '写真を提出する','uri' =>  'https://yahoo.co.jp/?openExternalBrowser=1'
+                                'type' => 'uri','label' => '写真を提出する','uri' =>  'https://yahoo.co.jp/'
                             ]
                         ],
                     ]

@@ -83,7 +83,7 @@ trait LineBotServicePushMessageTrait
                         [
                             'type'=> 'button','color'=> '#F68CA9','style'=> 'primary','margin'=> 'lg','height'=> 'sm',
                             'action'=> [
-                                'uri'=> config('birthstory.front_app_url') . '/' . $tbl_patient->code . '/instagram/?openExternalBrowser=1',
+                                'uri'=> config('birthstory.front_app_url') . '/' . $tbl_patient->code . '/instagram',
                                 'type'=> 'uri','label'=> 'インスタグラムへ'
                             ]
                         ]
@@ -120,7 +120,7 @@ trait LineBotServicePushMessageTrait
                             'type' => 'button','style' => 'primary','color' => '#F68CA9',
                             'action' => [
                                 'type' => 'uri','label' => 'アンケートに答える',
-                                'uri' => config('birthstory.front_app_url') . '/' . $tbl_patient->code . '/review/?openExternalBrowser=1'
+                                'uri' => config('birthstory.front_app_url') . '/' . $tbl_patient->code . '/review'
                             ]
                         ]
                     ]
@@ -195,7 +195,7 @@ trait LineBotServicePushMessageTrait
                             'type' => 'button', 'style' => 'primary', 'color' => '#F68CA9', 'margin' => 'none','height' => 'md',
                             'action' => [
                                 'type' => 'uri', 'label' => 'レビューの確認',
-                                'uri' => config('birthstory.front_app_url') . '/' . $tbl_patient->code . '/?openExternalBrowser=1'
+                                'uri' => config('birthstory.front_app_url') . '/' . $tbl_patient->code
                             ]
                         ],
 
