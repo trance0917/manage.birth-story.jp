@@ -25,7 +25,9 @@ Route::prefix('v1/g')->group(function () {
         Route::post('/patient/{tbl_patient}/change_deleted_at', [PatientsController::class, 'changeDeletedAt']);
         Route::post('/patient/{tbl_patient}/change_is_google_review', [PatientsController::class, 'changeIsGoogleReview']);
         Route::post('/patient/{tbl_patient}/send_line', [PatientsController::class, 'sendLine']);
-        Route::post('/patient/{tbl_patient}/google_review_remind', [PatientsController::class, 'googleReviewRemind']);
+        Route::post('/patient/{tbl_patient}/save_memo', [PatientsController::class, 'saveMemo']);
+
+//        Route::post('/patient/{tbl_patient}/google_review_remind', [PatientsController::class, 'googleReviewRemind']);
 
 
 

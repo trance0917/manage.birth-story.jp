@@ -203,13 +203,17 @@ class PatientsController extends Controller
         return response()->json([],$res->getHTTPStatus());
     }
 
+    public function saveMemo(TblPatient $tbl_patient,Request $request){
+        $tbl_patient->memo = $request->memo;
+        $tbl_patient->save();
+    }
+
 
     public function googleReviewRemind(TblPatient $tbl_patient,Request $request,LineBotService $line_bot_service){
         $line_bot_service->pushMessagePresentHighScoreReview($tbl_patient);
 
 
 //        $res = $line_bot_service->pushMessage($tbl_patient->line_user_id, new TextMessageBuilder($request->line_text), $tbl_patient);
-        return response()->json([],$res->getHTTPStatus());
     }
 
 

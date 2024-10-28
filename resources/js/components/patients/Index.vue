@@ -224,6 +224,7 @@
                                 (<template v-if="tbl_patient.roman_alphabet">{{ tbl_patient.roman_alphabet }}</template><template v-else>--</template>)
                             </span>
 
+                            <i v-if="tbl_patient.memo" class="absolute text-red right-[2px] top-[2px] text-[10px] fa-solid fa-file-pen"></i>
                             <i v-if="tbl_patient.message" class="absolute text-red right-[2px] bottom-[2px] text-[10px] fa-regular fa-comment-dots"></i>
                         </td>
 

@@ -1,12 +1,26 @@
 <template>
     <div class="space-y-[15px]">
+        <div v-if="is_show_save_msg" class="inline-block p-[10px] bg-green">
+            <p class="text-white font-bold">保存しました。</p>
+        </div>
+
+        <div v-if="is_show_save_error_msg" class="inline-block p-[10px] bg-red">
+            <p class="text-white font-bold">エラーが発生しました。保存できていない可能性があります。</p>
+        </div>
 
         <div class="em-board">
             <div class="em-board-content space-y-[15px]">
                 <div class="em-input-box">
+                    <p class="em-input-head">備考</p>
+                    <div class="flex items-end space-x-[10px]">
+                        <textarea class="w-[500px] h-[150px] text-[16px] leading-normal" cols="80" rows="4" v-model="params.tbl_patient.memo"></textarea>
+                        <button class="em-btn px-[20px] py-[4px] bg-orange" type="submit" @click="save_memo">保存</button>
+                    </div>
+                </div>
+                <div class="em-input-box">
                     <p class="em-input-head">プレゼント</p>
-                    <div class="p-[20px] bg-green-50 space-y-[15px]">
 
+                    <div class="p-[20px] bg-green-50 space-y-[15px]">
                         <div class="flex space-x-[20px]">
                             <div class="em-input-box">
                                 <p class="em-input-head">プレゼントの動画</p>
@@ -466,9 +480,8 @@
                     </div>
                 </div>
                 <div class="em-input-box">
-                    <p class="em-input-head">ログ</p>
+                    <p class="em-input-head">LINEのログ</p>
                     <div>
-
                         <a class="text-main underline" :href="'/patients/'+params.tbl_patient.tbl_patient_id+'/line_log'" target="_blank">確認する</a>
                     </div>
                 </div>
@@ -500,6 +513,8 @@ export default {
         return {
             params:params,
             line_text:'',
+            is_show_save_msg:false,
+            is_show_save_error_msg:false,
             loading_input_key:'',
             loading_progress:{
                 present_movie_path:'',
@@ -571,20 +586,37 @@ export default {
                 });
             }
         },
+        async save_memo(){
+            await axios.post('/api/v1/g/patient/'+this.params.tbl_patient.tbl_patient_id+'/save_memo'+'?api_token='+global.api_token,
+                {
+                    tbl_patient_id:this.params.tbl_patient.tbl_patient_id,
+                    memo:this.params.tbl_patient.memo
+                }
+            ).then((response) => {//リクエストの成功
+                this.is_show_save_msg =true;
+                setTimeout(() => { this.is_show_save_msg=false; },2000);
+            }).catch((error) => {//リクエストの失敗
+                this.is_show_save_error_msg =true;
+                setTimeout(() => { this.is_show_save_error_msg=false; },2000);
+            }).finally(() => {
+
+            });
+        },
         async test_line(){
             if(window.confirm(this.params.tbl_patient.name+'さんにテストライン送信します。\nよろしいですか？')) {
-                await axios.post('/api/v1/g/patient/'+this.params.tbl_patient.tbl_patient_id+'/google_review_remind'+'?api_token='+global.api_token,
-                    {}
-                ).then((response) => {//リクエストの成功
-                    alert('送信が成功しました。');
-                }).catch((error) => {//リクエストの失敗
-                    alert('エラーが発生しました\n正しく送信できていない可能性があります。');
-                }).finally(() => {
-                });
+                // await axios.post('/api/v1/g/patient/'+this.params.tbl_patient.tbl_patient_id+'/google_review_remind'+'?api_token='+global.api_token,
+                //     {}
+                // ).then((response) => {//リクエストの成功
+                //     alert('送信が成功しました。');
+                // }).catch((error) => {//リクエストの失敗
+                //     alert('エラーが発生しました\n正しく送信できていない可能性があります。');
+                // }).finally(() => {
+                // });
             }
         }
-
     },
+
+
     watch:{
         // 'params.search_params.mst_material_groups.mst_material_group_id.in.0':function (e){
         //     if(e!=null){
