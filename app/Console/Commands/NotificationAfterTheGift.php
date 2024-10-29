@@ -39,7 +39,7 @@ class NotificationAfterTheGift extends Command
         //条件、presented_at(プレゼントを提出した事が判断できるカラム)の日付が入っていて、それよりも今日が二日後になっている時に送る
         //レビューが投降されているかどうか
         $tbl_patients = TblPatient::
-            whereRaw('DATE_SUB(DATE_FORMAT(presented_at,\'%Y-%m-%d\'), INTERVAL -1 DAY) <= current_date()')
+            whereRaw('DATE_SUB(DATE_FORMAT(presented_at,\'%Y-%m-%d\'), INTERVAL -8 DAY) <= current_date()')
 //            ->whereNotNull('reviewed_at')
             ->where('is_present_after_notified','!=',1)
             ->get();
