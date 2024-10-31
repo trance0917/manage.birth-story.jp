@@ -24,39 +24,39 @@
                         <div class="flex space-x-[20px]">
                             <div class="em-input-box">
                                 <p class="em-input-head">プレゼントの動画</p>
-                                <div class="w-[500px]">
+                                <div class="w-[500px]" @dragover.prevent @drop="handle_drop($event,'present_movie_path')">
                                     <label class="relative" for="present_movie_path" v-if="!params.tbl_patient.present_movie_path">
-                                        <div class="aspect-video text-slate-400 text-[16px] bg-slate-100 block text-center border border-dashed border-slate-300 flex items-center justify-center hover:bg-slate-150 cursor-pointer leading-snug"><div><span class="font-bold">動画を設定</span><br /><span class="text-[13px]">拡張子:mp4 / サイズ:400MB以下</span></div></div>
+                                        <div class="aspect-video text-slate-400 text-[16px] bg-slate-100 block text-center border border-dashed border-slate-300 flex items-center justify-center hover:bg-slate-150 cursor-pointer leading-snug"><div><span class="font-bold">動画を設定</span><br /><span class="text-[13px]">拡張子:mp4 / サイズ:400MB以下</span><span class="font-bold text-slate-250 text-[26px] mt-[10px] block">ドラッグ可</span></div></div>
                                         <i v-if="'present_movie_path'==loading_input_key"
                                            class="fa-solid fa-spinner fa-spin text-slate-300 text-[40px] absolute top-[calc(50%-20px)] left-[calc(50%-20px)]"></i>
                                     </label>
-                                    <div v-else>
+                                    <label v-else for="present_movie_path">
                                         <video class="aspect-video" controls>
                                             <source :src="'/storage/patients/'+params.tbl_patient.tbl_patient_id+'_'+params.tbl_patient.code+'/'+params.tbl_patient.present_movie_path">
                                             <p>動画を再生するには、videoタグをサポートしたブラウザが必要です。</p>
                                         </video>
                                         <p class="mt-[8px] text-center text-center"><label for="present_movie_path" class="cursor-pointer border rounded-sm border-main px-[15px] py-[3px] inline-block underline text-main font-bold text-[14px]">変更</label></p>
-                                    </div>
+                                    </label>
 
-                                    <input type="file" id="present_movie_path" accept="video/*" v-on:change="save_movie($event,'present_movie_path')" />
+                                    <input type="file" id="present_movie_path" accept="video/*" v-on:change="save_present($event,'present_movie_path')" />
                                     <div v-if="loading_progress.present_movie_path" class="bg-green-500/20 mt-[10px]" :style="loading_progress.present_movie_path"></div>
 
                                 </div>
                             </div>
                             <div class="em-input-box">
                                 <p class="em-input-head">プレゼントの画像</p>
-                                <div class="w-[500px]">
+                                <div class="w-[500px]" @dragover.prevent @drop="handle_drop($event,'present_photoart_path')">
                                     <label class="relative" for="present_photoart_path" v-if="!params.tbl_patient.present_photoart_path">
-                                        <div class="aspect-video text-slate-400 text-[16px] bg-slate-100 block text-center border border-dashed border-slate-300 flex items-center justify-center hover:bg-slate-150 cursor-pointer leading-snug"><div><span class="font-bold">画像を設定</span><br /><span class="text-[13px]">拡張子:png,jpg / サイズ:2MB以下</span></div></div>
+                                        <div class="aspect-video text-slate-400 text-[16px] bg-slate-100 block text-center border border-dashed border-slate-300 flex items-center justify-center hover:bg-slate-150 cursor-pointer leading-snug"><div><span class="font-bold">画像を設定</span><br /><span class="text-[13px]">拡張子:png,jpg / サイズ:2MB以下</span><span class="font-bold text-slate-250 text-[26px] mt-[10px] block">ドラッグ可</span></div></div>
                                         <i v-if="'present_photoart_path'==loading_input_key"
                                            class="fa-solid fa-spinner fa-spin text-slate-300 text-[40px] absolute top-[calc(50%-20px)] left-[calc(50%-20px)]"></i>
                                     </label>
-                                    <div v-else>
+                                    <label v-else for="present_photoart_path">
                                         <img :src="'/storage/patients/'+params.tbl_patient.tbl_patient_id+'_'+params.tbl_patient.code+'/'+params.tbl_patient.present_photoart_path">
                                         <p class="mt-[8px] text-center text-center"><label for="present_photoart_path" class="cursor-pointer border rounded-sm border-main px-[15px] py-[3px] inline-block underline text-main font-bold text-[14px]">変更</label></p>
-                                    </div>
+                                    </label>
 
-                                    <input type="file" id="present_photoart_path" accept="image/*" v-on:change="save_movie($event,'present_photoart_path')" />
+                                    <input type="file" id="present_photoart_path" accept="image/*" v-on:change="set_present($event,'present_photoart_path')" />
                                     <div v-if="loading_progress.present_photoart_path" class="bg-green-500/20 mt-[10px]" :style="loading_progress.present_photoart_path"></div>
 
                                 </div>
@@ -116,7 +116,7 @@
                         <p class="em-input-head">ベビーの誕生日</p>
                         <div>
                             <template v-if="params.tbl_patient.birth_day">
-                                {{params.tbl_patient.birth_day}}
+                                {{params.tbl_patient.birth_day}}&nbsp;
                             </template><template v-else>--</template>
 
                             <template v-if="params.tbl_patient.birth_time">
@@ -130,7 +130,7 @@
                         <p class="em-input-head">体重</p>
                         <div>
                             <template v-if="params.tbl_patient.weight">
-                                {{params.tbl_patient.weight}}
+                                {{params.tbl_patient.weight.toLocaleString()}}
                             </template><template v-else>--</template> g
                         </div>
                     </div>
@@ -308,12 +308,6 @@
                     </div>
                 </div>
 
-
-
-
-
-
-
                 <div class="em-input-box">
                     <p class="em-input-head">システム情報</p>
                     <div class="p-[20px] bg-slate-100 space-y-[15px]">
@@ -401,7 +395,7 @@
                             <p class="em-input-head">エコー写真</p>
                             <div class="flex flex-wrap gap-[10px] empty:before:content-['--']">
                                 <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums.filter(a => {return a.type=='echo'})">
-                                    <img :src="medium.src" width="150" alt="" />
+                                    <img :src="medium.src" width="200" alt="" />
                                 </template>
                             </div>
                         </div>
@@ -410,7 +404,7 @@
                             <p class="em-input-head">ネームカード</p>
                             <div class="flex flex-wrap gap-[10px] empty:before:content-['--']">
                                 <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums.filter(a => {return a.type=='namecard'})">
-                                    <img :src="medium.src" width="150" alt="" />
+                                    <img :src="medium.src" width="200" alt="" />
                                 </template>
                             </div>
                         </div>
@@ -419,7 +413,7 @@
                             <p class="em-input-head">出産前・出産中・出産直後</p>
                             <div class="flex flex-wrap gap-[10px] empty:before:content-['--']">
                                 <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums.filter(a => {return a.type=='pregnancy'})">
-                                    <img :src="medium.src" width="150" alt="" />
+                                    <img :src="medium.src" width="200" alt="" />
                                 </template>
                             </div>
                         </div>
@@ -428,7 +422,7 @@
                             <p class="em-input-head">ご自由にお好きなシーン</p>
                             <div class="flex flex-wrap gap-[10px] empty:before:content-['--']">
                                 <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums.filter(a => {return a.type=='free'})">
-                                    <img :src="medium.src" width="150" alt="" />
+                                    <img :src="medium.src" width="200" alt="" />
                                 </template>
                             </div>
                         </div>
@@ -437,7 +431,7 @@
                             <p class="em-input-head">バースフォトにしたい写真</p>
                             <div class="flex flex-wrap gap-[10px] empty:before:content-['--']">
                                 <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums.filter(a => {return a.type=='photoart'})">
-                                    <img :src="medium.src" width="150" alt="" />
+                                    <img :src="medium.src" width="200" alt="" />
                                 </template>
                             </div>
                         </div>
@@ -513,6 +507,7 @@ export default {
         return {
             params:params,
             line_text:'',
+            file:null,
             is_show_save_msg:false,
             is_show_save_error_msg:false,
             loading_input_key:'',
@@ -534,13 +529,24 @@ export default {
     },
 
     methods:{
-        async save_movie(e,key){
-            this.loading_input_key=key;
 
+        async set_present(e,key){
+            this.file = e.target.files[0];
+            this.save_present(key);
+            e.target.value='';
+        },
+        async handle_drop(e,key){
+            e.preventDefault();
+            this.file = e.dataTransfer.files[0];
+            this.save_present(key);
+        },
+
+        async save_present(key){
+            this.loading_input_key=key;
             await axios.post('/api/v1/g/patient/'+this.params.tbl_patient.tbl_patient_id+'/save_present'+'?api_token='+global.api_token,
                 {
                     key:key,
-                    file:e.target.files[0],
+                    file:this.file,
                 },
                 {
                     headers: {'content-type': 'multipart/form-data'},
@@ -562,7 +568,7 @@ export default {
             }).catch((error) => {//リクエストの失敗
                 alert('エラーが発生しました\nファイル拡張子、容量を確認してください');
             }).finally(() => {
-                e.target.value='';
+
                 this.loading_input_key='';
                 this.loading_progress[key]='width:0%;';
             });
