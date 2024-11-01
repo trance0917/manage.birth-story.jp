@@ -38,7 +38,7 @@
                                         <p class="mt-[8px] text-center text-center"><label for="present_movie_path" class="cursor-pointer border rounded-sm border-main px-[15px] py-[3px] inline-block underline text-main font-bold text-[14px]">変更</label></p>
                                     </label>
 
-                                    <input type="file" id="present_movie_path" accept="video/*" v-on:change="save_present($event,'present_movie_path')" />
+                                    <input type="file" id="present_movie_path" accept="video/*" v-on:change="set_present($event,'present_movie_path')" />
                                     <div v-if="loading_progress.present_movie_path" class="bg-green-500/20 mt-[10px]" :style="loading_progress.present_movie_path"></div>
 
                                 </div>
@@ -539,7 +539,7 @@ export default {
         async set_present(e,key){
             this.file = e.target.files[0];
             this.save_present(key);
-            e.target.value='';
+
         },
         async handle_drop(e,key){
             e.preventDefault();
