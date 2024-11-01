@@ -212,8 +212,8 @@
                         <!--fa-gift-->
                         <td class="w-[54px] flex justify-center">
                             <ul class="flex space-x-[5px]">
-                                <li><i class="fa-regular fa-image text-slate-250" :class="{'!text-green-300':tbl_patient.present_photoart_path}"></i></li>
-                                <li><i class="fa-brands fa-youtube text-slate-250" :class="{'!text-green-300':tbl_patient.present_movie_path}"></i></li>
+                                <li><i class="fa-regular fa-image text-slate-250" :class="{'!text-green-400':tbl_patient.present_photoart_path}"></i></li>
+                                <li><i class="fa-brands fa-youtube text-slate-250" :class="{'!text-green-400':tbl_patient.present_movie_path}"></i></li>
                             </ul>
                         </td>
 
