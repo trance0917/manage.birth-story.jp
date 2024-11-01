@@ -108,6 +108,12 @@
                             </template><template v-else> (--)</template>
                         </div>
                     </div>
+                    <div class="em-input-box">
+                        <p class="em-input-head">コピー</p>
+                        <ul>
+                            <li><a href="javascript:void(0);" @click="path_copy" class="active:no-underline active:text-slate-300 hover:underline text-main font-bold">B誕_M名_ID</a></li>
+                        </ul>
+                    </div>
                 </div>
 
 
@@ -592,6 +598,17 @@ export default {
                 });
             }
         },
+        path_copy:function(){
+            let txt = this.params.tbl_patient.birth_day + '_' + this.params.tbl_patient.name + '_' + this.params.tbl_patient.tbl_patient_id
+            navigator.clipboard.writeText(txt).then(
+                () => {
+                    // コピーに成功したときの処理
+                },
+                () => {
+                    // コピーに失敗したときの処理
+                });
+        },
+
         async save_memo(){
             await axios.post('/api/v1/g/patient/'+this.params.tbl_patient.tbl_patient_id+'/save_memo'+'?api_token='+global.api_token,
                 {
