@@ -18,8 +18,8 @@
                 <dt class="w-19">抽出:</dt>
                 <ul class="flex gap-0.5 max-w-[150px] flex-wrap">
                     <li><input type="checkbox" id="submitted_at" true-value="1" value="1" name="tbl_patients[submitted_at][isnotnull]" v-model="params.search_params.tbl_patients.submitted_at.isnotnull" /><label for="submitted_at">申込済</label></li>
-                    <li><input type="checkbox" id="undertook_at" true-value="1" value="1" name="tbl_patients[undertook_at][isnotnull]" v-model="params.search_params.tbl_patients.undertook_at.isnotnull" /><label for="undertook_at">作業開始</label></li>
-                    <li><input type="checkbox" id="completed_at" true-value="1" value="1" name="tbl_patients[completed_at][isnotnull]" v-model="params.search_params.tbl_patients.completed_at.isnotnull" /><label for="completed_at">完了</label></li>
+                    <li><input type="checkbox" id="undertook_at" true-value="1" value="1" name="tbl_patients[undertook_at][isnotnull]" v-model="params.search_params.tbl_patients.undertook_at.isnotnull" /><label for="undertook_at">作業中</label></li>
+                    <li><input type="checkbox" id="completed_at" true-value="1" value="1" name="tbl_patients[completed_at][isnotnull]" v-model="params.search_params.tbl_patients.completed_at.isnotnull" /><label for="completed_at">完成</label></li>
                     <li><input type="checkbox" id="reviewed_at" true-value="1" value="1" name="tbl_patients[reviewed_at][isnotnull]" v-model="params.search_params.tbl_patients.reviewed_at.isnotnull" /><label for="reviewed_at">アンケ済</label></li>
                     <li><input type="checkbox" id="is_google_review" true-value="1" value="1" name="tbl_patients[is_google_review][in][]" v-model="params.search_params.tbl_patients.is_google_review.in[0]" /><label for="is_google_review">GR確認</label></li>
                 </ul>
