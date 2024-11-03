@@ -59,6 +59,14 @@ class PatientService{
 
             'search_params.tbl_patients.is_google_review.in.*' => 'nullable|integer',
 
+            'search_params.tbl_patients.present_photoart_path.isnotnull' => 'nullable|boolean',
+            'search_params.tbl_patients.present_photoart_path.isnull' => 'nullable|boolean',
+
+            'search_params.tbl_patients.present_movie_path.isnotnull' => 'nullable|boolean',
+            'search_params.tbl_patients.present_movie_path.isnull' => 'nullable|boolean',
+
+
+
             //mst_material_idを取得する
 //            'search_params.mst_product_categories.mst_product_category_id.in.*' => 'nullable|integer',
 //            'search_params.mst_material_groups.mst_material_group_id.in.*' => 'nullable|integer',

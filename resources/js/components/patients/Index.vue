@@ -28,18 +28,39 @@
         </dl><!--end em-filter-box-->
         <dl class="em-filter-box">
             <div class="em-filter-box-item">
-                <dt class="w-[50px]">産院:</dt>
+                <dt class="w-[60px]">産院:</dt>
                 <dd><select class="em-input-small w-40" name="tbl_patients[mst_maternity_id][in][]" v-model="params.search_params.tbl_patients.mst_maternity_id.in[0]">
                     <option value="">--</option>
                     <option v-for="(maternity,maternity_key) in params.mst_maternities" :value="maternity.mst_maternity_id">{{maternity.name}}</option>
                 </select></dd>
             </div>
             <div class="em-filter-box-item">
-                <dt class="w-[50px]">担当者:</dt>
+                <dt class="w-[60px]">担当者:</dt>
                 <dd><select class="em-input-small w-40" name="tbl_patients[working_by][in][]" v-model="params.search_params.tbl_patients.working_by.in[0]">
                     <option value="">--</option>
                     <option v-for="(user,user_key) in params.users" :value="user.tbl_user_id">{{user.name}}</option>
                 </select></dd>
+            </div>
+            <div class="em-filter-box-item">
+                <dt class="w-[60px]">贈呈動画:</dt>
+                <dd><select class="em-input-small w-[80px]" name="tbl_patients[is_set_present_photo]" v-model="params.search_params.tbl_patients.is_set_present_photo">
+                    <option value="">--</option>
+                    <option value="1">設定済</option>
+                    <option value="2">未設定</option>
+                </select></dd>
+                <input :checked="params.search_params.tbl_patients.is_set_present_photo=='1'" type="checkbox" true-value="1" value="1" name="tbl_patients[present_photoart_path][isnotnull]" v-model="params.search_params.tbl_patients.present_photoart_path.isnotnull" />
+                <input :checked="params.search_params.tbl_patients.is_set_present_photo=='2'" type="checkbox" true-value="1" value="1" name="tbl_patients[present_photoart_path][isnull]" v-model="params.search_params.tbl_patients.present_photoart_path.isnull" />
+            </div>
+
+            <div class="em-filter-box-item">
+                <dt class="w-[60px]">贈呈写真:</dt>
+                <dd><select class="em-input-small w-[80px]" name="tbl_patients[is_set_present_movie]" v-model="params.search_params.tbl_patients.is_set_present_movie">
+                    <option value="">--</option>
+                    <option value="1">設定済</option>
+                    <option value="2">未設定</option>
+                </select></dd>
+                <input :checked="params.search_params.tbl_patients.is_set_present_movie=='1'" type="checkbox" true-value="1" value="1" name="tbl_patients[present_movie_path][isnotnull]" v-model="params.search_params.tbl_patients.present_movie_path.isnotnull" />
+                <input :checked="params.search_params.tbl_patients.is_set_present_movie=='2'" type="checkbox" true-value="1" value="1" name="tbl_patients[present_movie_path][isnull]" v-model="params.search_params.tbl_patients.present_movie_path.isnull" />
             </div>
 
 
@@ -426,6 +447,23 @@ export default {
                     is_google_review: {
                         in: [],
                     },
+                    is_set_present_photo: '',
+
+                    present_photoart_path: {
+                        isnotnull: null,
+                        isnull: null,
+                    },
+
+                    is_set_present_movie: '',
+
+                    present_movie_path: {
+                        isnotnull: null,
+                        isnull: null,
+                    },
+
+
+
+
                 },
                 // is_approval: '',
                 // mst_shapes: {
@@ -493,6 +531,7 @@ export default {
 
     beforeMount:function(){
             this.params.search_params = this.merge_deeply(this.init_search_params,this.params.search_params);
+            console.log(this.params.search_params);
     },
     mounted:function(){
         // if(this.params.search_params.mst_material_groups.mst_material_group_id.in[0]!=null){
