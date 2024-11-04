@@ -82,6 +82,11 @@ class TblPatientMedium extends Model
         return config('birthstory.front_app_url').'/storage/patients/'.$this->tbl_patient_id.'_'.$this->tbl_patient->code.'/'.$this->file_name.'.'.$this->extension;
     }
 
+    public function getOriginalSrcAttribute()
+    {
+        return config('birthstory.front_app_url').'/storage/patients/'.$this->tbl_patient_id.'_'.$this->tbl_patient->code.'/original/'.$this->file_name.'.'.$this->extension;
+    }
+
     public function getLocalOriginalSrcAttribute()
     {
         return storage_path('app/public/patients/'.$this->tbl_patient_id.'_'.$this->tbl_patient->code.'/original/'.$this->file_name.'.'.$this->extension);

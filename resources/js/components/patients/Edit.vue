@@ -401,7 +401,7 @@
                             <p class="em-input-head">エコー写真</p>
                             <div class="flex flex-wrap gap-[10px] empty:before:content-['--']">
                                 <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums.filter(a => {return a.type=='echo'})">
-                                    <img :src="medium.src" width="200" alt="" />
+                                    <a v-bind:href="medium.original_src" target="_blank"><img :src="medium.src" width="200" alt="" /></a>
                                 </template>
                             </div>
                         </div>
@@ -410,7 +410,7 @@
                             <p class="em-input-head">ネームカード</p>
                             <div class="flex flex-wrap gap-[10px] empty:before:content-['--']">
                                 <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums.filter(a => {return a.type=='namecard'})">
-                                    <img :src="medium.src" width="200" alt="" />
+                                    <a :href="medium.original_src" target="_blank"><img :src="medium.src" width="200" alt="" /></a>
                                 </template>
                             </div>
                         </div>
@@ -419,7 +419,7 @@
                             <p class="em-input-head">出産前・出産中・出産直後</p>
                             <div class="flex flex-wrap gap-[10px] empty:before:content-['--']">
                                 <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums.filter(a => {return a.type=='pregnancy'})">
-                                    <img :src="medium.src" width="200" alt="" />
+                                    <a :href="medium.original_src" target="_blank"><img :src="medium.src" width="200" alt="" /></a>
                                 </template>
                             </div>
                         </div>
@@ -428,7 +428,7 @@
                             <p class="em-input-head">ご自由にお好きなシーン</p>
                             <div class="flex flex-wrap gap-[10px] empty:before:content-['--']">
                                 <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums.filter(a => {return a.type=='free'})">
-                                    <img :src="medium.src" width="200" alt="" />
+                                    <a :href="medium.original_src" target="_blank"><img :src="medium.src" width="200" alt="" /></a>
                                 </template>
                             </div>
                         </div>
@@ -437,7 +437,7 @@
                             <p class="em-input-head">バースフォトにしたい写真</p>
                             <div class="flex flex-wrap gap-[10px] empty:before:content-['--']">
                                 <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums.filter(a => {return a.type=='photoart'})">
-                                    <img :src="medium.src" width="200" alt="" />
+                                    <a :href="medium.original_src" target="_blank"><img :src="medium.src" width="200" alt="" /></a>
                                 </template>
                             </div>
                         </div>

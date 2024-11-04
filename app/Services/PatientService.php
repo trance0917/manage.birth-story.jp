@@ -187,7 +187,9 @@ class PatientService{
         $tbl_patient = TblPatient::with([
             'tbl_patient_mediums'=>function ($query){
                 //ファイル名 空にしているのはミューテタで取得できるため
-                $query->select(['tbl_patient_id','extension','tbl_patient_medium_id','type','file_name','order','registered_at'])->selectRaw('\'\' AS `src`');
+                $query->select(['tbl_patient_id','extension','tbl_patient_medium_id','type','file_name','order','registered_at'])
+                    ->selectRaw('\'\' AS `src`')
+                    ->selectRaw('\'\' AS `original_src`');
             },
             'tbl_patient_mediums.tbl_patient:tbl_patient_id,code',
             'tbl_patient_reviews'=>function ($query){
