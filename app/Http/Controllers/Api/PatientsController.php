@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\TblPatient;
+use App\Models\TblPatientMedium;
+
 
 use App\Services\LineBotService;
 use Illuminate\Http\Request;
@@ -206,6 +208,12 @@ class PatientsController extends Controller
     public function saveMemo(TblPatient $tbl_patient,Request $request){
         $tbl_patient->memo = $request->memo;
         $tbl_patient->save();
+    }
+
+    public function deleteMedium(TblPatient $tbl_patient,Request $request,PatientService $patient_service){
+        TblPatientMedium::find($request->tbl_patient_medium_id)->delete();
+        $tbl_patient = $patient_service->getPatient($tbl_patient->tbl_patient_id);
+        return response()->json(['tbl_patient'=>$tbl_patient],200);
     }
 
 

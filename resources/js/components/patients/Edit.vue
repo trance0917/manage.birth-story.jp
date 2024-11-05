@@ -400,8 +400,11 @@
                         <div class="em-input-box">
                             <p class="em-input-head">エコー写真</p>
                             <div class="flex flex-wrap gap-[10px] empty:before:content-['--']">
-                                <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums.filter(a => {return a.type=='echo'})">
-                                    <a v-bind:href="medium.original_src" target="_blank"><img :src="medium.src" width="200" alt="" /></a>
+                                <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums">
+                                    <div v-if="medium.type=='echo'">
+                                        <a v-bind:href="medium.original_src" target="_blank"><img :src="medium.src" width="200" alt="" /></a>
+                                        <p class="text-center"><a class="text-main font-bold hover:underline" href="javascript:void(0)" @click="delete_medium(medium)">削除</a></p>
+                                    </div>
                                 </template>
                             </div>
                         </div>
@@ -409,8 +412,11 @@
                         <div class="em-input-box">
                             <p class="em-input-head">ネームカード</p>
                             <div class="flex flex-wrap gap-[10px] empty:before:content-['--']">
-                                <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums.filter(a => {return a.type=='namecard'})">
-                                    <a :href="medium.original_src" target="_blank"><img :src="medium.src" width="200" alt="" /></a>
+                                <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums">
+                                    <div v-if="medium.type=='namecard'">
+                                        <a v-bind:href="medium.original_src" target="_blank"><img :src="medium.src" width="200" alt="" /></a>
+                                        <p class="text-center"><a class="text-main font-bold hover:underline" href="javascript:void(0)" @click="delete_medium(medium)">削除</a></p>
+                                    </div>
                                 </template>
                             </div>
                         </div>
@@ -418,8 +424,12 @@
                         <div class="em-input-box">
                             <p class="em-input-head">出産前・出産中・出産直後</p>
                             <div class="flex flex-wrap gap-[10px] empty:before:content-['--']">
-                                <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums.filter(a => {return a.type=='pregnancy'})">
-                                    <a :href="medium.original_src" target="_blank"><img :src="medium.src" width="200" alt="" /></a>
+
+                                <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums">
+                                    <div v-if="medium.type=='pregnancy'">
+                                        <a v-bind:href="medium.original_src" target="_blank"><img :src="medium.src" width="200" alt="" /></a>
+                                        <p class="text-center"><a class="text-main font-bold hover:underline" href="javascript:void(0)" @click="delete_medium(medium)">削除</a></p>
+                                    </div>
                                 </template>
                             </div>
                         </div>
@@ -427,8 +437,11 @@
                         <div class="em-input-box">
                             <p class="em-input-head">ご自由にお好きなシーン</p>
                             <div class="flex flex-wrap gap-[10px] empty:before:content-['--']">
-                                <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums.filter(a => {return a.type=='free'})">
-                                    <a :href="medium.original_src" target="_blank"><img :src="medium.src" width="200" alt="" /></a>
+                                <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums">
+                                    <div v-if="medium.type=='free'">
+                                        <a v-bind:href="medium.original_src" target="_blank"><img :src="medium.src" width="200" alt="" /></a>
+                                        <p class="text-center"><a class="text-main font-bold hover:underline" href="javascript:void(0)" @click="delete_medium(medium)">削除</a></p>
+                                    </div>
                                 </template>
                             </div>
                         </div>
@@ -436,8 +449,11 @@
                         <div class="em-input-box">
                             <p class="em-input-head">バースフォトにしたい写真</p>
                             <div class="flex flex-wrap gap-[10px] empty:before:content-['--']">
-                                <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums.filter(a => {return a.type=='photoart'})">
-                                    <a :href="medium.original_src" target="_blank"><img :src="medium.src" width="200" alt="" /></a>
+                                <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums">
+                                    <div v-if="medium.type=='photoart'">
+                                        <a v-bind:href="medium.original_src" target="_blank"><img :src="medium.src" width="200" alt="" /></a>
+                                        <p class="text-center"><a class="text-main font-bold hover:underline" href="javascript:void(0)" @click="delete_medium(medium)">削除</a></p>
+                                    </div>
                                 </template>
                             </div>
                         </div>
@@ -448,13 +464,14 @@
         [&_.nothing]:block
         [&_.item+.nothing]:hidden
         ">
-                                <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums.filter(a => {return a.type=='first_cry'})">
-                                    <div class="item">
+                                <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums">
+                                    <div v-if="medium.type=='first_cry'" class="item">
                                         <div class="text-[14px] font-bold text-center mb-[3px]">入れたい産声</div>
                                         <video class="aspect-video w-[350px]" controls>
                                             <source :src="medium.src">
                                             <p>動画を再生するには、videoタグをサポートしたブラウザが必要です。</p>
                                         </video>
+                                        <p class="text-center"><a class="text-main font-bold hover:underline" href="javascript:void(0)" @click="delete_medium(medium)">削除</a></p>
                                     </div>
                                 </template>
                                 <div class="nothing w-[48.5%]">
@@ -462,13 +479,14 @@
                                     <div class="text-center mt-[3px] py-[2px] border font-bold border-dashed border-slate !text-slate text-[12px] py-[40px] bg-slate-50">未保存</div>
                                 </div>
 
-                                <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums.filter(a => {return a.type=='movie'})">
-                                    <div class="item">
+                                <template v-for="(medium,medium_key) in params.tbl_patient.tbl_patient_mediums">
+                                    <div v-if="medium.type=='movie'" class="item">
                                         <div class="text-[14px] font-bold text-center mb-[3px]">動画(横アングル)</div>
                                         <video class="aspect-video w-[350px]" controls>
                                             <source :src="medium.src">
                                             <p>動画を再生するには、videoタグをサポートしたブラウザが必要です。</p>
                                         </video>
+                                        <p class="text-center"><a class="text-main font-bold hover:underline" href="javascript:void(0)" @click="delete_medium(medium)">削除</a></p>
                                     </div>
                                 </template>
                                 <div class="nothing w-[48.5%]">
@@ -624,6 +642,25 @@ export default {
             }).finally(() => {
 
             });
+        },
+        async delete_medium(medium){
+            let t =this;
+            if(window.confirm('この画像を削除します。\nよろしいですか？')) {
+
+
+            await axios.post('/api/v1/g/patient/'+this.params.tbl_patient.tbl_patient_id+'/delete_medium'+'?api_token='+global.api_token,
+                {
+                    tbl_patient_id:this.params.tbl_patient.tbl_patient_id,
+                    tbl_patient_medium_id:medium.tbl_patient_medium_id,
+                }
+                ).then((response) => {//リクエストの成功
+                    this.params.tbl_patient.tbl_patient_mediums = response.data.tbl_patient.tbl_patient_mediums;
+
+                }).catch((error) => {//リクエストの失敗
+                }).finally(() => {
+                });
+            }
+
         },
         async test_line(){
             if(window.confirm(this.params.tbl_patient.name+'さんにテストライン送信します。\nよろしいですか？')) {
