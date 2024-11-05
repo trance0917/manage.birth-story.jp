@@ -655,7 +655,6 @@ export default {
                 }
                 ).then((response) => {//リクエストの成功
                     this.params.tbl_patient.tbl_patient_mediums = response.data.tbl_patient.tbl_patient_mediums;
-
                 }).catch((error) => {//リクエストの失敗
                 }).finally(() => {
                 });
