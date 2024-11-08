@@ -58,6 +58,7 @@ class PatientService{
             'search_params.tbl_patients.reviewed_at.isnotnull' => 'nullable|boolean',
 
             'search_params.tbl_patients.is_google_review.in.*' => 'nullable|integer',
+            'search_params.tbl_patients.is_blocked.in.*' => 'nullable|integer',
 
             'search_params.tbl_patients.present_photoart_path.isnotnull' => 'nullable|boolean',
             'search_params.tbl_patients.present_photoart_path.isnull' => 'nullable|boolean',
@@ -236,6 +237,7 @@ class PatientService{
             'present_photoart_path',
             'present_after_notified_at',
             'is_present_after_notified',
+            'is_blocked',
             'completed_at',
             'presented_at',
             'memo',
@@ -309,6 +311,7 @@ class PatientService{
             'present_photoart_path',
             'present_after_notified_at',
             'is_present_after_notified',
+            'is_blocked',
             'completed_at',
             'presented_at',
             'memo',

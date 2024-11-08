@@ -70,6 +70,7 @@ class TblPatient extends Model
 		'undertook_at' => 'datetime',
         'presented_at' => 'datetime',
         'is_present_after_notified' => 'int',
+        'is_blocked' => 'int',
         'present_after_notified_at' => 'datetime',
 		'working_by' => 'int'
 	];
@@ -105,6 +106,7 @@ class TblPatient extends Model
         'presented_at',
         'is_present_after_notified',
         'present_after_notified_at',
+        'is_blocked',
 		'memo'
 	];
 

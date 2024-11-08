@@ -22,6 +22,7 @@
                     <li><input type="checkbox" id="completed_at" true-value="1" value="1" name="tbl_patients[completed_at][isnotnull]" v-model="params.search_params.tbl_patients.completed_at.isnotnull" /><label for="completed_at">完成</label></li>
                     <li><input type="checkbox" id="reviewed_at" true-value="1" value="1" name="tbl_patients[reviewed_at][isnotnull]" v-model="params.search_params.tbl_patients.reviewed_at.isnotnull" /><label for="reviewed_at">アンケ済</label></li>
                     <li><input type="checkbox" id="is_google_review" true-value="1" value="1" name="tbl_patients[is_google_review][in][]" v-model="params.search_params.tbl_patients.is_google_review.in[0]" /><label for="is_google_review">GR確認</label></li>
+                    <li><input type="checkbox" id="is_blocked" true-value="1" value="1" name="tbl_patients[is_blocked][in][]" v-model="params.search_params.tbl_patients.is_blocked.in[0]" /><label for="is_blocked"><i class="fa-solid fa-user-xmark"></i></label></li>
                 </ul>
             </div>
 
@@ -200,7 +201,9 @@
                 <template v-for="(tbl_patient ,tbl_patient_key) in params.list" :class="{'bg-orange-100':tbl_patient.is_highlight}">
                     <tr :class="{'opacity-30':tbl_patient.deleted_at,'bg-slate-150':tbl_patient.undertook_at}">
                         <!--#-->
-                        <td class="w-[55px]"><a class="text-main hover:underline" :href="'/patients/'+tbl_patient.tbl_patient_id">{{ ('0000'+tbl_patient.tbl_patient_id).slice(-5) }}</a></td>
+                        <td class="w-[55px] relative"><a class="text-main hover:underline" :href="'/patients/'+tbl_patient.tbl_patient_id">{{ ('0000'+tbl_patient.tbl_patient_id).slice(-5) }}</a>
+                            <i v-if="tbl_patient.is_blocked" class="absolute text-red right-[2px] bottom-[2px] text-[10px] fa-solid fa-user-xmark"></i>
+                        </td>
                         <!--状態-->
                         <td class="w-[100px] justify-center relative">
                             <ul class="space-x-[5px] flex">
@@ -445,6 +448,9 @@ export default {
                         isnotnull: null,
                     },
                     is_google_review: {
+                        in: [],
+                    },
+                    is_blocked: {
                         in: [],
                     },
                     is_set_present_photo: '',
