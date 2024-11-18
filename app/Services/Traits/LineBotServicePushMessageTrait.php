@@ -38,11 +38,12 @@ trait LineBotServicePushMessageTrait
                         ['type' => 'text','text' => '出産記念プレゼントです','wrap'=> true,'weight' => 'bold'],
                         ['type' => 'separator','color' => '#999999','margin' => 'md'],
                         [
-                            'text' => ( !empty($baby_name) ? $baby_name . 'の' : '' ) . 'ご出産、誠におめでとうございます！'."\n".'お子さんの健やかな成長を、心より願っております。',
+                            'text' => ( !empty($baby_name) ? $baby_name . 'の' : '' ) . 'ご誕生、誠におめでとうございます！'."\n".'「バースストーリー」はご覧いただけましたでしょうか？',
                             'type' => 'text','wrap'=> true,'margin' => 'lg'
                         ],
                         [
-                            'text' => 'ささやかですが、バースストーリーから祝いとして、出産記念ムービー'.(!is_null($tbl_patient->present_photoart_path)?'と可愛く加工したお写真':'').'を贈ります。',
+//                            'text' => 'ささやかですが、バースストーリーから祝いとして、出産記念ムービー'.(!is_null($tbl_patient->present_photoart_path)?'と可愛く加工したお写真':'').'を贈ります。',
+                            'text' => 'ムービーと写真のデータもプレゼントさせていただきますネ✨'."\n".'ご家族と感動を共有していただければ幸いです✨',
                             'type' => 'text','wrap'=> true,'margin' => 'md'
                         ],
                     ]
@@ -53,10 +54,10 @@ trait LineBotServicePushMessageTrait
         //ケースがある場合
         if($tbl_patient->mst_maternity->is_case){
             //ケース有り
-            $message['contents']['body']['contents'][] = [
-                'text' => $tbl_patient->mst_maternity->name.'からもDVDのプレゼントがありますので、1ヶ月健診時にお受け取りください。',
-                'type' => 'text','wrap'=> true,'margin' => 'md'
-            ];
+//            $message['contents']['body']['contents'][] = [
+//                'text' => $tbl_patient->mst_maternity->name.'からもDVDのプレゼントがありますので、1ヶ月健診時にお受け取りください。',
+//                'type' => 'text','wrap'=> true,'margin' => 'md'
+//            ];
         }
 
         $this->pushMessage($tbl_patient->line_user_id, new RawMessageBuilder($message), $tbl_patient);
