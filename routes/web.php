@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientsController;
+use App\Http\Controllers\MessagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,10 @@ Route::middleware('auth')->group(function () {
 //    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 //    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('messages', [MessagesController::class, 'index'])->name('messages');
+    Route::post('messages/regist', [MessagesController::class, 'regist'])->name('messages.regist');
+
 });
 
 Route::post('/github/webhook/', [\App\Http\Controllers\WebHookController::class,'github'])->name('github-webhook');

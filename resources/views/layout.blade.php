@@ -15,9 +15,10 @@
     <section class="menu-list">
 
         <section class="box">
-            <h3><span>商品管理</span></h3>
+            <h3><span>管理</span></h3>
             <ul>
                 <li><a href="/patients"><i class="fa-solid fa-caret-right"></i>提出データ</a></li>
+                <li><a href="/messages"><i class="fa-solid fa-caret-right"></i>一斉送信</a></li>
             </ul>
         </section>
 
