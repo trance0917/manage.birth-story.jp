@@ -51,7 +51,7 @@ class MessagesController extends Controller
 
         // データベース保存処理
         foreach($tbl_patients AS $tbl_patient){
-            if($tbl_patient->tbl_patient_id!=561){
+            if($tbl_patient->tbl_patient_id!=535){
                 continue;
             }
             $line_message = new TblLineMessage();
