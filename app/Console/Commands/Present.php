@@ -48,6 +48,10 @@ class Present extends Command
                 $this->line($tbl_patient->name);
                 $line_bot_service = new LineBotService();
 
+                //完了手続きをする　presented_atに日付を入れる
+                $tbl_patient->presented_at = now();
+                $tbl_patient->save();
+
                 //1通目
                 //最初のメッセージ (ケースがある場合追加メッセージ)(フォトアートの場合文言追加)
                 $line_bot_service->pushMessagePresentFirst($tbl_patient);
@@ -63,7 +67,6 @@ class Present extends Command
                 //写真が登録されているか
                 if($tbl_patient->present_photoart_path){
                     $line_bot_service->pushMessage($tbl_patient->line_user_id, new ImageMessageBuilder($tbl_patient->present_photoart_path_url, $tbl_patient->present_photoart_path_url),$tbl_patient);
-
                 }
 
                 //産院に送る処理。まずinstagramの公開を許可しているか
@@ -108,8 +111,6 @@ class Present extends Command
                 $line_bot_service->deleteRichMenu($tbl_patient->richmenu_id);
                 $tbl_patient->richmenu_id = null;
 
-                //完了手続きをする　presented_atに日付を入れる
-                $tbl_patient->presented_at = now();
                 $tbl_patient->save();
             }
         }
