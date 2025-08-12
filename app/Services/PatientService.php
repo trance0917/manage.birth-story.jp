@@ -39,6 +39,7 @@ class PatientService{
             'sort_type' => ['required','string','regex:/^(desc|asc)$/'],
 
             'search_params.tbl_patients.name.like' => 'nullable|string',
+            'search_params.tbl_patients.review.like' => 'nullable|string',
             'search_params.tbl_patients.is_use_instagram.like' => 'nullable|string',
 
             'search_params.tbl_patients.mst_maternity_id.in.*' => 'nullable|integer',
