@@ -93,6 +93,10 @@
                     ～
                     <input class="em-input-small w-28" type="date" name="tbl_patients[health_check_date][date_to]" :min="params.search_params.tbl_patients.health_check_date.date_from" v-model="params.search_params.tbl_patients.health_check_date.date_to" /></dd>
             </div>
+            <div class="em-filter-box-item">
+                <dt class="w-14">G検索:</dt>
+                <dd><input class="em-input-small w-34" type="text" name="tbl_patients[review][like]" v-model="params.search_params.tbl_patients.review.like" /></dd>
+            </div>
         </dl><!--end em-filter-box-->
 
         <dl class="em-filter-box">
@@ -406,6 +410,9 @@ export default {
             init_search_params: {
                 tbl_patients:{
                     name: {
+                        like: '',
+                    },
+                    review: {
                         like: '',
                     },
                     is_use_instagram: {
