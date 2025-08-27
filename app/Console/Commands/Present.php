@@ -35,7 +35,7 @@ class Present extends Command
     public function handle()
     {
         //1ヵ月健診に該当するデータを1件だけ取得する。
-        //条件：completed_atがある / 1ヵ月健診日の当日もしくは経過している / presented_at がnullである
+        //条件：completed_atがある / 1ヵ月健診日の+6日もしくは経過している / presented_at がnullである
         while (true) {
             $tbl_patient = TblPatient::whereNotNull('completed_at')
                 ->whereRaw('DATE_SUB(DATE_FORMAT(health_check_date,\'%Y-%m-%d\'), INTERVAL -6 DAY) <= current_date()')
