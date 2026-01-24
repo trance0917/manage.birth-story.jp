@@ -35,7 +35,7 @@ trait LineBotServiceMakeRichMenuTrait
             RichMenuSizeBuilder::getFull(),true,$tbl_patient->line_name . 'さん(tbl_patient_id:' . $tbl_patient->tbl_patient_id . ')の1ヶ月健診、レビューが無い場合のリッチメニュー','メニューを開く',
             [
                 new RichMenuAreaBuilder(new RichMenuAreaBoundsBuilder(0, 0, 834, 843), new UriTemplateActionBuilder('産院HP', $tbl_patient->mst_maternity->official_url)),
-                new RichMenuAreaBuilder(new RichMenuAreaBoundsBuilder(0, 844, 834, 843), new UriTemplateActionBuilder('産院インスタ', $tbl_patient->mst_maternity->instagram_url)),
+                new RichMenuAreaBuilder(new RichMenuAreaBoundsBuilder(0, 844, 834, 843), new UriTemplateActionBuilder('産院インスタ', 'https://www.instagram.com/birthstory.jp?openExternalBrowser=1')),
                 new RichMenuAreaBuilder(new RichMenuAreaBoundsBuilder(835, 0, 1666, 843), new UriTemplateActionBuilder('写真提出', config('birthstory.front_app_url') . '/' . $tbl_patient->code)),
                 new RichMenuAreaBuilder(new RichMenuAreaBoundsBuilder(835, 844, 1666, 843), new UriTemplateActionBuilder('アンケート依頼', config('birthstory.front_app_url') . '/' . $tbl_patient->code .'/review')),
             ],
@@ -63,7 +63,7 @@ trait LineBotServiceMakeRichMenuTrait
             RichMenuSizeBuilder::getFull(),true,$tbl_patient->line_name . 'さん(tbl_patient_id:' . $tbl_patient->tbl_patient_id . ')の1ヶ月健診、レビューが有り、高評価の場合のリッチメニュー','メニューを開く',
             [
                 new RichMenuAreaBuilder(new RichMenuAreaBoundsBuilder(0, 0, 834, 843), new UriTemplateActionBuilder('産院HP', $tbl_patient->mst_maternity->official_url)),
-                new RichMenuAreaBuilder(new RichMenuAreaBoundsBuilder(0, 844, 834, 843), new UriTemplateActionBuilder('産院インスタ', $tbl_patient->mst_maternity->instagram_url)),
+                new RichMenuAreaBuilder(new RichMenuAreaBoundsBuilder(0, 844, 834, 843), new UriTemplateActionBuilder('産院インスタ', 'https://www.instagram.com/birthstory.jp?openExternalBrowser=1')),
                 new RichMenuAreaBuilder(new RichMenuAreaBoundsBuilder(835, 0, 1666, 843), new UriTemplateActionBuilder('写真提出', config('birthstory.front_app_url') . '/' . $tbl_patient->code)),
                 new RichMenuAreaBuilder(new RichMenuAreaBoundsBuilder(835, 844, 1666, 843), new UriTemplateActionBuilder('Google口コミへのリンク', $tbl_patient->mst_maternity->review_link)),
             ],
@@ -91,7 +91,7 @@ trait LineBotServiceMakeRichMenuTrait
             RichMenuSizeBuilder::getHalf(),true,$tbl_patient->line_name . 'さん(tbl_patient_id:' . $tbl_patient->tbl_patient_id . ')の1ヶ月健診、レビューが有り、低評価の場合のリッチメニュー','メニューを開く',
             [
                 new RichMenuAreaBuilder(new RichMenuAreaBoundsBuilder(0, 0, 833, 843), new UriTemplateActionBuilder('産院HP', $tbl_patient->mst_maternity->official_url)),
-                new RichMenuAreaBuilder(new RichMenuAreaBoundsBuilder(834, 0, 834, 843), new UriTemplateActionBuilder('産院インスタ', $tbl_patient->mst_maternity->instagram_url)),
+                new RichMenuAreaBuilder(new RichMenuAreaBoundsBuilder(834, 0, 834, 843), new UriTemplateActionBuilder('産院インスタ', 'https://www.instagram.com/birthstory.jp?openExternalBrowser=1')),
                 new RichMenuAreaBuilder(new RichMenuAreaBoundsBuilder(1667, 0, 833, 843), new UriTemplateActionBuilder('写真提出', config('birthstory.front_app_url') . '/' . $tbl_patient->code )),
             ],
         );
