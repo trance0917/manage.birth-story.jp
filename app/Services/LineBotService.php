@@ -71,15 +71,15 @@ class LineBotService extends LINEBot
     public function pushMessageFollow(TblPatient $tbl_patient){
 
         $message = [
-            'type' => 'flex', 'altText' => 'ご出産おめでとうございます！',
+            'type' => 'flex', 'altText' => 'ご登録ありがとうございます。',
             'contents' =>[
                 'type' => 'bubble','size' => 'kilo','direction' => 'ltr',
                 'body' => [
                     'type' => 'box','layout' => 'vertical','margin' => 'none','spacing' => 'none',
                     'contents' => [
-                        ['type' => 'text','text' => 'ご出産おめでとうございます！','weight' => 'bold','align' => 'center','wrap' => true],
+                        ['type' => 'text','text' => 'ご登録ありがとうございます！','weight' => 'bold','align' => 'center','wrap' => true],
                         ['type' => 'separator','color' => '#999999','margin' => 'md'],
-                        ['type' => 'text','text' =>'ご出産おめでとうございます。','wrap' => true,'margin' => 'lg'],
+                        ['type' => 'text','text' =>'ご登録ありがとうございます。','wrap' => true,'margin' => 'lg'],
                         ['type' => 'text','text' => '産院からのプレゼントで、一生に一度しかないご出産を記念した、感動する出産記念ムービーをプレゼントしております。','margin' => 'md','wrap' => true],
                         [
                             'type' => 'text','text' => '無料でお作りいただけます。','margin' => 'md','wrap' => true,
