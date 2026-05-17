@@ -37,10 +37,25 @@ class Present extends Command
         //1ヵ月健診に該当するデータを1件だけ取得する。
         //条件：completed_atがある / 1ヵ月健診日の+6日もしくは経過している / presented_at がnullである
         while (true) {
+
             $tbl_patient = TblPatient::whereNotNull('completed_at')
-                ->whereRaw('DATE_SUB(DATE_FORMAT(health_check_date,\'%Y-%m-%d\'), INTERVAL -6 DAY) <= current_date()')
                 ->whereNull('presented_at')
-                ->inRandomOrder()->take(1)
+                ->where(function ($query) {
+                    // mst_maternity_idが8の場合
+                    $query->where(function ($q) {
+                        $q->where('mst_maternity_id', 8)
+                            ->whereRaw("DATE_ADD(DATE_FORMAT(health_check_date, '%Y-%m-%d'), INTERVAL 1 DAY) <= current_date()");
+                    })
+                        // 8以外（またはnull）の場合
+                        ->orWhere(function ($q) {
+                            $q->where(function ($subQ) {
+                                $subQ->where('mst_maternity_id', '!=', 8)
+                                    ->orWhereNull('mst_maternity_id');
+                            })
+                                ->whereRaw("DATE_ADD(DATE_FORMAT(health_check_date, '%Y-%m-%d'), INTERVAL 6 DAY) <= current_date()");
+                        });
+                })
+                ->inRandomOrder()
                 ->first();
             if(!$tbl_patient){
                 break;
