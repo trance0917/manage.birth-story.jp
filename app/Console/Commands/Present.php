@@ -44,7 +44,7 @@ class Present extends Command
                     // mst_maternity_idが8の場合
                     $query->where(function ($q) {
                         $q->where('mst_maternity_id', 8)
-                            ->whereRaw("DATE_ADD(DATE_FORMAT(health_check_date, '%Y-%m-%d'), INTERVAL 1 DAY) <= current_date()");
+                            ->whereRaw("DATE_ADD(DATE_FORMAT(health_check_date, '%Y-%m-%d'), INTERVAL 4 DAY) <= current_date()");
                     })
                         // 8以外（またはnull）の場合
                         ->orWhere(function ($q) {
